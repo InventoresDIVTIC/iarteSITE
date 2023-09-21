@@ -63,6 +63,30 @@
 
 	</head>
 	<body>
+
+<!-- MODAL ERROR -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Error de fecha</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			Lo sentimos la convocatoria ha concluido, espera los resultados proximamente. 😇
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		  <!-- <button type="button" class="btn btn-primary">Aceptar</button> -->
+		</div>
+	  </div>
+	</div>
+  </div>
+<!-- END MODAL ERROR -->
+
+
 	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -106,8 +130,10 @@
 				
 							<li class="active" style="display: inline-block;"><a href="./"><i class="fas fa-home"></i></a></li>
 
-	                        <li class="dropdown  active" style="display: inline-block;">
-	                            <a href="./registro.php" >Registro</a>
+	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
+	                            <!-- <a href="./registro.php" on >Registro</a> -->
+								<a data-toggle="modal" data-target="#exampleModal" >Registro</a>
+								
 	                            <ul class="dropdown-menu">
 	                                <li><a href="./registro.php">Convocatoria 1er iArte 2023 </a></li>
 	                            </ul>
