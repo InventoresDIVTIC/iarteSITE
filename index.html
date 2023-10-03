@@ -63,6 +63,30 @@
 
 	</head>
 	<body>
+
+<!-- MODAL ERROR -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Error de fecha</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			Lo sentimos la convocatoria ha concluido, espera los resultados proximamente. 😇
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		  <!-- <button type="button" class="btn btn-primary">Aceptar</button> -->
+		</div>
+	  </div>
+	</div>
+  </div>
+<!-- END MODAL ERROR -->
+
+
 	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -88,26 +112,12 @@
 						<div class="logo" style="text-align: initial;">
 							<img src="./images/lUDG.png" width="360px" alt="" srcset="">
 							<img src="./images/icon.png" style="margin-left: 90px;" width="150px" alt="" srcset="">
-
-							<!-- <div style="color: rgb(0, 0, 0); font-size: 90px;  font-family:cursive; font-weight: bold;margin-left: 160px;display: inline-block;">iArte</div> -->
 						</div>
 					</div>
 					<div class="col-xs-4">
 						<div class="redes-s">
-							<!-- <div class="hexagonos">
-								<a href="https://www.facebook.com/Bienal-Nacional-de-Pintura-Jos%C3%A9-Atanasio-Monroy-288452554635427/" class="hexagono" id="hexagon" target="_blank">
-							        <span class="hexagono-content">
-							          	<i class="fab fa-facebook-square"></i>
-							        </span>
-							    </a>
-							    <a href="https://www.instagram.com/bienaljoseatanasiomonroy/" class="hexagono" id="hexagon" target="_blank">
-							        <span class="hexagono-content">
-							          	<img src="https://www.bienaljamonroy.mx/images/instagram.png">
-							        </span>
-							    </a>
-							</div> -->
+
 							<div>
-								<!--p class="texto-redes">184325 Visitas</p-->
 								
 							</div>
 						</div>
@@ -118,46 +128,43 @@
 					<!-- <div class="col-xs-12 menu-1 "> -->
 						<ul style="display: flex;">
 				
-												
 							<li class="active" style="display: inline-block;"><a href="./"><i class="fas fa-home"></i></a></li>
 
-	                        <li class="dropdown  active" style="display: inline-block;">
-	                            <a href="/convocatoria.php" >Convocatorias<img style="transform: rotate(180deg); margin-left: 4px;" width="14px" src="./images/dropDown.png" alt="" srcset=""></a>
+	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
+	                            <!-- <a href="./registro.php" on >Registro</a> -->
+								<a data-toggle="modal" data-target="#exampleModal" >Registro</a>
+								
 	                            <ul class="dropdown-menu">
-	                                <li><a href="/convocatoria.php">Convocatoria 1er iArte 2023 </a></li>
+	                                <li><a href="./registro.php">Convocatoria 1er iArte 2023 </a></li>
 	                            </ul>
 	                        </li> 
-							<li style="display: inline-block;"><a href="./dudas.html">preguntas frecuentes</a></li>
+							<li style="display: inline-block;"><a href="./dudas.html">Preguntas frecuentes</a></li>
 
 							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
-							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">contacto</a></li>
-														
+							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
+							
 						</ul>
+						
+
 					<!-- </div> -->
 				</div>
 				</div>
-				<!--div class="row">
-					<div class="col-xs-12 menu-1">
-						<ul>
-							<li class="active"><a href="index.php"><i class="fas fa-home"></i></a></li>
-							<li><a href="historia.php">historia</a></li>
-							<li><a href="convocatoria.php">convocatoria</a></li>
-							<li><a href="registro.php">registro</a></li>
-							<li><a href="preguntas-frecuentes.php">preguntas frecuentes</a></li>
-							<li><a href="galeria.php">galeria</a></li>
-							<li><a href="prensa.php">prensa</a></li>
-							<li><a href="contacto.php">contacto</a></li>
-						</ul>
-					</div>
-				</div-->
-				
+								
 			</div>
 		</div>
 	</nav>
 	
 
 	<div class="container-wrap">
-
+		
+		<div id="countdown" style="font-size: 24px; text-align: center; margin-top: 20px;">
+			Tiempo restante para participar:
+			<span id="days" style="margin: 0 10px;">0</span> días
+			<span id="hours" style="margin: 0 10px;">0</span> horas
+			<span id="minutes" style="margin: 0 10px;">0</span> minutos
+			<span id="seconds" style="margin: 0 10px;">0</span> segundos
+		</div>
+		<br>
 		<!-- BANNER -->
 		<div class="preWrapper bg_header">
 			<div class="wrapper clearfix">
@@ -171,9 +178,11 @@
 			<div class="row">
 				<div class="col-sm-6 monroy">
 					<div class="division"></div>
-					<h1 class="border-amarillo">CONVOCATORIA VI BIENAL</h1>
+					<h1 class="border-amarillo"><a href="./ganadores/indexG.html">GANADORES DE LA CONVOCATORIA</a></h1>
+					<h1 class="border-amarillo">1er CONVOCATORIA iArte</h1>
 					<div class="txt-convo">
-						<p class="sm">Abierta del 15 de Junio 2023 hasta el 31 de Agosto de 2023 a las 23:59 horas.</p>
+						<p class="sm">Abierta del 15 de Junio 2023 hasta el <del>. 31 de Agosto de 2023 a las 23:59 horas. <br>
+						</del>  17 de septiembre del 2023 . </p>
 						<p>Tiene como propósito explorar nuevas formas de
 							expresión basadas en herramientas digitales de
 							inteligencia artificial (IA), demostrar las
@@ -192,7 +201,7 @@
 							Centro Universitario de Ciencias Exactas e
 							Ingenierías convoca a participar de acuerdo con las
 							siguientes bases:</p>
-						<!-- <p>Que habrá de celebrarse en el campus sede del Centro Universitario de la Costa Sur En la Ciudad de Autlán de la Grana, Jalisco, México.</p> -->
+						
 					</div>
 				</div>
 				<div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1">
@@ -200,32 +209,19 @@
 						<div class="t-descargas">
 							<h4>Descargas</h4>
 						</div>
-						<h3><a href="./files/Convocatoria_1er_iArte2023.pdf" target="_blank">Convocatoria_1er_iArte2023</a></h3>
-						<p class="pdf"><a href="pdf/Convocatoria_VI_Bienal2022.pdf" target="_blank">PDF</a></p>
+						<h3><a href="http://dibic.cucei.udg.mx/sites/default/files/convocatoria_1er_iarte2023.pdf" target="_blank">Convocatoria_1er_iArte2023</a></h3>
+						<p class="pdf"><a href="http://dibic.cucei.udg.mx/sites/default/files/convocatoria_1er_iarte2023.pdf" target="_blank">PDF</a></p>
 						<ul>
 							<li><a href="#uno">¿Quién puede participar?</a></li>
 							<li><a href="#dos">¿Cómo participar?</a></li>
-							<li><a href="#tres">Selección de las obras</a></li>
+							<li><a href="#tres">Selección de las imágenes</a></li>
 							<li><a href="#cuatro">Premiación</a></li>
 						</ul>
-						<!-- <hr class="dotted"> -->
-						<!-- <h3><a href="pdf/Catalogo_IV_Bienal_UdG_completo.pdf" target="_blank">CATÁLOGO DE OBRAS SELECCIONADAS</a></h3>
-						<p class="pdf"><a href="pdf/Catalogo_IV_Bienal_UdG_completo.pdf" target="_blank">PDF</a></p>
-						<ul>
-							<li><a href="pdf/Catalogo_IIBienalJAM.pdf" target="_blank">Obras seleccionadas en la II Bienal J.A. Monroy 2014</a></li>
-							<li><a href="pdf/Catalogo_IIIBienalJAM.pdf" target="_blank">Obras seleccionadas en la III Bienal J.A. Monroy 2016</a></li>
-							<li><a href="pdf/Catalogo_IV_Bienal_UdG_completo.pdf" target="_blank">Obras seleccionadas en la IV Bienal J.A. Monroy 2018</a></li>
-							
-						</ul> -->
+						
 					</div>
 					<div class="row botones-inicio" style="margin-bottom:50px">
 						<div class="col-sm-12">
-							<!--div class="input-group">
-						      	<span class="input-group-btn">
-							        	<a href="registro.php" class="btn btn-morado" ><i class="icon-plus"></i></a>
-						      	</span>
-						      	<a href="registro.php" class="btn btn-gris">Registro</a>
-						    </div-->
+							
 						</div>
 					</div>
 					
@@ -244,17 +240,48 @@
 						<!--h1>Uno</h1>
 						<p class="l-blanca">_________________________</p-->
 						<h2>¿Quién puede participar?</h2>
-						<p><strong>UNO</strong>. Pueden participar personas mayores de 18
-							años cumplidos al momento de la inscripción a la
-							convocatoria que vivan en México. En caso de ser
-							extranjeros deberán contar con dos años de
-							estancia comprobable en el país al momento de su
-							inscripción.</p>
-						<p><strong>DOS</strong>. El registro de participación será a través de la
-							página metaverso.udg.mx/IArte2023 y queda abierto
-							a partir del día <span class="bold italic"> 15 de junio del 2023 a las 19:00 hrs
-							concluyendo el día 31 de agosto a las 23:59 hrs (Zona
-							Centro de México).</p>
+						<p><strong>UNO</strong>. Pueden participar personas mayores de 18 
+							años cumplidos al momento de la inscripción a la 
+							convocatoria.
+							
+							</p>
+						<p><strong>DOS</strong>. El registro de participación será a través de la 
+							página metaverso.udg.mx/IArte2023 y queda abierto 
+							a partir del día 15 de junio del 2023 a las 19:00 hrs 
+							concluyendo el día<del> 31 de agosto a las 23:59 hrs (Zona 
+							Centro de México). </del>
+							<br>
+							</del>  17 de septiembre del 2023 a las 23:59 hrs (Zona 
+							Centro de México).
+
+							<br>
+							Para el registro se requiere subir la siguiente 
+							documentación: </p>
+							<ol type="i" style="color: aliceblue;"> 
+								<li style="text-align: initial;">
+									Identificación oficial vigente
+								</li>
+								<li style="text-align: initial;">
+									Comprobante de domicilio reciente 
+									(no mayor a dos meses anteriores)
+								</li>
+								<li style="text-align: initial;">
+									La imagen en formato jpg con un 
+									tamaño máximo de 5 MB (1200x448px)
+								
+								</li>
+								<li style="text-align: initial;">
+									La cadena de texto generadora de la 
+									imagen cuando sea generada mediante 
+									prompt
+								
+								</li>
+								<li style="text-align: initial;">
+									El manifiesto firmado
+								
+								</li>
+							</ol>
+							</p>
 						<a href="#dos"><img src="https://www.bienaljamonroy.mx/images/siguiente-blanco.png"></a>
 					</div>
 				</div>
@@ -266,35 +293,23 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-5 col-sm-offset-3">
-					<div class="dos text-center">
-						<!--h1>Dos</h1>
+					<div class="tres text-center">
+						<!--h1>Tres</h1>
 						<p class="l-negra">_________________________</p-->
-						<h2>Selección de las obras</h2>
-						<p><strong>CUATRO</strong>. Los participantes pueden inscribir un
-							máximo de dos imágenes en las dos categorías
-							siguientes:
+						<h2>¿CÓMO PARTICIPAR?</h2>
+						<p><strong>TRES</strong>. Para el registro se requiere subir la siguiente
+							documentación:
 							<ol type="a"> 
-								<li style="text-align: initial;">Producto innovador, descripción de productos que
-									no existan en el mercado actual con el objetivo de
-									mostrar habilidades en la descripción de manera
-									atractiva y creativa.</li>
-								<li style="text-align: initial;"> Interacción ciber-humana, descripción de
-									actividades que involucren este tipo de interacción en
-									imágenes artísticas y expresivas. </li>
-								</ol>
-							  
-							
-							</p>
-						<p><strong>SEIS</strong>. El jurado estará integrado por
-							especialistas en innovación e interacción
-							ciber-humana. Su fallo se hará público en el
-							mes de septiembre del 2023. Se notificará a
-							los ganadores de las imágenes seleccionadas
-							vía correo electrónico.</p>
-						<p><strong>SIETE</strong>. Los asuntos no previstos en la
-							presente convocatoria serán resueltos por el
-							comité organizador. </p>
-						<a href="#tres"><img src="https://www.bienaljamonroy.mx/images/siguiente-negro.png"></a>
+								<li style="text-align: initial;">Identificación oficial vigente.</li>
+								<li style="text-align: initial;">Comprobante de domicilio reciente.</li>
+								<li style="text-align: initial;">La imagen en formato jpg.</li>
+								<li style="text-align: initial;">La cadena de texto generadora de la imagen cuando se generada con prompt.</li>
+								<li style="text-align: initial;">El manifiesto firmado:</li>
+								<li style="text-align: initial;">Descargar, rellenar y firmar el documento de MANIFIESTO.<br> <a href="./files/Manifiesto_1ER CONCURSO IA.doc" download="Manifiesto_1ER CONCURSO IA.doc">Descargalo aquí.</a></li>
+								<li style="text-align: initial;">Realiza tu registro al concurso<br> <a href="./registro.php">AQUÍ.</a></li>
+							</ol>
+
+						<p></p>
 					</div>
 				</div>
 			</div>
@@ -305,74 +320,53 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-5 col-sm-offset-3">
-					<div class="tres text-center">
-						<!--h1>Tres</h1>
+					<div class="dos text-center">
+						<!--h1>Dos</h1>
 						<p class="l-negra">_________________________</p-->
-						<h2>¿CÓMO PARTICIPAR?</h2>
-						<p><strong>TRES</strong>. Para el registro se requiere subir la siguiente
-							documentación:
+						<h2>Selección de las Imágenes</h2>
+						<p><strong>CUATRO</strong>. El jurado seleccionará primero, segundo y 
+							tercer lugar de cada una de las dos categorías; además 
+							de 44 menciones honorificas para hacer una exposición 
+							que tendrá lugar en las instalaciones del CUCEI, 
+							mismas que formarán parte de en un libro digital.
+							El jurado estará integrado por especialistas en 
+							innovación e interacción ciber-humana. Su fallo se 
+							hará público en el mes de septiembre del 2023 y es 
+							inapelable. Se notificará a los ganadores de las 
+							imágenes seleccionadas vía correo electrónico.
+						</p>
+						
+						<p><strong>CINCO</strong>. Los participantes pueden inscribir un máximo 
+							de dos imágenes en cada una de las siguientes 
+							categorías:</p>
 							<ol type="a"> 
-								<li style="text-align: initial;">Identificación oficial vigente</li>
-								<li style="text-align: initial;">Comprobante de domicilio reciente</li>
-								<li style="text-align: initial;">La imagen en formato jpg</li>
-								<li style="text-align: initial;">La cadena de texto generadora de la imagen cuando se generada con prompt</li>
-								<li style="text-align: initial;">El manifiesto firmado:</li>
-								<li style="text-align: initial;">Descargar, rellenar y firmar el documento de MANIFIESTO.<br> <a href="./files/Manifiesto_1ER CONCURSO IA.doc" download="Manifiesto_1ER CONCURSO IA.doc">Descargalo aquí.</a></li>
-
+									
+								<li style="text-align: initial;">Producto innovador, descripción de productos que
+									no existan en el mercado actual con el objetivo de
+									mostrar habilidades en la descripción de manera
+									atractiva y creativa.</li>
+								<li style="text-align: initial;"> Interacción ciber-humana, descripción de
+									actividades que involucren este tipo de interacción en
+									imágenes artísticas y expresivas. </li>
 								</ol>
-
-							<!-- a. Identificación oficial vigente
-							b. Comprobante de domicilio reciente
-							c. La imagen en formato jpg
-							d. La cadena de texto generadora de la imagen
-							cuando se generada con prompt
-							e. El manifiesto firmado: -->
-							<!-- </p><ul>
-								<li><a href="http://www.bienaljamonroy.mx/" target="_blank">www.bienaljamonroy.mx</a></li>
-								<li><a href="http://www.udg.mx/" target="_blank">www.udg.mx</a></li>
-								<li><a href="http://www.cucsur.udg.mx/" target="_blank">www.cucsur.udg.mx</a></li>
-								<li><a href="http://www.cultura.udg.mx/" target="_blank">www.cultura.udg.mx</a></li>
-							</ul>
-						<p></p>
-						<p>o en las redes sociales 
-							</p><p>Facebook</p>
-							<ul>
-								<li><a href="https://www.facebook.com/Bienal-de-Pintura-José-Atanasio-Monroy-288452554635427/" target="_blank">Bienal de Pintura José Atanasio Monroy</a></li>
-								<li><a href="https://www.facebook.com/CUCostaSur/" target="_blank">Centro Universitario de la Costa Sur</a></li>								
-								<li><a href="https://www.facebook.com/UdG.Cultura/" target="_blank">Cultura UDG</a></li>								
-							</ul>
-							<p>Instagram</p>
-							<ul>
-								<li><a href="https://www.instagram.com/bienaljoseatanasiomonroy/" target="_blank">@bienaljoseatanasiomonroy</a></li>
-								<li><a href="https://www.instagram.com/cucostasur/" target="_blank">@cucostasur</a></li>								
-								<li><a href="https://www.instagram.com/culturaudg/" target="_blank">@culturaudg</a></li>								
-							</ul>
-							<p>Twitter</p>
-							<ul>
-								<li><a href="https://twitter.com/CUCSur" target="_blank">@CUCSur</a></li>
-								<li><a href="https://twitter.com/CulturaUdG" target="_blank">@culturaudg</a></li>								
-							</ul>
-						<p></p>
-						<p><strong>SIETE</strong>. El registro de participación será únicamente a través de la página www.bienaljamonroy.mx y queda abierto a partir del día 19 de febrero de 2022 a las 19:00 horas (hora de la Zona Centro de México), concluyendo el día 19 de julio de 2022 a las 23:59 horas (hora de la Zona Centro de México).  </p>
-						<p><strong>OCHO</strong>.Para realizar el registro de la obra es necesario incluir vía digital toda la información y documentación requerida.</p>
-						<p>
-							Información y documentación requerida: 
-							</p><ul class="disc">
-								<li>Solicitud de registro. <a href="registro.php">Ir a solicitud de registro.</a></li>
-								<li>Descripción de cada una de las obras inscritas entre 100 y 150 palabras.</li>
-								<li>Cédula técnica completa de cada una de las obras inscritas (autor, título, técnica, medidas y fecha de realización) .</li>
-								<li>Currículum vitae con nombre completo, fecha y lugar de nacimiento (máximo una cuartilla). </li>
-								<li>Identificación oficial vigente.</li>
-								<li>Comprobante de domicilio reciente (que no exceda los 3 meses) .</li>
-								<li>En el caso de extranjeros residentes en el país se solicita un comprobante que demuestre su residencia de al menos dos años en México al momento de la inscripción a la convocatoria.</li>
-								<li>Fotografía frontal de la(s) obra(s) en formato jpg o png. Tamaño máximo 5Mb</li> -->
-							<!-- </ul> -->
-						<p></p>
+								<p>Las imágenes deben ser originales y no haberse 
+									publicado en ningún medio con anterioridad. Los 
+									autores deberán ceder cualquier derecho patrimonial 
+									sobre las imágenes a la Universidad de Guadalajara, 
+									conservando el derecho de autoría.</p>
+							  
+							
+						<p><strong>SEIS</strong>. Los asuntos no previstos en la presente 
+							convocatoria serán resueltos por el comité 
+							organizador</p>
+						
+						<a href="#tres"><img src="https://www.bienaljamonroy.mx/images/siguiente-negro.png"></a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
+
 
 	<section id="cuatro">
 		<div class="container">
@@ -382,9 +376,11 @@
 						<!--h1>cuatro</h1>
 						<p class="l-blanca">_________________________</p-->
 						<h2>PREMIACIÓN</h2>
-						<p><strong>CINCO</strong>. 
-							El jurado seleccionara las piezas ganadoras en
-							las dos categorías, cuyos premios consisten en:
+						<p><strong>SIETE</strong>. 
+							Los participantes que vivan en México o sean 
+							extranjeros con dos años de estancia comprobable 
+							en el país al momento de su inscripción, se harán 
+							acreedores a un premio de la siguiente forma:
 							<ol type="a" style="color: aliceblue;"> 
 								<li style="text-align: initial;">Categoría producto innovador
 									<ul>
@@ -400,57 +396,17 @@
 										<li>Un tercer lugar con un premio de unos audífonos</li>
 									</ul>
 								</li>
-								</ol>
+							</ol>
 							<p style="text-align: initial;">
-								El jurado seleccionará un total de 50 imágenes, 46
-								menciones honorificas y los primeros y segundos
-								lugares para hacer una exposición que tendrá lugar en
-								las instalaciones del CUCEI, además de su publicación
-								en un libro digital.
-								Las imágenes deben ser originales y no haberse
-								publicado en ningún medio con anterioridad. Los
-								autores deberán ceder cualquier derecho sobre las
-								imágenes a la Universidad de Guadalajara,
-								conservando el derecho de autoría.
+								El jurado estará integrado por especialistas 
+								en innovación e interacción ciber-humana. Su 
+								fallo se hará público en el mes de septiembre del 
+								2023. Se notificará a los ganadores de las 
+								imágenes seleccionadas vía correo electrónico.
+
 							</p>
 							
-							<!-- <span class="bold italic">artistas emergentes</span> y <span class="bold italic">artistas consolidados.</span>. Los premios de adquisición de la presente convocatoria son los siguientes:
-						
-						</p>
-						<ul class="premiacion">
-							<li><strong>Categoría <span class="bold">artistas emergentes</span></strong></li>
-							<li>Un primer lugar con un monto de $120,000.00 pesos.</li>
-							<li>Un segundo lugar con un monto de $80,000.00 pesos.</li>
-							<li>Un tercer lugar con un monto de $50,000.00 pesos.</li>
-						</ul>
-						<ul class="premiacion">
-							<li><strong>Categoría <span class="bold">artistas consolidados</span></strong></li>
-							<li>Un primer lugar con un monto de $150,000.00 pesos.</li>
-							<li>Un segundo lugar con un monto de $100,000.00 pesos.</li>
-							<li>Un tercer lugar con un monto de $70,000.00 pesos.</li>
-						</ul>
-						<p>* Es requisito indispensable para recibir cualquiera de los premios contar con registro como persona física y/o jurídica vigente ante la Secretaría de Hacienda y Crédito Público a través del Sistema de Administración Tributaria (SAT), para emitir comprobante fiscal.</p>
-						<p>El jurado calificador podrá otorgar un máximo de tres menciones honoríficas por categoría. La selección final estará integrada por hasta 46 piezas incluyendo las obras premiadas y menciones honoríficas. Es facultad del jurado calificador seleccionar la obra que será la imagen de la VII Bienal de Pintura José Atanasio Monroy en 2024.</p>
-						 -->
-						
-						<!-- <p><strong>DIEZ</strong>. Pueden participar pintores mexicanos y extranjeros, mayores de 18 años cumplidos al momento de la inscripción a la convocatoria. En el caso de los extranjeros deberán contar con dos años de estancia comprobable en el país al momento de su inscripción.</p>
-						<p><strong>ONCE</strong>. Los participantes pueden inscribir un máximo de tres obras pictóricas de su autoría en una de las dos categorías del certamen: artistas emergentes y artistas consolidados. El comité organizador de la VI Bienal de Pintura José Atanasio Monroy considera que un artista consolidado es aquel que en su curriculum vitae compruebe al menos 3 exposiciones individuales y 5 colectivas.</p>
-						<p><strong>DOCE</strong>. Las obras deberán ser originales, no estar inscritas en otros concursos y no haber sido seleccionadas en certámenes nacionales o internacionales anteriores. La fecha de creación no deberá ser anterior a 2020.</p>
-
-
-						<p><strong>TRECE</strong>. La obra podrá ser realizada en cualquier técnica pictórica y no debe exceder los 2 metros por cualquiera de sus lados, en formato bidimensional. En caso de que la obra sea un políptico, la totalidad de las piezas que la integran no deberán exceder los 2 metros por cualquiera de los lados del conjunto. </p>
-						<p><strong>CATORCE</strong>. Quedarán excluidas del certamen las obras que hayan sido producidas por medios electrónicos, digitales o de manipulación fotográfica. De igual manera quedarán excluidas las obras que presenten problemas de fragilidad en su soporte y/o requieran de equipamiento y accesorios especiales para su manejo y presentación a criterio del comité organizador de la VI Bienal de Pintura José Atanasio Monroy. </p>
-						<p><strong>QUINCE</strong>. El jurado calificador, que estará integrado por especialistas de reconocido prestigio y conocimiento en el tema, dictaminará las obras inscritas para integrar de mutuo acuerdo un listado de obras preseleccionadas, de las cuales se solicitará a sus autores el envío para su revisión física. </p>
-						<p><strong>DIECISÉIS</strong>. Se notificará a los autores de las obras preseleccionadas vía correo electrónico. A partir de ese aviso, los autores dispondrán de 15 días naturales para realizar el envío de las obras a la dirección que se les indique. Las obras deberán haber sido correctamente embaladas, los autores son los únicos responsables de la integridad de las piezas durante este traslado. El costo de este envío es por cuenta de cada uno de los autores cuya obra fue preseleccionada. </p>
-						<p><strong>DIECISIETE</strong>. Una vez que las piezas preseleccionadas sean dictaminadas de manera física por el jurado calificador, éste emitirá su fallo respecto a la selección final y obras ganadoras. Su fallo será inapelable. Las obras no seleccionadas serán restituidas a sus autores por parte de la Universidad de Guadalajara, quien cubrirá el costo de envío. </p>
-						<p><strong>DIECIOCHO</strong>. Las obras premiadas pasarán a formar parte de la colección de la Pinacoteca José Atanasio Monroy en resguardo del Centro Universitario de la Costa Sur de la Universidad de Guadalajara. </p>
-						<p><strong>DIECINUEVE</strong>. El fallo del jurado calificador se hará público en el mes de octubre de 2022. </p>
-						<p><strong>VEINTE</strong>. Los derechos de autor de los obras ganadoras serán por ley propiedad permanente de los autores y los derechos patrimoniales se cederán a la Universidad de Guadalajara para su reproducción, publicación, edición o fijación material de la obra en copias o ejemplares, efectuada por cualquier medio ya sea impreso, fonográfico, gráfico, plástico, audiovisual, electrónico, fotográfico u otro similar. </p>
-						<p><strong>VEINTIUNO</strong>. Al momento de la selección final, el jurado calificador seleccionará las piezas que integrarán la exposición itinerante y el catálogo de la VI Bienal de Pintura. Los autores de las obras que sean seleccionadas por el jurado calificador deberán permitir que éstas queden bajo el resguardo de la Universidad de Guadalajara durante doce meses, plazo en el que las obras seleccionadas y ganadoras serán exhibidas. Concluido el plazo, las obras seleccionadas serán restituidas a sus autores por parte de la Universidad de Guadalajara. </p>
-						<p><strong>VEINTIDOS</strong>. Los asuntos no previstos en la presente convocatoria serán resueltos por el comité organizador de la VI Bienal de Pintura José Atanasio Monroy.</p>
-
-
-						<p><strong>VEINTITRES</strong>. Los asuntos no previstos en la presente convocatoria serán resueltos por el comité organizador de la VI Bienal de Pintura José Atanasio Monroy.</p> -->
+							
 						<p class="atte">ATENTAMENTE<br>Guadalajara, Jalisco, México, 01 de Junio de 2023.</p>
 					</div>
 				</div>
@@ -463,62 +419,46 @@
 						Universidad de Guadalajara
 					</p>
 				</div>
-				<div class="col-sm-4">
-					<!-- <p class="atte">
-						<strong>Mtro. Ángel Igor Lozada Rivera Melo</strong><br>
-						Secretario de Vinculación y Difusión Cultural<br>
+				<div class="col-sm-offset-1 col-sm-9">
+					<p class="atte">
+						<strong>Dr. José Luis David Bonilla Carranza</strong><br>
+						Coordinador de Ingeniería en Computación<br>
 						Universidad de Guadalajara
-					</p> -->
+					</p> 
 				</div>
 			</div>
 		</div>
 	</section> 
+	
 
 	<footer id="b-footer"  style="background-color: beige; border-color: aliceblue;" role="contentinfo">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="row">
-				<!-- <div class="col-md-3">
-					<a style="color: rgb(0, 0, 0); font-size: 90px;  font-family:cursive; font-weight: bold;margin-left: 160px;">iArte</a>
-				</div> -->
-				<!-- <div class="col-md-9" style="text-transform: uppercase;">
-					<ul class="b-footer-links" style="display: flex; margin: 3px; font-weight: bold; list-style-type: none;">
-						<li><a class="lateral-f" style="color: rgb(119, 119, 119); padding: 4px; margin: 5px;" href="historia.php">historia</a></li>
-						<li><a class="lateral-f" style="color: rgb(119, 119, 119); padding: 4px; margin: 5px;"href="convocatoria.php">convocatoria</a></li>
-						<li><a class="lateral-f" style="color: rgb(119, 119, 119); padding: 4px; margin: 5px;"href="registro.php">registro</a></li>
-						<li><a class="lateral-f" style="color: rgb(119, 119, 119); padding: 4px; margin: 5px;"href="preguntas-frecuentes.php">preguntas frecuentes</a></li>
-						
-						<li><a class="lateral-f" style="color: rgb(119, 119, 119); padding: 4px; margin: 5px;"href="prensa.php">prensa</a></li>
-						<li><a href="contacto.php"style="color: rgb(119, 119, 119); padding: 4px; margin: 5px;">contacto</a></li>
-					</ul>
-				</div> -->
+				
 			</div>
 			<div class="row img-f text-center">
 				<div class="col-md-2 col-sm-12">
 					<img src="./images/Orange.png" width="150px" alt="" srcset="">
-					<!-- <a style="color: rgb(0, 0, 0); font-size: 90px;  font-family:cursive; font-weight: bold;">iArte</a> -->
+					
 				</div>
-				<!-- <div class="col-md-2 col-md-offset-1 col-sm-12">
-					<img class="img-responsive" src="https://www.bienaljamonroy.mx/images/udg_2020.png">
-				</div> -->
+				
 				<div class="col-md-2 col-sm-12">
 					<img src="./images/lUDG.png" width="360px" alt="" srcset="">
-					<!-- <img class="img-responsive" src="https://www.bienaljamonroy.mx/images/culturaudg_2020.png"> -->
+					
 				</div>
-				<!-- <div class="col-md-2 col-sm-12">
-					<img class="img-responsive" src="https://www.bienaljamonroy.mx/images/artes_visuales_2022.png">
-				</div>
-				<div class="col-md-2 col-sm-12">
-					<img class="img-responsive" src="https://www.bienaljamonroy.mx/images/autlan_2022.png">
-				</div>
-				<div class="col-md-2 col-sm-12">
-					<img class="img-responsive" src="https://www.bienaljamonroy.mx/images/gobjalisco_2020.png">
-				</div> -->
+				
 			</div>
 
 			<div class="row copyright">	
 				<div class="col-md-12">
 					<p>
+						<small class="block">Equipo de desarrollo web: </small><br>
+						<small class="block">Héctor Nomar González Flores</small> <br>
+						<small class="block">Izmael Guzmán Murguía</small><br>
+						<small class="block">Zeus Gutierrez Cobian</small><br>
+						<small class="block">Jose Luis David Bonilla Carranza</small><br>
+						<small class="block">Fecha de actulizacion del sitio 30/08/2023 </small> 
 						<small class="block">© 2023 CUCEI UDG. Derechos Reservados</small> 
 						<small class="block"><a href="http://transparencia.udg.mx/aviso-confidencialidad-integral" target="_blank">Aviso de privacidad</a></small>
 					</p>
@@ -533,11 +473,7 @@
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
 	</div>
-	<script>
-		function mensaje(){
-			alert("La convocatoria inicia el sábado 19 de Febrero del 2022 a las 19:00 hrs.");
-		}
-	</script>		
+	
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
@@ -556,6 +492,55 @@
 	<!-- Main -->
 	<script src="js/main.js"></script>
 	
+</body>
+</html>
 
+<script>
 
-</body></html>
+const targetDate = new Date('2023-09-17 23:59:59').getTime();
+
+function updateCountdown() {
+  const currentDate = new Date().getTime();
+  const timeLeft = targetDate - currentDate;
+
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+  document.getElementById('days').textContent = days;
+  document.getElementById('hours').textContent = hours;
+  document.getElementById('minutes').textContent = minutes;
+  document.getElementById('seconds').textContent = seconds;
+}
+
+// Actualiza el contador cada segundo
+//setInterval(updateCountdown, 1000);
+
+// Llama a updateCountdown() inmediatamente para evitar un retraso en la visualización inicial
+//updateCountdown();
+
+</script>
+
+<style>
+	#countdown {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 1px;
+  color: #333; /* Color del texto */
+  background-color: #f5f5f5; /* Color de fondo */
+  padding: 10px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+#countdown span {
+  margin: 0 10px;
+  font-size: 1.2em; /* Tamaño del texto para días, horas, minutos y segundos */
+  color: #fff; /* Color del texto para días, horas, minutos y segundos */
+  background-color: #333; /* Color de fondo para días, horas, minutos y segundos */
+  padding: 5px 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+</style>
