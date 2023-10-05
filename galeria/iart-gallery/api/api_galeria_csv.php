@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: https://iarte.inventores.org');
 
 // Define the path to your CSV file
-$csvFilePath = 'data/registro.csv'; // Update with the correct file name
+$csvFilePath = '../data/registro.csv'; // Update with the correct file name
 
 // Check if the CSV file exists
 if (!file_exists($csvFilePath)) {
