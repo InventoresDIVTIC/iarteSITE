@@ -1,6 +1,6 @@
 <?php
 
-header('Access-Control-Allow-Origin: http://192.168.0.229:9966');
+header('Access-Control-Allow-Origin: https://iarte.inventores.org');
 
 // Define the path to your CSV file
 $csvFilePath = 'data/registro.csv'; // Update with the correct file name
