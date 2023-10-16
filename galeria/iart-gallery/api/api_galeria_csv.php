@@ -5,7 +5,7 @@ $startTime = microtime(true);
 header('Access-Control-Allow-Origin: http://192.168.0.134:9966');
 
 // Define the path to your CSV file
-$csvFilePath = 'data/registro.csv'; // Update with the correct file name
+$csvFilePath = '../data/registro.csv'; // Update with the correct file name
 
 // Check if the CSV file exists
 if (!file_exists($csvFilePath)) {
@@ -46,7 +46,7 @@ while (($row = fgetcsv($csvFile)) !== false) {
             $imageFileName = str_replace('./img/', '', $imageFileName);
 
             // Build the full path to the image file
-            $imagePath = 'img/' . $imageFolder . $imageFileName;
+            $imagePath = '../img/' . $imageFolder . $imageFileName;
 
             // Check if the image file exists and is not empty
             if (file_exists($imagePath)) {
