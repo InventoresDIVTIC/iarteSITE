@@ -3,8 +3,17 @@
 // Define the path to your CSV file
 $csvFilePath = '../data/registro.csv'; // Update with the correct file name
 
+// Check if the CSV file exists
+if (!file_exists($csvFilePath)) {
+    die("CSV file not found.");
+}
+
 // Open the CSV file for reading
 $csvFile = fopen($csvFilePath, 'r');
+
+if (!$csvFile) {
+    die("Failed to open CSV file.");
+}
 
 // obtener el header de los csv
 $headerRow = fgetcsv($csvFile);
@@ -27,34 +36,54 @@ while (($row = fgetcsv($csvFile)) !== false) {
         // Get the image file name from the CSV row
         $imageFileName = $row[array_search($imageField, $headerRow)];
 
-        // Remove the "./img/" part from the image path
-        $imageFileName = str_replace('./img/', '', $imageFileName);
-        // Build the full path to the image file
-        $imagePath = '../img/' . $imageFolder . $imageFileName;
-        // Read the image file content
-        $imageContent = file_get_contents($imagePath);
-        // Encode the image content as base64
-        $base64Image = base64_encode($imageContent);
-        // Create a painting object
-        $painting = [
-            "image_id" => $row[array_search('id_registro', $headerRow)] . $imageFileName,
-            "title" => $row[array_search($descriptionField, $headerRow)],
-            "artist_title" => $row[array_search('nombre', $headerRow)],
-            "image" => $base64Image,
-        ];
-        // Add the painting object to the row's paintings array
-        $rowPaintings[] = $painting;
+        // Check if the image file name is not empty
+        if (!empty($imageFileName)) {
+            // Remove the "./img/" part from the image path
+            $imageFileName = str_replace('./img/', '', $imageFileName);
+
+            // Build the full path to the image file
+            $imagePath = '../img/' . $imageFolder . $imageFileName;
+
+            // Check if the image file exists and is not empty
+            if (file_exists($imagePath)) {
+                // Read the image file content
+                $imageContent = file_get_contents($imagePath);
+
+                // Encode the image content as base64
+                $base64Image = base64_encode($imageContent);
+
+                // Create a painting object
+                $painting = [
+                    "image_id" => $row[array_search('id_registro', $headerRow)] . $imageFileName,
+                    "title" => $row[array_search($descriptionField, $headerRow)],
+                    "artist_title" => $row[array_search('nombre', $headerRow)],
+                    "image" => $base64Image,
+                ];
+
+                // Add the painting object to the row's paintings array
+                $rowPaintings[] = $painting;
+            }
+        }
     }
 
     // Add the row's paintings array to the main paintings array after reversing it
     $paintings = array_merge($paintings, $rowPaintings);
+
+    // Add the row's paintings array to the main paintings array
+    // $paintings = array_merge($paintings, $rowPaintings); 
 }
+
+// Add the last painting to the top of the array
+//$paintings = array_unshift($paintings, end($paintings));
+
+// Add the last painting to the top of the array
+//array_unshift($paintings, end($paintings));
 
 // Get the last painting
 $lastPainting = end($paintings);
 
-// Add 8 copies of the last painting with different image_id values
-for ($i = 8; $i >= 1; $i--) {
+// Add 9 copies of the last painting with different image_id values
+for ($i = 5; $i >= 1; $i--) {
     $copiedPainting = $lastPainting;
     $copiedPainting["image_id"] = $lastPainting["image_id"] . "_copy" . $i;
     $copies[] = $copiedPainting;
