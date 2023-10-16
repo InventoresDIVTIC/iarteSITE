@@ -1,7 +1,11 @@
 <?php
+// Record the start time
+$startTime = microtime(true);
+
+header('Access-Control-Allow-Origin: http://192.168.0.134:9966');
 
 // Define the path to your CSV file
-$csvFilePath = '../data/registro.csv'; // Update with the correct file name
+$csvFilePath = 'data/registro.csv'; // Update with the correct file name
 
 // Check if the CSV file exists
 if (!file_exists($csvFilePath)) {
@@ -42,7 +46,7 @@ while (($row = fgetcsv($csvFile)) !== false) {
             $imageFileName = str_replace('./img/', '', $imageFileName);
 
             // Build the full path to the image file
-            $imagePath = '../img/' . $imageFolder . $imageFileName;
+            $imagePath = 'img/' . $imageFolder . $imageFileName;
 
             // Check if the image file exists and is not empty
             if (file_exists($imagePath)) {
@@ -68,22 +72,13 @@ while (($row = fgetcsv($csvFile)) !== false) {
 
     // Add the row's paintings array to the main paintings array after reversing it
     $paintings = array_merge($paintings, $rowPaintings);
-
-    // Add the row's paintings array to the main paintings array
-    // $paintings = array_merge($paintings, $rowPaintings); 
 }
-
-// Add the last painting to the top of the array
-//$paintings = array_unshift($paintings, end($paintings));
-
-// Add the last painting to the top of the array
-//array_unshift($paintings, end($paintings));
 
 // Get the last painting
 $lastPainting = end($paintings);
 
-// Add 9 copies of the last painting with different image_id values
-for ($i = 5; $i >= 1; $i--) {
+// Add 15 copies of the last painting with different image_id values
+for ($i = 12; $i >= 1; $i--) {
     $copiedPainting = $lastPainting;
     $copiedPainting["image_id"] = $lastPainting["image_id"] . "_copy" . $i;
     $copies[] = $copiedPainting;
@@ -95,7 +90,19 @@ $paintings = array_merge($copies, $paintings);
 // Close the CSV file
 fclose($csvFile);
 
+// Record the end time
+$endTime = microtime(true);
+
+// Calculate the execution time
+$executionTime = ($endTime - $startTime) * 1000; // in milliseconds
+
+// Add the execution time to the JSON data
+$dataWithExecutionTime = [
+    "data" => $paintings,
+    "execution_time_ms" => $executionTime
+];
+
 // Output the paintings in JSON format
-echo json_encode(["data" => $paintings]);
+echo json_encode($dataWithExecutionTime);
 
 ?>
