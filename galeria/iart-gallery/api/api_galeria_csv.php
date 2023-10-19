@@ -2,8 +2,6 @@
 // Record the start time
 $startTime = microtime(true);
 
-header('Access-Control-Allow-Origin: http://192.168.0.134:9966');
-
 // Define the path to your CSV file
 $csvFilePath = '../data/registro.csv'; // Update with the correct file name
 
@@ -77,8 +75,8 @@ while (($row = fgetcsv($csvFile)) !== false) {
 // Get the last painting
 $lastPainting = end($paintings);
 
-// Add 15 copies of the last painting with different image_id values
-for ($i = 12; $i >= 1; $i--) {
+// Add copies of the last painting with different image_id values
+for ($i = 8; $i >= 1; $i--) {
     $copiedPainting = $lastPainting;
     $copiedPainting["image_id"] = $lastPainting["image_id"] . "_copy" . $i;
     $copies[] = $copiedPainting;
