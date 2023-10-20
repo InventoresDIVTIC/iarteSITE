@@ -2,8 +2,6 @@
 
 // const customArtworks = require('./customArtworks.json');
 
-// const APIurl = "http://localhost/api_galeria4.php?action=get_paintings";
-
 const APIurl = "../api/api_galeria_csv.php";
 
 module.exports = {
@@ -13,13 +11,13 @@ module.exports = {
         const json = await fetch(APIurl).then(res => res.json());
 
         // Display the PHP execution time
-        // console.log("PHP Execution Time: " + json.execution_time_ms + " ms");
+        console.log("PHP Execution Time: " + json.execution_time_ms + " ms");
 
         var temp = json.data.filter((d) => d.image_id);
         
         const endTime = performance.now(); // Record the end time in JavaScript
         const jsExecutionTime = endTime - startTime; // Calculate the JavaScript execution time
-        // console.log("JavaScript Execution Time: " + jsExecutionTime + " ms");
+        console.log("JavaScript Execution Time: " + jsExecutionTime + " ms");
 
         return temp;
         // Fetch the list of artworks from your custom database
@@ -30,6 +28,10 @@ module.exports = {
          
         // Extract the file extension from the image path
         const fileExtension = obj.image.substring(obj.image.lastIndexOf('.') + 1);
+                
+        // Assuming you have received the base64ImageData from the API response
+        // const contentType = 'image/jpeg'; // Specify the correct content type
+
           // Set the content type based on the file extension
         let contentType;
         if (fileExtension.toLowerCase() === 'jpg' || fileExtension.toLowerCase() === 'jpeg') {
@@ -40,9 +42,7 @@ module.exports = {
             // Handle other image formats if needed
             contentType = 'image/jpeg'; // Default to JPEG
         }
-        
-        // Assuming you have received the base64ImageData from the API response
-        // const contentType = 'image/jpeg'; // Specify the correct content type
+
 
         const byteCharacters = atob(obj.image);
         const byteArrays = [];

@@ -75,8 +75,8 @@ while (($row = fgetcsv($csvFile)) !== false) {
 // Get the last painting
 $lastPainting = end($paintings);
 
-// Add copies of the last painting with different image_id values
-for ($i = 8; $i >= 1; $i--) {
+// Add 15 copies of the last painting with different image_id values
+for ($i = 12; $i >= 1; $i--) {
     $copiedPainting = $lastPainting;
     $copiedPainting["image_id"] = $lastPainting["image_id"] . "_copy" . $i;
     $copies[] = $copiedPainting;
