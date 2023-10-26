@@ -48,7 +48,7 @@ const updateLoadingText = () => {
   currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
 };
 
-setInterval(updateLoadingText, 250); // Cambia el texto cada medio segundo
+setInterval(updateLoadingText, 350); // Cambia el texto cada medio segundo
 
 // Creamos una función para cargar el contenido
 const loadContent = async () => {
@@ -57,7 +57,7 @@ const loadContent = async () => {
 		setTimeout(() => {
 			fps = require('./fps')(map, fovY);
 			resolve();
-		}, 2500); // Espera para la carga
+		}, 3500); // Espera para la carga
 			
 		regl = require('regl')({
 			extensions: [
