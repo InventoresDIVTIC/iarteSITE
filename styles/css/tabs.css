@@ -1,0 +1,127 @@
+:root {
+  --primary: rgb(211,38,38);
+  --overlay: rgba(211,38,38,0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+.indexes {
+  
+  font-size: 1.4rem;
+  position: relative;
+  list-style-type: none;
+  flex-direction: column;
+  z-index: 100;
+
+  & li {
+    width:fit-content;
+    padding: 1rem;
+    border: 3px solid transparent;
+    cursor: pointer;
+  }
+  
+}
+
+.tabs-container { 
+  position: inherit; 
+}
+
+.tab {
+  position: inherit;
+  
+  margin-top: -15em;
+  
+  display: flex;
+  width: 90%;
+  height: 90%;
+  opacity: 0; 
+  /* background-color: rgb(6, 42, 141); */
+  overflow: hidden;
+}
+
+.tab-content {
+  position: relative;
+  z-index: 5;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(-5rem);
+
+  & h3 {
+    color: rgb(255, 217, 0);
+    font-family: helvetica;
+    font-weight: 900;
+    font-size: 1rem;
+    border-bottom: 1.5px solid white;
+    padding-bottom: 1rem;
+  }
+
+  & p {
+    font-family: helvetica;
+    font-weight: 100;
+    line-height: 2;
+    color: rgba(255,255,255,0.7);
+  }
+
+  & button {
+    width: fit-content;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    font-size: 0.7rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+  }
+}
+
+@keyframes content {
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-image {
+  position: inherit;
+  left: 4%;
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+  transform: translateX(2rem);
+
+  &::after {
+    content: '';
+    position: inherit;
+    inset: 0;
+    background-color: var(--overlay);
+    mix-blend-mode: multiply;
+  }
+
+  & img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+    filter: grayscale(100%);
+  }
+}
+
+@keyframes image {
+  100% {
+    opacity: 1;
+    width: 300px;
+    transform: translateX(0);
+  }
+}
+
+.active .tab          { opacity: 1; z-index: 5; }
+.active .tab-content  { animation: content 0.9s ease-out 0.4s forwards; }
+.active .tab-image    { animation: image 1s ease-out forwards; }

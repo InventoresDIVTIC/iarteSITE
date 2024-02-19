@@ -1,9 +1,11 @@
-<html style="" class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head>
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
 	<title>
-		
 		Convocatoria 1er iArte 2023</title>
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Bienal de pintura JA Monroy">
 	<meta name="keywords" content="concurso de pintura, bienal de pintura, pintura udg, Convocatoria Bienal JA Monroy 2018">
@@ -64,6 +66,11 @@
 	</head>
 	<body>
 
+<!-- MODAL -->
+
+<!-- END MODAL ERROR -->
+
+
 <!-- MODAL ERROR -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -85,33 +92,8 @@
 	</div>
   </div>
 <!-- END MODAL ERROR -->
+<script>
 
-
-
-<!-- MODAL ERROR -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title" id="exampleModalLabel">Error de fecha</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
-		<div class="modal-body">
-			Lo sentimos la convocatoria ha concluido, espera los resultados proximamente. 😇
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-		  <!-- <button type="button" class="btn btn-primary">Aceptar</button> -->
-		</div>
-	  </div>
-	</div>
-  </div>
-<!-- END MODAL ERROR -->
-
-
-	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -121,15 +103,46 @@
   ga('send', 'pageview');
 
 </script>		
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#config-web-app -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+	  const firebaseConfig = {
+		apiKey: "AIzaSyAU-9MTU2bEV_C5M7IM6UQlxKz-dJR0Hhc",
+		  authDomain: "iarte-contest.firebaseapp.com",
+		  projectId: "iarte-contest",
+		  storageBucket: "iarte-contest.appspot.com",
+		  messagingSenderId: "1066454945407",
+		  appId: "1:1066454945407:web:c35b3d384f180d1746b94a",
+		  measurementId: "G-J0STY1W0MD"
+	};
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css"
+    />
+
+
 	<div class="b-loader" style="display: block;"></div>
 	
 	<div id="page">
         <a href="#" class="js-b-nav-toggle b-nav-toggle b-nav-white">
             <i></i>
         </a>
-	
+
 <nav class="b-nav" role="navigation">
 		<div class="container-wrap">
+			
 			<div class="top-menu">
 				<div class="row">
 					<div class="col-xs-8 text-right">
@@ -151,7 +164,8 @@
 				<div class="row">
 					<!-- <div class="col-xs-12 menu-1 "> -->
 						<ul style="display: flex;">
-				
+							
+
 							<li class="active" style="display: inline-block;"><a href="./"><i class="fas fa-home"></i></a></li>
 
 	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
@@ -167,6 +181,9 @@
 							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
 							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
 							
+							<li class="active" style="display: inline-block;"> <div id="firebaseui-auth-container"></div>
+								<div id="loader">Loading...</div></li>
+
 						</ul>
 						
 
@@ -197,11 +214,12 @@
 			<div class="breadcrumbs">INICIO &gt; CONVOCATORIA</div>
 		</div>
 		<!-- END BANNER -->
-
+		
 		<div id="info-principal">
 			<div class="row">
 				<div class="col-sm-6 monroy">
 					<div class="division"></div>
+					
 					<h1 class="border-amarillo"><a href="./ganadores/indexG.html">VER GANADORES DE LA CONVOCATORIA 2023</a></h1>
 
 					<h1 class="border-amarillo"><a href="./galeria/iart-gallery/build.html">VER GALERIA 2023</a></h1>
@@ -530,7 +548,14 @@
 	<script src="js/jquery.countTo.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
-	
+
+
+
+	<!-- Firebase auth -->
+
+
+	<script src="./auth.js"></script>
+
 </body>
 </html>
 

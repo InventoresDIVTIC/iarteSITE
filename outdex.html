@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./styles/css/outdex.css'>
+
+    <!-- Estilos para las tabs -->
+    <link rel='stylesheet' type='text/css' media='screen' href='./styles/css/tabs.css'>
+
+    <!-- Estilo para NavBar -->
+    <link rel='stylesheet' type='text/css' media='screen' href='./styles/css/navbar.css'>
+
+</head>
+<body class="wrapper">
+
+        <header class="header">
+            <nav id="navBar">
+                <div class="container">
+                  <a href="#">Home</a>
+                  <a href="#">About</a>
+                  <a href="#">Contact</a>
+                  <a href="#">let's start</a>
+                </div>
+                </div>
+              </nav>
+              
+              <div class="menuMobile">
+                  <button onClick="menuClicked()" id="menuIcon" href="#"><i class="fas fa-bars">hamburguesa </i></button>
+              </div>
+     
+        </header>
+
+
+
+        <!-- EN la seccion Main integramos las Tabs que cambian animadas -->
+        <section class="main">
+            <ul class='indexes'>
+              <li data-index='0'>01</li>
+              <li data-index='1'>02</li>
+              <li data-index='2'>03</li>
+              <li data-index='3'>04</li>
+            </ul>
+
+            
+            <div class='tabs-container'>
+                
+             <div class="tab">
+                <div class='tab-content'>
+                  <h3>Midnight Station</h3>
+                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Voluptas nihil sequi doloribus obcaecati. Aut vel, recusandae ipsa
+                    voluptate blanditiis nemo magnam sit modi architecto officia
+                    maiores magni. Necessitatibus, iste aut.</p>
+                  <button>Read More</button>
+                  </div>
+                <div class='tab-image'><img src='https://picsum.photos/id/345/1000/600'></div>
+             </div>
+
+              <div class="tab">
+                <div class='tab-content'>
+                  <h3>The Hitchhiker</h3>
+                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Voluptas nihil sequi doloribus obcaecati. Aut vel, recusandae ipsa
+                    voluptate blanditiis nemo magnam sit modi architecto officia
+                    maiores magni. Necessitatibus, iste aut.</p>
+                  <button>Read More</button>
+                  </div>
+                <div class='tab-image'><img src='https://picsum.photos/id/352/1000/600'></div>
+              </div>
+
+              <div class='tab'>
+                <div class='tab-content'>
+                  <h3>Missing Pages</h3>
+                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Voluptas nihil sequi doloribus obcaecati. Aut vel, recusandae ipsa
+                    voluptate blanditiis nemo magnam sit modi architecto officia
+                    maiores magni. Necessitatibus, iste aut.</p>
+                  <button>Read More</button>
+                </div>
+                <div class='tab-image'><img src='https://picsum.photos/id/444/1000/600'></div>
+              </div>
+
+              <div class='tab'>
+                <div class='tab-content'>
+                  <h3>Uninvited Guests</h3>
+                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Voluptas nihil sequi doloribus obcaecati. Aut vel, recusandae ipsa
+                    voluptate blanditiis nemo magnam sit modi architecto officia
+                    maiores magni. Necessitatibus, iste aut.</p>
+                  <button>Read More</button>
+                  </div>
+                <div class='tab-image'><img src='https://picsum.photos/id/451/1000/600'></div>
+              </div>
+
+            </div>
+          </section>
+
+
+        <aside class="aside aside-2">Aside 2</aside>
+        <footer class="footer">Footer</footer>
+
+    <!-- Script tabs -->
+<script src='./styles/js/tabs.js'></script>
+    <!-- Script navbar -->
+    <script src='./styles/js/navbar.js'></script>
+</body>
+</html>

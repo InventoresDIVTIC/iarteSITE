@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css?family=Cabin:400, 500,700');
+
+body{
+  margin: 0;
+}
+
+#navBar {
+    background: linear-gradient(to right, #f00000, #dc281e);
+    font-family: 'Cabin', sans-serif;
+    transition: .2s;
+}
+
+.container {
+    line-height: 4rem;
+    font-size: 1.2rem;
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+
+a {
+  text-decoration: none;
+  color: #ffffffaa;
+  transition: .2s;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+#menuIcon {
+  color: #111111cc;
+  transition: .2s;
+}
+
+#menuIcon:hover {
+  color: #111111;
+}
+
+nav {
+  background: linear-gradient(to right, #f00000, #dc281e);
+  font-family: 'Cabin', sans-serif;
+  transition: .2s;
+}
+
+.container {
+  line-height: 4rem;
+  font-size: 1.2rem;
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+nav a {
+  padding-right: 1.4rem;
+  font-weight: 500 !important;
+}
+
+#menuIcon {
+  padding-right: .4rem;
+  font-size: .9em;
+  border: none;
+  background-color: blueviolet;
+  outline: none;
+  cursor: pointer;
+}
+
+.menuMobile{
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2rem;
+  transition: .2s;
+  
+}
+
+.mobileNav {
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 10rem);
+  justify-content: space-evenly;
+  font-size: 2rem;
+  padding: 5rem 0;
+  width: 100vw;
+}
+
+/* 
+// ================================
+//   mobile slide menu animation
+// ================================ */
+
+.navSlideIn {
+  animation: 1s slideInLeft ease;
+  animation-fill-mode:forwards;
+}
+
+.navSlideOut {
+  animation: 1s slideOutLeft ease;
+  animation-fill-mode:forwards;
+}
+
+/* // =======================
+//    DESKTOP NAV BAR
+// ======================= */
+
+.desktopNavDisplayNone{
+  animation: 2.5s slideOutTop linear;
+  animation-fill-mode:forwards;
+}
+
+.desktopNavDisplayOn{
+  animation: 1s slideInTop ease;
+  animation-fill-mode:forwards;
+}
+
+/* // HAMBURGER ANIMATION */
+
+.menuIconDisplayNone{
+  animation: 2.5s slideOutLeft linear;
+  animation-fill-mode:forwards;
+}
+
+.menuIconDisplayOn{
+  animation: 1s slideInLeft ease;
+  animation-fill-mode:forwards;
+}
+
+/* // ==================
+//   SLIDE IN LEFT
+// ================== */
+
+@keyframes slideInLeft {
+  0% {
+    margin-left: -100%;
+    opacity: 0;
+  }
+
+  100% {
+    margin-left: 0%;
+     display: block;
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    margin-left: 0%;
+    opacity: 1;
+  }
+
+  100% {
+    margin-left: -100%;
+     display: none;
+    opacity: 0;
+  }
+}
+
+/* // ==================
+//   SLIDE IN TOP
+// ================== */
+
+@keyframes slideInTop {
+  0% {
+    margin-top: -100%;
+    opacity: 0;
+  }
+
+  100% {
+    margin-top: 0%;
+    display: block;
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutTop {
+  0% {
+    margin-top: 0%;
+    opacity: 1;
+  }
+
+  100% {
+    margin-top: -100%;
+     display: none;
+    opacity: 0;
+  }
+}
