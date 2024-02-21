@@ -12,7 +12,7 @@ function reset() {
 }
 
 function showTab(i) {
-  indexes[i].style.borderColor = 'rgba(211,38,38,0.6)';
+  indexes[i].style.borderColor = 'rgba(211,38,38,0.6)';  
   tabs[i].style.opacity = 1;
   tabs[i].style.zIndex = 5;
   tabs[i].classList.add('active');
