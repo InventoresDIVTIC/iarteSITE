@@ -20,6 +20,8 @@ filesToCache = [
 	'https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.module.min.js',
 	'https://cdn.jsdelivr.net/npm/three@0.154.0/examples/jsm/controls/OrbitControls.js'
 ]
+// Agregamos Cannon con Cdnjs
+
 
 self.addEventListener('install', event => {
 	//console.log('Service worker install event fired!');
