@@ -34,3 +34,9 @@
 
   cursor: pointer;
 }
+
+
+#textOverlay {
+position: absolute;
+
+}

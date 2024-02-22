@@ -358,7 +358,9 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
           makeParticles(intersect.point);
           
         // Accede a la propiedad userData para imprimir el texto asociado al objeto
-        console.log(intersect.object.userData.text);
+        var text = intersect.object.userData.text;
+        // Actualiza el contenido del elemento HTML con el texto asociado al objeto
+        document.getElementById('textOverlay').innerText = text;
 
         //   FUNCIONES AGREGADAS
         // Guardar una referencia al objeto intersectado
@@ -368,13 +370,12 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
         intersectedObject.material.color.setHex(0xff0000); // Cambia el color a rojo, por ejemplo
 
         }
-
 // También necesitarás agregar un código para restaurar el color del objeto cuando ya no está intersectado.
 // Fuera de la condición donde se detecta la intersección
-        if (intersectedObject !== null && intersectedObject !== undefined) {
-            intersectedObject.material.color.set(0xA020F0);
-            intersectedObject = null; // Restablecer la referencia al objeto intersectado
-        }
+if (intersectedObject !== null && intersectedObject !== undefined) {
+    intersectedObject.material.color.set(0xA020F0);
+    intersectedObject = null; // Restablecer la referencia al objeto intersectado
+}
 
       }
   
