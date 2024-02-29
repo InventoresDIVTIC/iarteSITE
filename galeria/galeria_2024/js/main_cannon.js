@@ -318,6 +318,48 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
       world.add(mesh);
     }
 
+    // añadiremos un mesh con imagen
+     
+   // Cargar la textura de la imagen
+// instantiate a loader
+const loader = new THREE.TextureLoader();
+
+// load a resource
+loader.load(
+	// resource URL
+	'img/resources/negx.jpg',
+
+	// onLoad callback
+	function ( texture ) {
+		// in this example we create the material when the texture is loaded
+		const material = new THREE.MeshBasicMaterial( {
+			map: texture
+		 } );
+
+     // Crear un cubo con el material aplicado
+var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5); // Tamaño del cubo
+var cube = new THREE.Mesh(cubeGeometry, material);
+
+// Posiciona el cubo en alguna parte de la escena
+cube.position.set(0, 10, 4); // Cambia las coordenadas según lo necesites
+
+    // Agregar una propiedad userData con el texto deseado para cada objeto
+    cube.userData = { text: 'Texto para el mero CUVEITOR '  };
+
+// Agregar el cubo a la escena
+world.add(cube);
+
+	},
+
+	// onProgress callback currently not supported
+	undefined,
+
+	// onError callback
+	function ( err ) {
+		console.error( 'An error happened.' );
+	}
+);
+
 
 
     scene.add( world );
@@ -359,8 +401,19 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
           
         // Accede a la propiedad userData para imprimir el texto asociado al objeto
         var text = intersect.object.userData.text;
+
+        // la variable textura almacena el src de la imagen que contiene el objeto
+        var textura = intersect.object.material.map.image.src;
+        console.log(textura);
+
+        
         // Actualiza el contenido del elemento HTML con el texto asociado al objeto
         document.getElementById('textOverlay').innerText = text;
+
+        // Actualizar una img del objeto clickeado
+        document.getElementById('objectImage').src = textura;
+
+
 
         //   FUNCIONES AGREGADAS
         // Guardar una referencia al objeto intersectado
@@ -370,6 +423,8 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
         intersectedObject.material.color.setHex(0xff0000); // Cambia el color a rojo, por ejemplo
 
         }
+
+
 // También necesitarás agregar un código para restaurar el color del objeto cuando ya no está intersectado.
 // Fuera de la condición donde se detecta la intersección
 if (intersectedObject !== null && intersectedObject !== undefined) {
@@ -391,6 +446,7 @@ if (intersectedObject !== null && intersectedObject !== undefined) {
     renderer.render( scene, camera );
   
   }
+
   
   var particles = new Array();
   

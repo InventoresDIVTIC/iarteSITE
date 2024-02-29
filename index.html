@@ -47,7 +47,7 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
 
 <!-- mi links -->
@@ -57,11 +57,20 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
 
 
 <!-- endmilinks -->
+
+
+<!-- Para el forms -->
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
 	</head>
 	<body>
@@ -92,8 +101,36 @@
 	</div>
   </div>
 <!-- END MODAL ERROR -->
-<script>
 
+<!-- Inicio FOrm -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">REGISTRATE AHORA</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			
+		</div>
+
+	  </div>
+	</div>
+  </div>
+
+
+<!-- Modal del formulario -->
+<!-- Modal -->
+
+<!-- END -->
+
+
+<!-- END -->
+
+<!-- Scripts de googleAnalytics -->
+<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -101,7 +138,6 @@
 
   ga('create', 'UA-74191543-1', 'auto');
   ga('send', 'pageview');
-
 </script>		
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -170,7 +206,10 @@
 
 	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
 	                            <!-- <a href="./registro.php" on >Registro</a> -->
-								<a data-toggle="modal" data-target="#exampleModal" >Registro</a>
+								<!-- <a data-toggle="modal" data-target="#exampleModal" >Registro</a> -->
+								<a data-toggle="modal" data-target="#registroModal" id="form">Registro</a>
+
+								 
 								
 	                            <ul class="dropdown-menu">
 	                                <li><a href="./registro.php">Convocatoria 1er iArte 2023 </a></li>
@@ -552,16 +591,26 @@
 
 
 	<!-- Firebase auth -->
-
-
 	<script src="./auth.js"></script>
+
+
+	<!-- registroContainer -->
+
+	<!-- Scripst del Modal -->
+<script>
+		$('#form').on('click',function(){
+			$('.modal-body').load('registro3.php',function(){
+				$('#formModal').modal({show:true});
+			});
+		});
+</script>
 
 </body>
 </html>
 
 <script>
 
-const targetDate = new Date('2023-09-17 23:59:59').getTime();
+const targetDate = new Date('2024-09-17 23:59:59').getTime();
 
 function updateCountdown() {
   const currentDate = new Date().getTime();
@@ -579,12 +628,13 @@ function updateCountdown() {
 }
 
 // Actualiza el contador cada segundo
-//setInterval(updateCountdown, 1000);
+setInterval(updateCountdown, 1000);
 
 // Llama a updateCountdown() inmediatamente para evitar un retraso en la visualización inicial
-//updateCountdown();
+updateCountdown();
 
 </script>
+
 
 <style>
 	#countdown {
@@ -606,5 +656,7 @@ function updateCountdown() {
   padding: 5px 10px; /* Espaciado interno */
   border-radius: 5px; /* Bordes redondeados */
 }
+
+
 
 </style>
