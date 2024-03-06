@@ -12,30 +12,52 @@
   <!-- progressbar -->
   <ul id="progressbar">
     <li class="active">Información Personal</li>
-    <li>Documentos</li>
-    <li>Participación</li>
+    <li>Documentos Oficiales</li>
+    <li><< Participa >></li>
   </ul>
   <!-- fieldsets -->
   <fieldset>
-    <h2 class="fs-title">Registrate</h2>
+    <h2 class="fs-title">Datos Personales</h2>
     <h3 class="fs-subtitle">Los campos marcados con * son OBLIGATORIOS </h3>
 
     <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" required>
-    <input type="text" maxlength="10" class="form-control" id="telefono" name="telefono" placeholder="" required>
-    <input type="email" id="correo" name="correo" placeholder="" required>
-    <input type="number" style="width:15%" class="form-control" min="18" max="80" id="edad" name="edad" placeholder="Edad*" required>
+    <input type="text" maxlength="10" id="telefono" name="telefono" placeholder="Telefono*" required>
+    <input type="email" id="correo" name="correo" placeholder="E-Mail" required>
+    <input type="number" style="width:38%; height:10%;" min="18" max="80" id="edad" name="edad" placeholder="Edad*" required>
 
     <input type="button" name="next" class="next action-button" value="Next" />
   </fieldset>
   <fieldset>
-    <h2 class="fs-title">Social Profiles</h2>
-    <h3 class="fs-subtitle">Your presence on the social network</h3>
-    <input type="text" name="twitter" placeholder="Twitter" />
-    <input type="text" name="facebook" placeholder="Facebook" />
-    <input type="text" name="gplus" placeholder="Google Plus" />
+    <h2 class="fs-title">Documentos Necesarios</h2>
+    <h3 class="fs-subtitle">(Comprueba tu identidad antes de concursar)</h3>
+    
+    <!-- Input File test -->
+
+    <!-- INE -->
+    <div class="file-drop-area">
+    <span class="fake-btn">* Comprobante de domicilio </span>
+    <span class="file-msg">[reciente (.PDF)]</span>
+    <input class="file-input" type="file" multiple>
+    </div>
+
+    <!-- Comprobante de domicilio -->
+    <div class="file-drop-area">
+    <span class="fake-btn">Identificacion Oficial</span>
+    <span class="file-msg">[vigente y por ambos lados]</span>
+    <input class="file-input" type="file" multiple>
+    </div>
+    
+    <!-- Manifiesto firmado -->
+    <div class="file-drop-area">
+    <span class="fake-btn">Identificacion Oficial</span>
+    <span class="file-msg">[vigente y por ambos lados]</span>
+    <input class="file-input" type="file" multiple>
+    </div>
+
     <input type="button" name="previous" class="previous action-button" value="Previous" />
     <input type="button" name="next" class="next action-button" value="Next" />
   </fieldset>
+
   <fieldset>
     <h2 class="fs-title">Personal Details</h2>
     <h3 class="fs-subtitle">We will never sell it</h3>
@@ -129,7 +151,38 @@
         });
     });
 
-        </script>
+</script>
+
+
+<script>
+var $fileInput = $('.file-input');
+var $droparea = $('.file-drop-area');
+
+// highlight drag area
+$fileInput.on('dragenter focus click', function() {
+  $droparea.addClass('is-active');
+});
+
+// back to normal state
+$fileInput.on('dragleave blur drop', function() {
+  $droparea.removeClass('is-active');
+});
+
+// change inner text
+$fileInput.on('change', function() {
+  var filesCount = $(this)[0].files.length;
+  var $textContainer = $(this).prev();
+
+  if (filesCount === 1) {
+    // if single file is selected, show file name
+    var fileName = $(this).val().split('\\').pop();
+    $textContainer.text(fileName);
+  } else {
+    // otherwise show number of files
+    $textContainer.text(filesCount + ' files selected');
+  }
+});
+</script>
 
 </body>
 </html>
@@ -142,7 +195,7 @@
 * {margin: 0; padding: 0;}
 
 .modal-body {
-    height: 70%;
+  height: 70%;
 
 	font-family: montserrat, arial, verdana;
 }
@@ -158,11 +211,12 @@
 
 /*form styles*/
 #msform {
-	width: 400px;
+	width: auto;
 	margin: 50px auto;
 	text-align: center;
 	position: relative;
 }
+
 #msform fieldset {
 	background: white;
 	border: 0 none;
@@ -183,12 +237,12 @@
 /*inputs*/
 #msform input, #msform textarea {
 	padding: 15px;
-	border: 1px solid #ccc;
+	border: 3px solid #ccc;
 	border-radius: 3px;
 	margin-bottom: 10px;
 	width: 100%;
 	box-sizing: border-box;
-	font-family: montserrat;
+	font-family: times;
 	color: #2C3E50;
 	font-size: 13px;
 }
@@ -222,6 +276,8 @@
 	color: #666;
 	margin-bottom: 20px;
 }
+
+
 /*progressbar*/
 #progressbar {
 	margin-bottom: 30px;
@@ -233,7 +289,7 @@
 	list-style-type: none;
 	color: white;
 	text-transform: uppercase;
-	font-size: 12px;
+	font-size: 15px;
 	width: 33.33%;
 	float: left;
 	position: relative;
@@ -246,7 +302,7 @@
 	display: block;
 	font-size: 10px;
 	color: #333;
-	background: white;
+	background: #ff1a1a;
 	border-radius: 3px;
 	margin: 0 auto 5px auto;
 }
@@ -255,7 +311,7 @@
 	content: '';
 	width: 100%;
 	height: 2px;
-	background: white;
+	background: red;
 	position: absolute;
 	left: -50%;
 	top: 9px;
@@ -268,13 +324,73 @@
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progressbar li.active:before,  #progressbar li.active:after{
-	background: #27AE60;
+	background: #00b300;
 	color: white;
 }
-
 
 .modal-footer{
     height:fit-content;
 }
+
+
+
+
+
+
+/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
+/* INPUT FILE */
+/* Estilos para el input file */
+
+#msform .file-drop-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 450px;
+  max-width: 100%;
+  padding: 25px;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  transition: 0.2s;
+}
+
+#msform .file-drop-area.is-active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#msform .fake-btn {
+  flex-shrink: 0;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  padding: 8px 15px;
+  margin-right: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+#msform .file-msg {
+  font-size: small;
+  font-weight: 300;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#msform .file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+#msform .file-input:focus {
+  outline: none;
+} 
 
 </style>

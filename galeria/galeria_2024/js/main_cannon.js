@@ -251,7 +251,9 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
   
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
+    
     renderer.setSize( window.innerWidth, window.innerHeight );
+
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.shadowMap.enabled = true;
     document.body.appendChild( renderer.domElement );
@@ -296,7 +298,7 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
     var boxGeometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
     boxGeometry.translate( 0, 0.5, 0 );
   
-    for ( var i = 0; i < 500; i ++ ) {
+    for ( var i = 0; i < 50; i ++ ) {
   
       var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
   
@@ -331,24 +333,29 @@ loader.load(
 
 	// onLoad callback
 	function ( texture ) {
-		// in this example we create the material when the texture is loaded
+    for ( var j = 0; j < 50; j ++ ) {
+  
+    // in this example we create the material when the texture is loaded
 		const material = new THREE.MeshBasicMaterial( {
 			map: texture
 		 } );
 
-     // Crear un cubo con el material aplicado
-var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5); // Tamaño del cubo
-var cube = new THREE.Mesh(cubeGeometry, material);
-
-// Posiciona el cubo en alguna parte de la escena
-cube.position.set(0, 10, 4); // Cambia las coordenadas según lo necesites
-
-    // Agregar una propiedad userData con el texto deseado para cada objeto
-    cube.userData = { text: 'Texto para el mero CUVEITOR '  };
-
-// Agregar el cubo a la escena
-world.add(cube);
-
+          // Crear un cubo con el material aplicado
+      var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5); // Tamaño del cubo
+      var cube = new THREE.Mesh(cubeGeometry, material);
+          
+      
+      var temp = mesh.position.z = Math.random()* j * 1600 - 800;
+      // Posiciona el cubo en alguna parte de la escena
+      cube.position.set(Math.random() * 1600 - 800, 10, temp); // Cambia las coordenadas según lo necesites
+          
+          // Agregar una propiedad userData con el texto deseado para cada objeto
+          cube.userData = { text: 'ID:' + j + ' ---> Después, en otro momento, morirán la calle donde estaba pintado el rótulo y el idioma en que fueron escritos los versos. Después morirá el planeta gigante donde pasó todo esto. En otros planetas de otros sistemas algo parecido a la gente continuará haciendo cosas parecidas a versos, parecidas a vivir bajo un rótulo de tienda ' };
+          
+      // Agregar el cubo a la escena
+      world.add(cube);
+    
+    }
 	},
 
 	// onProgress callback currently not supported
@@ -359,8 +366,6 @@ world.add(cube);
 		console.error( 'An error happened.' );
 	}
 );
-
-
 
     scene.add( world );
   

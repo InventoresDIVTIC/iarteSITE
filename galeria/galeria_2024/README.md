@@ -24,3 +24,25 @@ https://www.codeproject.com/Articles/5272760/Getting-Started-With-Deep-Learning-
 
 
 https://www.codeproject.com/Articles/5293492/Detecting-Facial-Emotions-in-the-Browser-with-Deep
+
+
+
+
+
+### ?????????/ KE
+
+3Dc boxes-chart 
+
+https://codepen.io/prisoner849/full/oNPZPYE
+
+
+<!-- Repo del profe de mate -->
+
+https://www.steema.com/files/public/teechart/html5/latest/demos/series/surface/surface.htm
+
+https://stemkoski.github.io/Three.js/Graphulus-Function.html
+
+
+Data visualization in THree
+
+https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Graphulus-Function.html
