@@ -1,5 +1,5 @@
-
 THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, speed = 800.0, jumpHeight = 350.0, height = 30.0) {
+
     var scope = this;
     
     scope.MouseMoveSensitivity = MouseMoveSensitivity;
@@ -319,7 +319,6 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
 
       world.add(mesh);
     }
-
     // añadiremos un mesh con imagen
      
    // Cargar la textura de la imagen
@@ -366,6 +365,73 @@ loader.load(
 		console.error( 'An error happened.' );
 	}
 );
+
+
+// Agregamos una libreria para crear el mapa
+// Paso 1: Crear una matriz para representar el laberinto
+var maze = [];
+var mazeWidth = 20; // Ancho del laberinto
+var mazeHeight = 20; // Alto del laberinto
+
+// Paso 2: Inicializar el laberinto con paredes
+for (var i = 0; i < mazeHeight; i++) {
+    maze[i] = [];
+    for (var j = 0; j < mazeWidth; j++) {
+        maze[i][j] = 1; // 1 representa una pared
+    }
+}
+
+// Paso 3: Algoritmo de generación de laberintos (Backtracking)
+function generateMaze(x, y) {
+  maze[y][x] = 0; // 0 representa un pasillo
+
+  var directions = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // Norte, Este, Sur, Oeste
+  directions = shuffleArray(directions); // Mezcla las direcciones
+
+  for (var i = 0; i < directions.length; i++) {
+      var newX = x + directions[i][0] * 2;
+      var newY = y + directions[i][1] * 2;
+      
+      if (newX > 0 && newY > 0 && newX < mazeWidth && newY < mazeHeight && maze[newY][newX] === 1) {
+          maze[newY][newX] = 0; // Establece la nueva posición como un pasillo
+          maze[y + directions[i][1]][x + directions[i][0]] = 0; // Elimina la pared entre el nuevo pasillo y el actual
+          generateMaze(newX, newY);
+      }
+  }
+}
+
+// Función para mezclar aleatoriamente un array
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
+
+// Paso 4: Generar el laberinto desde una posición inicial
+generateMaze(1, 1);
+
+// Paso 5: Renderizar el laberinto en Three.js
+for (var i = 0; i < mazeHeight; i++) {
+    for (var j = 0; j < mazeWidth; j++) {
+        if (maze[i][j] === 1) {
+            var wallGeometry = new THREE.BoxGeometry(20, 200, 20); // Dimensiones de la pared
+            var wallMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 }); // Material de la pared
+            var wall = new THREE.Mesh(wallGeometry, wallMaterial); // Crea la pared
+            wall.position.set(j * 20 - mazeWidth * 10, 100, i * 20 - mazeHeight * 10); // Posición de la pared
+            world.add(wall); // Agrega la pared a la escena
+        }
+    }
+}
+
+
+
+
+
+// Agregar el Mundo/Nivel a la escena    
 
     scene.add( world );
   
@@ -436,7 +502,6 @@ if (intersectedObject !== null && intersectedObject !== undefined) {
     intersectedObject.material.color.set(0xA020F0);
     intersectedObject = null; // Restablecer la referencia al objeto intersectado
 }
-
       }
   
       if (particles.length > 0) {
