@@ -149,6 +149,9 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
         
     };
   
+
+    // Update del mundo
+
     scope.update = function () {
   
       var time = performance.now();
@@ -183,6 +186,9 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
       prevTime = time;
     };
   };
+
+
+
   
   var instructions = document.querySelector("#instructions");
   var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -418,7 +424,7 @@ generateMaze(1, 1);
 for (var i = 0; i < mazeHeight; i++) {
     for (var j = 0; j < mazeWidth; j++) {
         if (maze[i][j] === 1) {
-            var wallGeometry = new THREE.BoxGeometry(20, 200, 20); // Dimensiones de la pared
+            var wallGeometry = new THREE.BoxGeometry(20, 200, 10); // Dimensiones de la pared
             var wallMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 }); // Material de la pared
             var wall = new THREE.Mesh(wallGeometry, wallMaterial); // Crea la pared
             wall.position.set(j * 20 - mazeWidth * 10, 100, i * 20 - mazeHeight * 10); // Posición de la pared
@@ -456,6 +462,7 @@ for (var i = 0; i < mazeHeight; i++) {
   
       controls.update();
   
+
       raycaster.set(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()));
       scene.remove ( arrow );
       arrow = new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 5, 0x000000 );

@@ -8,7 +8,7 @@
 <body>
     <!-- multistep form -->
     <?php include('conexion.php'); ?>
-<form id="msform">
+<form id="msform"  method="POST" action="procesa_registro.php" enctype="multipart/form-data">
   <!-- progressbar -->
   <ul id="progressbar">
     <li class="active">Información Personal</li>
@@ -21,11 +21,11 @@
     <h3 class="fs-subtitle">Los campos marcados con * son OBLIGATORIOS </h3>
 
     <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" required>
-    <input type="text" maxlength="10" id="telefono" name="telefono" placeholder="Telefono*" required>
+    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" required>
     <input type="email" id="correo" name="correo" placeholder="E-Mail" required>
-    <input type="number" style="width:38%; height:10%;" min="18" max="80" id="edad" name="edad" placeholder="Edad*" required>
+    <input type="number" id="edad" name="edad" style="width:38%; height:12%;" min="18" max="80" placeholder="Edad*" required>
 
-    <input type="button" name="next" class="next action-button" value="Next" />
+    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" value="Next" />
   </fieldset>
   <fieldset>
     <h2 class="fs-title">Documentos Necesarios</h2>
@@ -66,6 +66,7 @@
     <input type="text" name="phone" placeholder="Phone" />
     <textarea name="address" placeholder="Address"></textarea>
     <input type="button" name="previous" class="previous action-button" value="Previous" />
+    
     <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a>
   </fieldset>
 </form>
@@ -182,6 +183,36 @@ $fileInput.on('change', function() {
     $textContainer.text(filesCount + ' files selected');
   }
 });
+
+
+
+// Input Animations
+
+$('.file-input').on('change', function() {
+  var filesCount = $(this)[0].files.length;
+  var $textContainer = $(this).prev('.file-msg');
+  var $droparea = $(this).closest('.file-drop-area');
+
+  if (filesCount > 0) {
+    // Si se selecciona al menos un archivo, añadir clase de archivo seleccionado
+    $droparea.addClass('file-selected').removeClass('file-not-selected');
+
+    if (filesCount === 1) {
+      // Si se selecciona un solo archivo, mostrar el nombre del archivo
+      var fileName = $(this).val().split('\\').pop();
+      $textContainer.text(fileName);
+    } else {
+      // Si se seleccionan varios archivos, mostrar el número de archivos seleccionados
+      $textContainer.text(filesCount + ' files selected');
+    }
+  } else {
+    // Si no se selecciona ningún archivo, añadir clase de archivo no seleccionado
+    $droparea.addClass('file-not-selected').removeClass('file-selected');
+    $textContainer.text('[No file selected]');
+  }
+});
+
+
 </script>
 
 </body>
@@ -195,19 +226,19 @@ $fileInput.on('change', function() {
 * {margin: 0; padding: 0;}
 
 .modal-body {
-  height: 70%;
-
+  height: 85%;
 	font-family: montserrat, arial, verdana;
 }
 
 .modal-content{
 	display: inherit;
-	height: 89%;
+	height: 85%;
     background: 
     	/*background = gradient + image pattern combo*/
 		linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
+  
+  
 }
-
 
 /*form styles*/
 #msform {
@@ -225,15 +256,104 @@ $fileInput.on('change', function() {
 	padding: 20px 30px;
 	box-sizing: border-box;
 	width: 80%;
-	margin: 0 10%;
+	margin: 0 7%;
 	
 	/*stacking fieldsets above each other*/
 	position: relative;
 }
+
+
+
+
+
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
 	display: none;
 }
+
+
+/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
+/* INPUT FILE */
+/* Estilos para el input file */
+
+#msform .file-drop-area {
+  position: relative;
+  display: flex;
+  align-items: flex-start; /* Alinear elementos en la parte superior */
+  flex-direction: column; /* Apilar elementos verticalmente */
+  width: 450px;
+  max-width: 100%;
+  padding: 20px;
+  border-radius: 3px;
+  transition: 0.2s;
+
+  border: 4px solid rgba(249, 32, 61, 0.8);
+}
+
+#msform .file-drop-area.is-active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#msform .file-drop-area .fake-btn {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  padding: 8px 15px;
+  margin-bottom: 10px; /* Espacio entre fake-btn y file-msg */
+  font-size: 12px;
+  text-transform: uppercase;
+  
+}
+
+#msform .file-drop-area .file-msg {
+  font-size: small;
+  font-weight: 300;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#msform .file-drop-area .file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+
+/* States of file */
+#msform .file-drop-area .file-input:focus {
+  outline: none;
+}
+
+.file-selected .file-drop-area {
+  border-color: green;
+}
+
+.file-selected .file-msg {
+  color: green;
+}
+
+.file-not-selected .file-drop-area {
+  border-color: red;
+}
+
+.file-not-selected .file-msg {
+  color: red;
+}
+
+
+
+
+
+
+
+
 /*inputs*/
 #msform input, #msform textarea {
 	padding: 15px;
@@ -331,66 +451,4 @@ $fileInput.on('change', function() {
 .modal-footer{
     height:fit-content;
 }
-
-
-
-
-
-
-/* ---------------------------------------------------------------- */
-/* ---------------------------------------------------------------- */
-/* ---------------------------------------------------------------- */
-/* INPUT FILE */
-/* Estilos para el input file */
-
-#msform .file-drop-area {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 450px;
-  max-width: 100%;
-  padding: 25px;
-  border: 1px dashed rgba(255, 255, 255, 0.4);
-  border-radius: 3px;
-  transition: 0.2s;
-}
-
-#msform .file-drop-area.is-active {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-#msform .fake-btn {
-  flex-shrink: 0;
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  padding: 8px 15px;
-  margin-right: 10px;
-  font-size: 12px;
-  text-transform: uppercase;
-}
-
-#msform .file-msg {
-  font-size: small;
-  font-weight: 300;
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#msform .file-input {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  cursor: pointer;
-  opacity: 0;
-}
-
-#msform .file-input:focus {
-  outline: none;
-} 
-
 </style>
