@@ -26,6 +26,8 @@
     <input type="number" id="edad" name="edad" style="width:38%; height:12%;" min="18" max="80" placeholder="Edad*" required>
 
     <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" value="Next" />
+    <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a>
+    
   </fieldset>
   <fieldset>
     <h2 class="fs-title">Documentos Necesarios</h2>

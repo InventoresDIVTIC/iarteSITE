@@ -152,7 +152,7 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
 
     // Update del mundo
 
-    scope.update = function () {
+scope.update = function () {
   
       var time = performance.now();
       var delta = ( time - prevTime ) / 1000;
@@ -176,18 +176,71 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
       
       scope.getObject().position.y += ( velocity.y * delta );
   
+// Crear rayos para cada lado del personaje
+var raycasterRight = new THREE.Raycaster();
+var raycasterLeft = new THREE.Raycaster();
+var raycasterUp = new THREE.Raycaster();
+var raycasterDown = new THREE.Raycaster();
+
+// Tamaño de los rayos (longitud)
+var rayLength = 1; // Ajusta este valor según sea necesario
+
+// Direcciones de los rayos
+var rayDirectionRight = new THREE.Vector3(rayLength, 0, 0); // Derecha
+var rayDirectionLeft = new THREE.Vector3(-rayLength, 0, 0); // Izquierda
+var rayDirectionUp = new THREE.Vector3(0, rayLength, 0); // Arriba
+var rayDirectionDown = new THREE.Vector3(0, -rayLength, 0); // Abajo
+
+// Posición del personaje
+var characterPosition = scope.getObject().position.clone();
+
+// Configurar la posición y dirección de cada rayo
+raycasterRight.set(characterPosition, rayDirectionRight);
+raycasterLeft.set(characterPosition, rayDirectionLeft);
+raycasterUp.set(characterPosition, rayDirectionUp);
+raycasterDown.set(characterPosition, rayDirectionDown);
+
+// Detectar colisiones con objetos en la escena en cada dirección
+var intersectRight = raycasterRight.intersectObjects(world.children);
+var intersectLeft = raycasterLeft.intersectObjects(world.children);
+var intersectUp = raycasterUp.intersectObjects(world.children);
+var intersectDown = raycasterDown.intersectObjects(world.children);
+
+
+// Verificar colisiones en cada dirección
+if (intersectRight.length > 0) {
+  console.log("Colisión detectada hacia la derecha con objeto ID:", intersectRight[0].object.userData.text);
+} else {
+  // console.log("Sin colisión hacia la derecha.");
+}
+
+if (intersectLeft.length > 0) {
+  console.log("Colisión detectada hacia la izquierda con objeto ID:", intersectLeft[0].object.userData.text);
+} else {
+  // console.log("Sin colisión hacia la izquierda.");
+}
+
+if (intersectUp.length > 0) {
+  console.log("Colisión detectada hacia arriba con objeto ID:", intersectUp[0].object.userData.text);
+} else {
+  // console.log("Sin colisión hacia arriba.");
+}
+
+if (intersectDown.length > 0) {
+  //console.log("Colisión detectada hacia abajo con objeto ID:", intersectDown[0].object.userData.text);
+} else {
+  // console.log("Sin colisión hacia abajo.");
+}
+
       if ( scope.getObject().position.y < scope.height ) {
-  
         velocity.y = 0;
         scope.getObject().position.y = scope.height;
-  
         canJump = true;
       }
       prevTime = time;
+
     };
   };
-
-
 
   
   var instructions = document.querySelector("#instructions");
@@ -205,7 +258,7 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
     };
     var pointerlockerror = function ( event ) {
       instructions.style.display = 'none';
-    };
+  };
   
     document.addEventListener( 'pointerlockchange', pointerlockchange, false );
     document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
@@ -237,7 +290,11 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
   }
   
   var camera, scene, renderer, controls, raycaster, arrow, world;
-  
+   
+  // Collider helper  
+  var arrowHelper; // Variables globales para el ArrowHelper y el objeto intersectado
+  var intersectedObject = null; // Variable para guardar la referencia al ArrowHelper
+
   init();
   animate();
   
@@ -250,6 +307,8 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
     raycaster = new THREE.Raycaster(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()));
     arrow = new THREE.ArrowHelper(camera.getWorldDirection(new THREE.Vector3()), camera.getWorldPosition(new THREE.Vector3()), 3, 0x000000 );
   
+
+
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xffffff );
     scene.fog = new THREE.Fog( 0xffffff, 0, 2000 );
@@ -288,8 +347,8 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
     controls = new THREE.FirstPersonControls( camera );
     scene.add( controls.getObject() );
   
+
     // floor
-  
     var floorGeometry = new THREE.PlaneBufferGeometry( 2000, 2000, 100, 100 );
     var floorMaterial = new THREE.MeshLambertMaterial();
     floorMaterial.color.setHSL( 0.095, 1, 0.75 );
@@ -325,6 +384,7 @@ THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, spe
 
       world.add(mesh);
     }
+
     // añadiremos un mesh con imagen
      
    // Cargar la textura de la imagen
@@ -433,10 +493,6 @@ for (var i = 0; i < mazeHeight; i++) {
     }
 }
 
-
-
-
-
 // Agregar el Mundo/Nivel a la escena    
 
     scene.add( world );
@@ -451,6 +507,8 @@ for (var i = 0; i < mazeHeight; i++) {
     renderer.setSize( window.innerWidth, window.innerHeight );
   
   }
+  
+
   
   function animate() {
 
@@ -467,7 +525,7 @@ for (var i = 0; i < mazeHeight; i++) {
       scene.remove ( arrow );
       arrow = new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 5, 0x000000 );
       scene.add( arrow );
-  
+
       if (controls.click === true ) {
   
         var intersects = raycaster.intersectObjects(world.children);
@@ -476,40 +534,33 @@ for (var i = 0; i < mazeHeight; i++) {
           var intersect = intersects[ 0 ];
         
           makeParticles(intersect.point);
-          
-        // Accede a la propiedad userData para imprimir el texto asociado al objeto
-        var text = intersect.object.userData.text;
-
-        // la variable textura almacena el src de la imagen que contiene el objeto
-        var textura = intersect.object.material.map.image.src;
-        console.log(textura);
-
-        
-        // Actualiza el contenido del elemento HTML con el texto asociado al objeto
-        document.getElementById('textOverlay').innerText = text;
-
-        // Actualizar una img del objeto clickeado
-        document.getElementById('objectImage').src = textura;
 
 
-
-        //   FUNCIONES AGREGADAS
         // Guardar una referencia al objeto intersectado
         intersectedObject = intersect.object;
-        
+
         // Cambiar su color
         intersectedObject.material.color.setHex(0xff0000); // Cambia el color a rojo, por ejemplo
 
+        // Verificar si existen las propiedades del texto y la imagen
+        if (intersectedObject.userData && intersectedObject.userData.text) {
+            var text = intersectedObject.userData.text;
+
+            // Actualizar el contenido del elemento HTML con el texto asociado al objeto
+            document.getElementById('textOverlay').innerText = text;
+        }
+
+        if (intersectedObject.material.map && intersectedObject.material.map.image && intersectedObject.material.map.image.src) {
+            var textura = intersectedObject.material.map.image.src;
+
+            // Actualizar una img del objeto clickeado
+            document.getElementById('objectImage').src = textura;
         }
 
 
-// También necesitarás agregar un código para restaurar el color del objeto cuando ya no está intersectado.
-// Fuera de la condición donde se detecta la intersección
-if (intersectedObject !== null && intersectedObject !== undefined) {
-    intersectedObject.material.color.set(0xA020F0);
-    intersectedObject = null; // Restablecer la referencia al objeto intersectado
+  }
+
 }
-      }
   
       if (particles.length > 0) {
         var pLength = particles.length;
@@ -517,12 +568,36 @@ if (intersectedObject !== null && intersectedObject !== undefined) {
           particles[pLength].prototype.update(pLength);
         }
       }
-  
+
+    // scene.removev(arrowHelper);
+    // Crear ArrowHelper si no existe
+      if (!arrowHelper) {
+        arrowHelper = new THREE.ArrowHelper(horizontalDirection, characterPosition, arrowLength, arrowColor);
+        scene.add(arrowHelper);
+    }
+
+      // Calcula la posición central del personaje en el espacio 3D
+      var characterPosition = new THREE.Vector3();
+      controls.getObject().getWorldPosition(characterPosition);
+
+      // Calcula la dirección horizontal hacia donde quieres que apunte la arrow helper (por ejemplo, hacia la derecha)
+      var horizontalDirection = new THREE.Vector3(1, 0, 0);
+
+      // Crea una nueva arrow helper con la posición central del personaje como origen y la dirección horizontal como dirección
+      var arrowLength = 35; // Longitud de la arrow helper
+      var arrowColor = 0xB86DDE; // Color de la arrow helper (mpradillo en este ejemplo)
+      var arrowHelper = new THREE.ArrowHelper(horizontalDirection, characterPosition, arrowLength, arrowColor);
+
+      // Añade la arrow helper a la escena
+      scene.add(arrowHelper);
+
+
     }
   
+
+
     renderer.render( scene, camera );
-  
-  }
+}
 
   
   var particles = new Array();

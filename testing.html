@@ -4,45 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<!-- Para el forms -->
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </head>
 <body>
-    <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-success openBtn">Open Modal</button>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js"></script>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Registrate al concurso</h4>
-                <button type="button" class="close" data-dismiss="modal">X</button>
-
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        $('.openBtn').on('click',function(){
-            $('.modal-body').load('registro2.php',function(){
-                $('#myModal').modal({show:true});
-            });
-        });
-    </script>
-
+        <!-- Add SDKs for Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/10.3.0/firebase-database.js"></script>
+    
+        <script>
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAU-9MTU2bEV_C5M7IM6UQlxKz-dJR0Hhc",
+                authDomain: "iarte-contest.firebaseapp.com",
+                projectId: "iarte-contest",
+                storageBucket: "iarte-contest.appspot.com",
+                messagingSenderId: "1066454945407",
+                appId: "1:1066454945407:web:c35b3d384f180d1746b94a",
+                measurementId: "G-J0STY1W0MD"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+    
+            // Obtener una referencia a la base de datos
+            const db = firebase.database();
+            
+            // Obtener referencias a los elementos del formulario
+            const NameIn = document.getElementById("nombre");
+            const PhoneIn = document.getElementById("telefono");
+            const MailIn = document.getElementById("correo");
+            const AgeIn = document.getElementById("edad");
+    
+            function SubirDatos() {
+                // Referencia al nodo donde se guardarán los datos
+                const concursanteRef = db.ref('Concursantx/' + MailIn.value);
+    
+                // Guardar los datos en la base de datos
+                concursanteRef.set({
+                    Concursapt1: {
+                        firstname: NameIn.value,
+                        phone: PhoneIn.value
+                    },
+                    age: Number(AgeIn.value),
+                    mail: MailIn.value
+                }).then(() => {
+                    alert("Datos añadidos correctamente");
+                }).catch((error) => {
+                    alert("Error: " + error.message);
+                    console.error(error);
+                });
+            }
+    
+            function RetDatos() {
+                const concursanteRef = db.ref('Concursantx/' + MailIn.value);
+    
+                concursanteRef.once('value').then((snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        NameIn.value = data.Concursapt1.firstname;
+                        PhoneIn.value = data.Concursapt1.phone;
+                        AgeIn.value = data.age;
+                    } else {
+                        alert("No se encontraron datos para este correo electrónico.");
+                    }
+                }).catch((error) => {
+                    alert("Error: " + error.message);
+                    console.error(error);
+                });
+            }
+    
+            function UpdateDatos() {
+                const concursanteRef = db.ref('Concursantx/' + MailIn.value);
+    
+                concursanteRef.update({
+                    Concursapt1: {
+                        firstname: NameIn.value,
+                        phone: PhoneIn.value
+                    },
+                    age: Number(AgeIn.value),
+                    mail: MailIn.value
+                }).then(() => {
+                    alert("Datos actualizados correctamente");
+                }).catch((error) => {
+                    alert("Error: " + error.message);
+                    console.error(error);
+                });
+            }
+    
+            function BorrarDatos() {
+                const concursanteRef = db.ref('Concursantx/' + MailIn.value);
+    
+                concursanteRef.remove().then(() => {
+                    alert("Datos borrados correctamente");
+                }).catch((error) => {
+                    alert("Error: " + error.message);
+                    console.error(error);
+                });
+            }
+        </script>
+        
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br><br>
+        
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono"><br><br>
+        
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo"><br><br>
+        
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad"><br><br>
+        
+        <button type="button" onclick="SubirDatos()">Subir Datos</button>
+        <button type="button" onclick="RetDatos()">Retener Datos</button>
+        <button type="button" onclick="UpdateDatos()">Actualizar Datos</button>
+        <button type="button" onclick="BorrarDatos()">Borrar Datos</button>
+    </form>
 </body>
 </html>
