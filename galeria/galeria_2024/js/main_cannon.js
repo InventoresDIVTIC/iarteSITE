@@ -1,249 +1,5 @@
-THREE.FirstPersonControls = function ( camera, MouseMoveSensitivity = 0.002, speed = 800.0, jumpHeight = 350.0, height = 30.0) {
-
-    var scope = this;
-    
-    scope.MouseMoveSensitivity = MouseMoveSensitivity;
-    scope.speed = speed;
-    scope.height = height;
-    scope.jumpHeight = scope.height + jumpHeight;
-    scope.click = false;
-    
-    var moveForward = false;
-    var moveBackward = false;
-    var moveLeft = false;
-    var moveRight = false;
-    var canJump = false;
-    var run = false;
-    
-    var velocity = new THREE.Vector3();
-    var direction = new THREE.Vector3();
-  
-    var prevTime = performance.now();
-  
-    camera.rotation.set( 0, 0, 0 );
-  
-    var pitchObject = new THREE.Object3D();
-    pitchObject.add( camera );
-  
-    var yawObject = new THREE.Object3D();
-    yawObject.position.y = 10;
-    yawObject.add( pitchObject );
-  
-    var PI_2 = Math.PI / 2;
-  
-    var onMouseMove = function ( event ) {
-  
-      if ( scope.enabled === false ) return;
-  
-      var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-      var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-  
-      yawObject.rotation.y -= movementX * scope.MouseMoveSensitivity;
-      pitchObject.rotation.x -= movementY * scope.MouseMoveSensitivity;
-  
-      pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
-  
-    };
-  
-    var onKeyDown = (function ( event ) {
-      
-      if ( scope.enabled === false ) return;
-      
-      switch ( event.keyCode ) {
-        case 38: // up
-        case 87: // w
-          moveForward = true;
-          break;
-  
-        case 37: // left
-        case 65: // a
-          moveLeft = true;
-          break;
-  
-        case 40: // down
-        case 83: // s
-          moveBackward = true;
-          break;
-  
-        case 39: // right
-        case 68: // d
-          moveRight = true;
-          break;
-  
-        case 32: // space
-          if ( canJump === true ) velocity.y += run === false ? scope.jumpHeight : scope.jumpHeight + 50;
-          canJump = false;
-          break;
-  
-        case 16: // shift
-          run = true;
-          break;
-  
-      }
-  
-    }).bind(this);
-  
-    var onKeyUp = (function ( event ) {
-      
-      if ( scope.enabled === false ) return;
-      
-      switch ( event.keyCode ) {
-  
-        case 38: // up
-        case 87: // w
-          moveForward = false;
-          break;
-  
-        case 37: // left
-        case 65: // a
-          moveLeft = false;
-          break;
-  
-        case 40: // down
-        case 83: // s
-          moveBackward = false;
-          break;
-  
-        case 39: // right
-        case 68: // d
-          moveRight = false;
-          break;
-  
-        case 16: // shift
-          run = false;
-          break;
-  
-      }
-  
-    }).bind(this);
-    
-    var onMouseDownClick= (function ( event ) {
-      if ( scope.enabled === false ) return; 
-      scope.click = true;
-    }).bind(this);
-    
-    var onMouseUpClick= (function ( event ) {
-      if ( scope.enabled === false ) return; 
-      scope.click = false;
-    }).bind(this);
-  
-    scope.dispose = function() {
-      document.removeEventListener( 'mousemove', onMouseMove, false );
-      document.removeEventListener( 'keydown', onKeyDown, false );
-      document.removeEventListener( 'keyup', onKeyUp, false );
-      document.removeEventListener( 'mousedown', onMouseDownClick, false );
-      document.removeEventListener( 'mouseup', onMouseUpClick, false );
-    };
-  
-    document.addEventListener( 'mousemove', onMouseMove, false );
-    document.addEventListener( 'keydown', onKeyDown, false );
-    document.addEventListener( 'keyup', onKeyUp, false );
-    document.addEventListener( 'mousedown', onMouseDownClick, false );
-    document.addEventListener( 'mouseup', onMouseUpClick, false );
-  
-    scope.enabled = false;
-  
-    scope.getObject = function () {
-  
-      return yawObject;
-        
-    };
-  
-
-    // Update del mundo
-
-scope.update = function () {
-  
-      var time = performance.now();
-      var delta = ( time - prevTime ) / 1000;
-  
-      velocity.y -= 9.8 * 100.0 * delta;
-      velocity.x -= velocity.x * 10.0 * delta;
-      velocity.z -= velocity.z * 10.0 * delta;
-  
-      direction.z = Number( moveForward ) - Number( moveBackward );
-      direction.x = Number( moveRight ) - Number( moveLeft );
-      direction.normalize();
-  
-      var currentSpeed = scope.speed;
-      if (run && (moveForward || moveBackward || moveLeft || moveRight)) currentSpeed = currentSpeed + (currentSpeed * 1.1);
-  
-      if ( moveForward || moveBackward ) velocity.z -= direction.z * currentSpeed * delta;
-      if ( moveLeft || moveRight ) velocity.x -= direction.x * currentSpeed * delta;
-  
-      scope.getObject().translateX( -velocity.x * delta );
-      scope.getObject().translateZ( velocity.z * delta );
-      
-      scope.getObject().position.y += ( velocity.y * delta );
-  
-// Crear rayos para cada lado del personaje
-var raycasterRight = new THREE.Raycaster();
-var raycasterLeft = new THREE.Raycaster();
-var raycasterUp = new THREE.Raycaster();
-var raycasterDown = new THREE.Raycaster();
-
-// Tamaño de los rayos (longitud)
-var rayLength = 1; // Ajusta este valor según sea necesario
-
-// Direcciones de los rayos
-var rayDirectionRight = new THREE.Vector3(rayLength, 0, 0); // Derecha
-var rayDirectionLeft = new THREE.Vector3(-rayLength, 0, 0); // Izquierda
-var rayDirectionUp = new THREE.Vector3(0, rayLength, 0); // Arriba
-var rayDirectionDown = new THREE.Vector3(0, -rayLength, 0); // Abajo
-
-// Posición del personaje
-var characterPosition = scope.getObject().position.clone();
-
-// Configurar la posición y dirección de cada rayo
-raycasterRight.set(characterPosition, rayDirectionRight);
-raycasterLeft.set(characterPosition, rayDirectionLeft);
-raycasterUp.set(characterPosition, rayDirectionUp);
-raycasterDown.set(characterPosition, rayDirectionDown);
-
-// Detectar colisiones con objetos en la escena en cada dirección
-var intersectRight = raycasterRight.intersectObjects(world.children);
-var intersectLeft = raycasterLeft.intersectObjects(world.children);
-var intersectUp = raycasterUp.intersectObjects(world.children);
-var intersectDown = raycasterDown.intersectObjects(world.children);
-
-
-// Verificar colisiones en cada dirección
-if (intersectRight.length > 0) {
-  console.log("Colisión detectada hacia la derecha con objeto ID:", intersectRight[0].object.userData.text);
-} else {
-  // console.log("Sin colisión hacia la derecha.");
-}
-
-if (intersectLeft.length > 0) {
-  console.log("Colisión detectada hacia la izquierda con objeto ID:", intersectLeft[0].object.userData.text);
-} else {
-  // console.log("Sin colisión hacia la izquierda.");
-}
-
-if (intersectUp.length > 0) {
-  console.log("Colisión detectada hacia arriba con objeto ID:", intersectUp[0].object.userData.text);
-} else {
-  // console.log("Sin colisión hacia arriba.");
-}
-
-if (intersectDown.length > 0) {
-  //console.log("Colisión detectada hacia abajo con objeto ID:", intersectDown[0].object.userData.text);
-} else {
-  // console.log("Sin colisión hacia abajo.");
-}
-
-      if ( scope.getObject().position.y < scope.height ) {
-        velocity.y = 0;
-        scope.getObject().position.y = scope.height;
-        canJump = true;
-      }
-      prevTime = time;
-
-    };
-  };
-
-  
-  var instructions = document.querySelector("#instructions");
+// Creammos el UI de las instrucciones
+var instructions = document.querySelector("#instructions");
   var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
   if ( havePointerLock ) {
     var element = document.body;
@@ -258,7 +14,7 @@ if (intersectDown.length > 0) {
     };
     var pointerlockerror = function ( event ) {
       instructions.style.display = 'none';
-  };
+};
   
     document.addEventListener( 'pointerlockchange', pointerlockchange, false );
     document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
@@ -287,9 +43,346 @@ if (intersectDown.length > 0) {
     }, false );
   } else {
     instructions.innerHTML = 'Your browser not suported PointerLock';
-  }
+}
+// FIN UI instrucciones == FIN UI instrucciones == FIN UI instrucciones ==FIN UI instrucciones
+// FIN UI instrucciones == FIN UI instrucciones == FIN UI instrucciones ==FIN UI instrucciones
+// FIN UI instrucciones == FIN UI instrucciones == FIN UI instrucciones ==FIN UI instrucciones
+
+function onWindowResize() {
   
-  var camera, scene, renderer, controls, raycaster, arrow, world;
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+// Constructor para el control de la cámara en primera persona
+THREE.FirstPersonControls = function (camera, MouseMoveSensitivity = 0.002, speed = 800.0, jumpHeight = 350.0, height = 30.0) {
+
+  var scope = this;
+  // Parámetros de configuración
+  scope.MouseMoveSensitivity = MouseMoveSensitivity;
+  scope.speed = speed;
+  scope.height = height;
+  scope.jumpHeight = scope.height + jumpHeight;
+  scope.click = false;
+
+  // Estado de movimiento
+  var moveForward = false;
+  var moveBackward = false;
+  var moveLeft = false;
+  var moveRight = false;
+  var canJump = false;
+  var run = false;
+
+  // Vectores de velocidad y dirección
+  var velocity = new THREE.Vector3();
+  var direction = new THREE.Vector3();
+
+  // Tiempo previo para calcular delta
+  var prevTime = performance.now();
+
+  // Configuración inicial de la cámara
+  camera.rotation.set(0, 0, 0);
+
+  var pitchObject = new THREE.Object3D();
+  pitchObject.add(camera);
+
+  var yawObject = new THREE.Object3D();
+  yawObject.position.y = 10;
+  yawObject.add(pitchObject);
+
+  var PI_2 = Math.PI / 2;
+
+  // Manejador de eventos de movimiento del ratón
+  var onMouseMove = function (event) {
+      if (scope.enabled === false) return;
+
+      var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+      var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+      yawObject.rotation.y -= movementX * scope.MouseMoveSensitivity;
+      pitchObject.rotation.x -= movementY * scope.MouseMoveSensitivity;
+
+      pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, pitchObject.rotation.x));
+  };
+
+  // Manejadores de eventos del teclado
+  var onKeyDown = (function (event) {
+      if (scope.enabled === false) return;
+
+      switch (event.keyCode) {
+          case 38: // arriba
+          case 87: // w
+              moveForward = true;
+              break;
+
+          case 37: // izquierda
+          case 65: // a
+              moveLeft = true;
+              break;
+
+          case 40: // abajo
+          case 83: // s
+              moveBackward = true;
+              break;
+
+          case 39: // derecha
+          case 68: // d
+              moveRight = true;
+              break;
+
+          case 32: // espacio
+              if (canJump === true) velocity.y += run === false ? scope.jumpHeight : scope.jumpHeight + 50;
+              canJump = false;
+              break;
+
+          case 16: // shift
+              run = true;
+              break;
+      }
+  }).bind(this);
+
+  var onKeyUp = (function (event) {
+      if (scope.enabled === false) return;
+
+      switch (event.keyCode) {
+          case 38: // arriba
+          case 87: // w
+              moveForward = false;
+              break;
+
+          case 37: // izquierda
+          case 65: // a
+              moveLeft = false;
+              break;
+
+          case 40: // abajo
+          case 83: // s
+              moveBackward = false;
+              break;
+
+          case 39: // derecha
+          case 68: // d
+              moveRight = false;
+              break;
+
+          case 16: // shift
+              run = false;
+              break;
+      }
+  }).bind(this);
+
+  // Manejadores de eventos de clic del ratón
+  var onMouseDownClick = (function (event) {
+      if (scope.enabled === false) return;
+      scope.click = true;
+  }).bind(this);
+
+  var onMouseUpClick = (function (event) {
+      if (scope.enabled === false) return;
+      scope.click = false;
+  }).bind(this);
+
+  // Método para eliminar los event listeners
+  scope.dispose = function () {
+      document.removeEventListener('mousemove', onMouseMove, false);
+      document.removeEventListener('keydown', onKeyDown, false);
+      document.removeEventListener('keyup', onKeyUp, false);
+      document.removeEventListener('mousedown', onMouseDownClick, false);
+      document.removeEventListener('mouseup', onMouseUpClick, false);
+  };
+
+  // Añadir event listeners
+  document.addEventListener('mousemove', onMouseMove, false);
+  document.addEventListener('keydown', onKeyDown, false);
+  document.addEventListener('keyup', onKeyUp, false);
+  document.addEventListener('mousedown', onMouseDownClick, false);
+  document.addEventListener('mouseup', onMouseUpClick, false);
+
+  // Inicializar el estado del controlador
+  scope.enabled = false;
+
+  // Método para obtener el objeto de la cámara
+  scope.getObject = function () {
+      return yawObject;
+  };
+
+  // Función para actualizar el estado del mundo y detectar colisiones
+  scope.update = function () {
+      var time = performance.now();
+      var delta = (time - prevTime) / 1000;
+
+      // Actualizar la velocidad basada en la gravedad y la fricción
+      velocity.y -= 9.8 * 100.0 * delta;
+      velocity.x -= velocity.x * 10.0 * delta;
+      velocity.z -= velocity.z * 10.0 * delta;
+
+      // Calcular la dirección de movimiento
+      direction.z = Number(moveForward) - Number(moveBackward);
+      direction.x = Number(moveRight) - Number(moveLeft);
+      direction.normalize();
+
+      // Ajustar la velocidad en función de si se está corriendo
+      var currentSpeed = scope.speed;
+      if (run && (moveForward || moveBackward || moveLeft || moveRight)) currentSpeed = currentSpeed + (currentSpeed * 1.1);
+
+      // Aplicar la velocidad a la dirección de movimiento
+      if (moveForward || moveBackward) velocity.z -= direction.z * currentSpeed * delta;
+      if (moveLeft || moveRight) velocity.x -= direction.x * currentSpeed * delta;
+
+      // Mover la cámara
+      scope.getObject().translateX(-velocity.x * delta);
+      scope.getObject().translateZ(velocity.z * delta);
+      scope.getObject().position.y += velocity.y * delta;
+
+      // Configuración de los rayos y detección de colisiones
+      setupRaycasters();
+      checkCollisions();
+
+      // Restablecer la posición si está por debajo de cierta altura
+      if (scope.getObject().position.y < scope.height) {
+          velocity.y = 0;
+          scope.getObject().position.y = scope.height;
+          canJump = true;
+      }
+
+      // Actualizar el tiempo previo
+      prevTime = time;
+};
+
+
+
+// Función para configurar los rayos para detectar colisiones
+function setupRaycasters() {
+      var scale = 0.2;
+      var rayLength = 1 * scale;
+      var characterPosition = scope.getObject().position.clone();
+
+      var directions = {
+          right: new THREE.Vector3(rayLength, 0, 0),
+          left: new THREE.Vector3(-rayLength, 0, 0),
+          up: new THREE.Vector3(0, rayLength, 0),
+          down: new THREE.Vector3(0, -rayLength, 0),
+          front: new THREE.Vector3(0, 0, rayLength),
+          back: new THREE.Vector3(0, 0, -rayLength)
+      };
+
+      scope.raycaster = {
+          right: new THREE.Raycaster(characterPosition, directions.right),
+          left: new THREE.Raycaster(characterPosition, directions.left),
+          up: new THREE.Raycaster(characterPosition, directions.up),
+          down: new THREE.Raycaster(characterPosition, directions.down),
+          front: new THREE.Raycaster(characterPosition, directions.front),
+          back: new THREE.Raycaster(characterPosition, directions.back)
+      };
+  }
+  // Función para verificar colisiones en cada dirección
+  function checkCollisions() {
+      var colliders = world.children;
+      for (var direction in scope.raycaster) {
+          var intersects = scope.raycaster[direction].intersectObjects(colliders);
+          if (intersects.length > 0) {
+              if(direction != "down"){
+                console.log(`Colisión detectada ${direction} con objeto ID:`, intersects[0].object.userData.text);
+              }
+          } else {
+              // Si se desea, descomentar para mensajes de no colisión:
+              // console.log(`No hay colisión ${direction}.`);
+          }
+      }
+  }
+};
+
+var Controlers = function() {
+  this.MouseMoveSensitivity = 0.002;
+  this.speed = 800.0;
+  this.jumpHeight = 350.0;
+  this.height = 30.0;
+};
+
+
+function animate() {
+  var intersectedObject = null; // Variable para guardar el objeto intersectado
+
+  requestAnimationFrame( animate );
+
+  if ( controls.enabled === true ) {
+
+    controls.update();
+
+    raycaster.set(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()));
+    scene.remove ( arrow );
+    arrow = new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 5, 0x000000 );
+    scene.add( arrow );
+
+    if (controls.click === true || controls.touch === true) {
+
+      var intersects = raycaster.intersectObjects(world.children);
+
+      if ( intersects.length > 0 ) {
+        var intersect = intersects[ 0 ];
+      
+        makeParticles(intersect.point);
+
+
+      // Guardar una referencia al objeto intersectado
+      intersectedObject = intersect.object;
+
+      // Cambiar su color
+      intersectedObject.material.color.setHex(0xff0000); // Cambia el color a rojo, por ejemplo
+
+      // Verificar si existen las propiedades del texto y la imagen
+      if (intersectedObject.userData && intersectedObject.userData.text) {
+          var text = intersectedObject.userData.text;
+
+          // Actualizar el contenido del elemento HTML con el texto asociado al objeto
+          document.getElementById('textOverlay').innerText = text;
+      }
+
+      if (intersectedObject.material.map && intersectedObject.material.map.image && intersectedObject.material.map.image.src) {
+          var textura = intersectedObject.material.map.image.src;
+
+          // Actualizar una img del objeto clickeado
+          document.getElementById('objectImage').src = textura;
+      }
+}
+
+}
+
+    if (particles.length > 0) {
+      var pLength = particles.length;
+      while (pLength--) {
+        particles[pLength].prototype.update(pLength);
+      }
+    }
+
+  // scene.removev(arrowHelper);
+  }
+  renderer.render( scene, camera );
+}
+
+window.onload = function() {
+  var controler = new Controlers();
+  var gui = new dat.GUI();
+  gui.add(controler, 'MouseMoveSensitivity', 0, 1).step(0.001).name('Mouse Sensitivity').onChange(function(value) {
+    controls.MouseMoveSensitivity = value;
+  });
+  gui.add(controler, 'speed', 1, 8000).step(1).name('Speed').onChange(function(value) {
+    controls.speed = value;
+  });
+  gui.add(controler, 'jumpHeight', 0, 2000).step(1).name('Jump Height').onChange(function(value) {
+    controls.jumpHeight = value;
+  });
+  gui.add(controler, 'height', 1, 3000).step(1).name('Play Height').onChange(function(value) {
+    controls.height = value;
+    camera.updateProjectionMatrix();
+  });
+};
+
+
+var camera, scene, renderer, controls, raycaster, arrow, world;
    
   // Collider helper  
   var arrowHelper; // Variables globales para el ArrowHelper y el objeto intersectado
@@ -299,14 +392,14 @@ if (intersectDown.length > 0) {
   animate();
   
   function init() {
-  
+
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
     
     world = new THREE.Group();
     
+    // Generan Three.Vector3() - leer documentación
     raycaster = new THREE.Raycaster(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()));
     arrow = new THREE.ArrowHelper(camera.getWorldDirection(new THREE.Vector3()), camera.getWorldPosition(new THREE.Vector3()), 3, 0x000000 );
-  
 
 
     scene = new THREE.Scene();
@@ -359,12 +452,11 @@ if (intersectDown.length > 0) {
     world.add(floor);
   
 
-    // objects
-    var boxGeometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
-    boxGeometry.translate( 0, 0.5, 0 );
+// objects
+var boxGeometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
+boxGeometry.translate( 0, 0.5, 0 );
   
-    for ( var i = 0; i < 50; i ++ ) {
-  
+for ( var i = 0; i < 50; i ++ ) {  
       var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
   
       var mesh = new THREE.Mesh( boxGeometry, boxMaterial );
@@ -383,11 +475,12 @@ if (intersectDown.length > 0) {
     mesh.userData = { text: 'Texto para el objeto ' + i };
 
       world.add(mesh);
-    }
+}
 
-    // añadiremos un mesh con imagen
-     
-   // Cargar la textura de la imagen
+
+
+  // añadiremos un mesh con imagen    
+// Cargar la textura de la imagen
 // instantiate a loader
 const loader = new THREE.TextureLoader();
 
@@ -431,178 +524,98 @@ loader.load(
 		console.error( 'An error happened.' );
 	}
 );
+//un mesh con imagen  
+// FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
+// FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 
 
-// Agregamos una libreria para crear el mapa
-// Paso 1: Crear una matriz para representar el laberinto
-var maze = [];
-var mazeWidth = 20; // Ancho del laberinto
-var mazeHeight = 20; // Alto del laberinto
-
-// Paso 2: Inicializar el laberinto con paredes
-for (var i = 0; i < mazeHeight; i++) {
-    maze[i] = [];
-    for (var j = 0; j < mazeWidth; j++) {
-        maze[i][j] = 1; // 1 representa una pared
-    }
+// Hilbert START -- Hilbert START -- Hilbert START 
+// Agregamos una libreria para crear el laberinto
+function hilbertCurve(depth, size) {
+  var points = [];
+  var steps = Math.pow(2, depth);
+  for (var i = 0; i < steps * steps; i++) {
+      points.push(hilbertIndexToPoint(i, depth, size));
+  }
+  return points;
 }
 
-// Paso 3: Algoritmo de generación de laberintos (Backtracking)
-function generateMaze(x, y) {
-  maze[y][x] = 0; // 0 representa un pasillo
+function hilbertIndexToPoint(index, n, size) {
+  var points = [
+      [0, 0],
+      [0, 1],
+      [1, 1],
+      [1, 0]
+  ];
 
-  var directions = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // Norte, Este, Sur, Oeste
-  directions = shuffleArray(directions); // Mezcla las direcciones
+  var tmp = index & 3;
+  var x = points[tmp][0];
+  var y = points[tmp][1];
 
-  for (var i = 0; i < directions.length; i++) {
-      var newX = x + directions[i][0] * 2;
-      var newY = y + directions[i][1] * 2;
-      
-      if (newX > 0 && newY > 0 && newX < mazeWidth && newY < mazeHeight && maze[newY][newX] === 1) {
-          maze[newY][newX] = 0; // Establece la nueva posición como un pasillo
-          maze[y + directions[i][1]][x + directions[i][0]] = 0; // Elimina la pared entre el nuevo pasillo y el actual
-          generateMaze(newX, newY);
+  for (var i = 2; i <= n; i++) {
+      index = index >>> 2;
+      tmp = index & 3;
+      var len = Math.pow(2, i);
+      var mask = len - 1;
+
+      switch (tmp) {
+          case 0:
+              [x, y] = [y, x];
+              break;
+          case 1:
+              y += len / 2;
+              break;
+          case 2:
+              x += len / 2;
+              y += len / 2;
+              break;
+          case 3:
+              [x, y] = [len - 1 - y, len / 2 - 1 - x];
+              x += len / 2;
+              break;
       }
   }
+
+  return new THREE.Vector2(x * size, y * size);
 }
 
-// Función para mezclar aleatoriamente un array
-function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    return array;
-}
+var depth = 4; // Profundidad de la curva de Hilbert
+var size = 50; // Espacio entre puntos
+var hilbertPoints = hilbertCurve(depth, size);
 
-// Paso 4: Generar el laberinto desde una posición inicial
-generateMaze(1, 1);
+// Renderizar el camino
+var material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+var geometry = new THREE.Geometry();
+hilbertPoints.forEach(p => {
+    geometry.vertices.push(new THREE.Vector3(p.x, 0, p.y));
+});
+var line = new THREE.Line(geometry, material);
+scene.add(line);
 
-// Paso 5: Renderizar el laberinto en Three.js
-for (var i = 0; i < mazeHeight; i++) {
-    for (var j = 0; j < mazeWidth; j++) {
-        if (maze[i][j] === 1) {
-            var wallGeometry = new THREE.BoxGeometry(20, 200, 10); // Dimensiones de la pared
-            var wallMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 }); // Material de la pared
-            var wall = new THREE.Mesh(wallGeometry, wallMaterial); // Crea la pared
-            wall.position.set(j * 20 - mazeWidth * 10, 100, i * 20 - mazeHeight * 10); // Posición de la pared
-            world.add(wall); // Agrega la pared a la escena
-        }
-    }
+// Posicionar objetos a lo largo del camino
+var artworkSpacing = 5; // Colocar un objeto cada 5 puntos
+var artworkGeometry = new THREE.BoxGeometry(10, 10, 10);
+var artworkMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+for (var i = 0; i < hilbertPoints.length; i += artworkSpacing) {
+    var artwork = new THREE.Mesh(artworkGeometry, artworkMaterial);
+    artwork.position.set(hilbertPoints[i].x, 5, hilbertPoints[i].y);
+    scene.add(artwork);
 }
+// Hilbert FIN - Hilbert FIN - Hilbert FIN Hilbert FIN - Hilbert FIN - Hilbert FIN
+
+
 
 // Agregar el Mundo/Nivel a la escena    
-
     scene.add( world );
-  
-  }
-  
-  function onWindowResize() {
-  
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-  
-    renderer.setSize( window.innerWidth, window.innerHeight );
-  
-  }
-  
-
-  
-  function animate() {
-
-    var intersectedObject = null; // Variable para guardar el objeto intersectado
-
-    requestAnimationFrame( animate );
-  
-    if ( controls.enabled === true ) {
-  
-      controls.update();
-  
-
-      raycaster.set(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()));
-      scene.remove ( arrow );
-      arrow = new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 5, 0x000000 );
-      scene.add( arrow );
-
-      if (controls.click === true ) {
-  
-        var intersects = raycaster.intersectObjects(world.children);
-  
-        if ( intersects.length > 0 ) {
-          var intersect = intersects[ 0 ];
-        
-          makeParticles(intersect.point);
-
-
-        // Guardar una referencia al objeto intersectado
-        intersectedObject = intersect.object;
-
-        // Cambiar su color
-        intersectedObject.material.color.setHex(0xff0000); // Cambia el color a rojo, por ejemplo
-
-        // Verificar si existen las propiedades del texto y la imagen
-        if (intersectedObject.userData && intersectedObject.userData.text) {
-            var text = intersectedObject.userData.text;
-
-            // Actualizar el contenido del elemento HTML con el texto asociado al objeto
-            document.getElementById('textOverlay').innerText = text;
-        }
-
-        if (intersectedObject.material.map && intersectedObject.material.map.image && intersectedObject.material.map.image.src) {
-            var textura = intersectedObject.material.map.image.src;
-
-            // Actualizar una img del objeto clickeado
-            document.getElementById('objectImage').src = textura;
-        }
-
-
-  }
-
 }
-  
-      if (particles.length > 0) {
-        var pLength = particles.length;
-        while (pLength--) {
-          particles[pLength].prototype.update(pLength);
-        }
-      }
-
-    // scene.removev(arrowHelper);
-    // Crear ArrowHelper si no existe
-      if (!arrowHelper) {
-        arrowHelper = new THREE.ArrowHelper(horizontalDirection, characterPosition, arrowLength, arrowColor);
-        scene.add(arrowHelper);
-    }
-
-      // Calcula la posición central del personaje en el espacio 3D
-      var characterPosition = new THREE.Vector3();
-      controls.getObject().getWorldPosition(characterPosition);
-
-      // Calcula la dirección horizontal hacia donde quieres que apunte la arrow helper (por ejemplo, hacia la derecha)
-      var horizontalDirection = new THREE.Vector3(1, 0, 0);
-
-      // Crea una nueva arrow helper con la posición central del personaje como origen y la dirección horizontal como dirección
-      var arrowLength = 35; // Longitud de la arrow helper
-      var arrowColor = 0xB86DDE; // Color de la arrow helper (mpradillo en este ejemplo)
-      var arrowHelper = new THREE.ArrowHelper(horizontalDirection, characterPosition, arrowLength, arrowColor);
-
-      // Añade la arrow helper a la escena
-      scene.add(arrowHelper);
-
-
-    }
+// END Init() === END Init() === END Init() === END Init()
+// Fin de la función INIT - // Fin de la función INIT -// Fin de la función INIT
   
 
-
-    renderer.render( scene, camera );
-}
-
-  
-  var particles = new Array();
-  
-  function makeParticles(intersectPosition){
+// Particles funcitions
+var particles = new Array();
+function makeParticles(intersectPosition){
     var totalParticles = 80;
     
     var pointsGeometry = new THREE.Geometry();
@@ -701,29 +714,4 @@ for (var i = 0; i < mazeHeight; i++) {
     var z = radius * cosPhi;
   
     return [x, y, z];
-  }
-  
-  var Controlers = function() {
-    this.MouseMoveSensitivity = 0.002;
-    this.speed = 800.0;
-    this.jumpHeight = 350.0;
-    this.height = 30.0;
-  };
-  
-  window.onload = function() {
-    var controler = new Controlers();
-    var gui = new dat.GUI();
-    gui.add(controler, 'MouseMoveSensitivity', 0, 1).step(0.001).name('Mouse Sensitivity').onChange(function(value) {
-      controls.MouseMoveSensitivity = value;
-    });
-    gui.add(controler, 'speed', 1, 8000).step(1).name('Speed').onChange(function(value) {
-      controls.speed = value;
-    });
-    gui.add(controler, 'jumpHeight', 0, 2000).step(1).name('Jump Height').onChange(function(value) {
-      controls.jumpHeight = value;
-    });
-    gui.add(controler, 'height', 1, 3000).step(1).name('Play Height').onChange(function(value) {
-      controls.height = value;
-      camera.updateProjectionMatrix();
-    });
-  };
+}
