@@ -7,9 +7,13 @@
 </head>
 <body>
     <!-- multistep form -->
-    <?php include('conexion.php'); ?>
+<?php include('conexion.php'); ?>
 <form id="msform"  method="POST" action="procesa_registro.php" enctype="multipart/form-data">
-  <!-- progressbar -->
+
+<!-- Input para el número -->
+<input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;">
+  
+<!-- progressbar -->
   <ul id="progressbar">
     <li class="active">Información Personal</li>
     <li>Documentos Oficiales</li>
@@ -23,16 +27,14 @@
     <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" required>
     <input type="text" id="telefono" name="telefono" placeholder="*Telefono" required>
     <input type="email" id="correo" name="correo" placeholder="E-Mail" required>
-    <input type="number" id="edad" name="edad" style="width:38%; height:12%;" min="18" max="80" placeholder="Edad*" required>
-
+    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" required>
     <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" value="Next" />
-    <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a>
     
   </fieldset>
+
   <fieldset>
     <h2 class="fs-title">Documentos Necesarios</h2>
     <h3 class="fs-subtitle">(Comprueba tu identidad antes de concursar)</h3>
-    
     <!-- Input File test -->
 
     <!-- INE -->
@@ -75,13 +77,12 @@
 
 
 <script>
+//jQuery time
+var current_fs, next_fs, previous_fs; //fieldsets
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
     
-    //jQuery time
-    var current_fs, next_fs, previous_fs; //fieldsets
-    var left, opacity, scale; //fieldset properties which we will animate
-    var animating; //flag to prevent quick multi-click glitches
-    
-    $(".next").click(function(){
+$(".next").click(function(){
         if(animating) return false;
         animating = true;
         
@@ -89,7 +90,7 @@
         next_fs = $(this).parent().next();
         
         //activate next step on progressbar using the index of next_fs
-        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+      $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
         
         //show the next fieldset
         next_fs.show(); 
@@ -117,9 +118,10 @@
             //this comes from the custom easing plugin
             easing: 'easeInOutBack'
         });
-    });
+});
     
-    $(".previous").click(function(){
+
+$(".previous").click(function(){
         if(animating) return false;
         animating = true;
         
@@ -153,7 +155,6 @@
             easing: 'easeInOutBack'
         });
     });
-
 </script>
 
 
@@ -182,40 +183,11 @@ $fileInput.on('change', function() {
     $textContainer.text(fileName);
   } else {
     // otherwise show number of files
-    $textContainer.text(filesCount + ' files selected');
+    $textContainer.text('Invalid' +filesCount + ' files selected');
   }
 });
-
-
-
-// Input Animations
-
-$('.file-input').on('change', function() {
-  var filesCount = $(this)[0].files.length;
-  var $textContainer = $(this).prev('.file-msg');
-  var $droparea = $(this).closest('.file-drop-area');
-
-  if (filesCount > 0) {
-    // Si se selecciona al menos un archivo, añadir clase de archivo seleccionado
-    $droparea.addClass('file-selected').removeClass('file-not-selected');
-
-    if (filesCount === 1) {
-      // Si se selecciona un solo archivo, mostrar el nombre del archivo
-      var fileName = $(this).val().split('\\').pop();
-      $textContainer.text(fileName);
-    } else {
-      // Si se seleccionan varios archivos, mostrar el número de archivos seleccionados
-      $textContainer.text(filesCount + ' files selected');
-    }
-  } else {
-    // Si no se selecciona ningún archivo, añadir clase de archivo no seleccionado
-    $droparea.addClass('file-not-selected').removeClass('file-selected');
-    $textContainer.text('[No file selected]');
-  }
-});
-
-
 </script>
+
 
 </body>
 </html>
@@ -227,6 +199,12 @@ $('.file-input').on('change', function() {
 /*basic reset*/
 * {margin: 0; padding: 0;}
 
+.modal-header{
+  height: 6%;
+  text-align: center;
+  color: black;
+}
+
 .modal-body {
   height: 85%;
 	font-family: montserrat, arial, verdana;
@@ -234,39 +212,33 @@ $('.file-input').on('change', function() {
 
 .modal-content{
 	display: inherit;
-	height: 85%;
-    background: 
-    	/*background = gradient + image pattern combo*/
-		linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
-  
-  
+	height: auto;
+  background: linear-gradient(rgba(0, 128, 0, 0.2) , rgba(255, 0, 0, 0.2)); /* Gradiente rojo-verde */
 }
 
 /*form styles*/
 #msform {
 	width: auto;
-	margin: 50px auto;
+	/* margin: 50px auto; */
 	text-align: center;
 	position: relative;
 }
 
 #msform fieldset {
-	background: white;
+  background: linear-gradient(to left, rgba(255, 0, 0, 0.2), rgba(0, 128, 0, 0.2)); /* Configuración inicial del gradiente */
 	border: 0 none;
 	border-radius: 3px;
 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
 	padding: 20px 30px;
 	box-sizing: border-box;
 	width: 80%;
-	margin: 0 7%;
+  height: auto;
+  
+	margin: 0 10%;
 	
 	/*stacking fieldsets above each other*/
 	position: relative;
 }
-
-
-
-
 
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
@@ -275,9 +247,7 @@ $('.file-input').on('change', function() {
 
 
 /* ---------------------------------------------------------------- */
-/* ---------------------------------------------------------------- */
-/* ---------------------------------------------------------------- */
-/* INPUT FILE */
+/* INPUT FILE DROPS */
 /* Estilos para el input file */
 
 #msform .file-drop-area {
@@ -290,8 +260,8 @@ $('.file-input').on('change', function() {
   padding: 20px;
   border-radius: 3px;
   transition: 0.2s;
-
-  border: 4px solid rgba(249, 32, 61, 0.8);
+  border: 5px solid rgba(250, 255, 0, 0.8);
+  color: black;
 }
 
 #msform .file-drop-area.is-active {
@@ -305,7 +275,6 @@ $('.file-input').on('change', function() {
   margin-bottom: 10px; /* Espacio entre fake-btn y file-msg */
   font-size: 12px;
   text-transform: uppercase;
-  
 }
 
 #msform .file-drop-area .file-msg {
@@ -326,7 +295,6 @@ $('.file-input').on('change', function() {
   cursor: pointer;
   opacity: 0;
 }
-
 
 /* States of file */
 #msform .file-drop-area .file-input:focus {
@@ -349,14 +317,7 @@ $('.file-input').on('change', function() {
   color: red;
 }
 
-
-
-
-
-
-
-
-/*inputs*/
+/*Otros inputs con sus respectivos styles*/
 #msform input, #msform textarea {
 	padding: 15px;
 	border: 3px solid #ccc;
@@ -365,15 +326,16 @@ $('.file-input').on('change', function() {
 	width: 100%;
 	box-sizing: border-box;
 	font-family: times;
-	color: #2C3E50;
+	color: black;
 	font-size: 13px;
 }
+
 /*buttons*/
 #msform .action-button {
 	width: 100px;
 	background: #27AE60;
 	font-weight: bold;
-	color: white;
+	color: black;
 	border: 0 none;
 	border-radius: 1px;
 	cursor: pointer;
@@ -385,20 +347,24 @@ $('.file-input').on('change', function() {
 #msform .action-button:hover, #msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
 }
-/*headings*/
+
+/*titulos y subtitulos imgs*/
 .fs-title {
 	font-size: 15px;
 	text-transform: uppercase;
-	color: #2C3E50;
+	color: black;
 	margin-bottom: 10px;
 }
 .fs-subtitle {
 	font-weight: normal;
 	font-size: 13px;
-	color: #666;
+	color: black;
 	margin-bottom: 20px;
 }
-
+/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
+/*END Input File--------------------------------------------------- */
+/* ---------------------------------------------------------------- */
 
 /*progressbar*/
 #progressbar {
@@ -410,7 +376,6 @@ $('.file-input').on('change', function() {
 #progressbar li {
 	list-style-type: none;
 	color: white;
-	text-transform: uppercase;
 	font-size: 15px;
 	width: 33.33%;
 	float: left;
@@ -420,9 +385,9 @@ $('.file-input').on('change', function() {
 	content: counter(step);
 	counter-increment: step;
 	width: 20px;
-	line-height: 20px;
+	line-height: 25px;
 	display: block;
-	font-size: 10px;
+	font-size: 12px;
 	color: #333;
 	background: #ff1a1a;
 	border-radius: 3px;
@@ -449,7 +414,6 @@ $('.file-input').on('change', function() {
 	background: #00b300;
 	color: white;
 }
-
 .modal-footer{
     height:fit-content;
 }

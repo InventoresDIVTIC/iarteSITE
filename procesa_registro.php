@@ -104,7 +104,6 @@
 
     $query = "INSERT INTO registro(nombre, telefono, correo, edad, estado, municipio, colonia, ocupacion, nacionalidad, identificacion,comprobante, imagen1, cadena1, descripcion1, imagen2, cadena2, descripcion2, imagen3, cadena3, descripcion3, imagen4, cadena4, descripcion4, manifiesto) VALUES('$nombre','$telefono','$correo',$edad,'$estado','$municipio','$colonia','$ocupacion','$nacionalidad','$rutaIde','$rutaCom','$rutaI1','$cadena1','$descripcion1','$rutaI2','$cadena2','$descripcion2','$rutaI3','$cadena3','$descripcion3','$rutaI4','$cadena4','$descripcion4','$rutaMan')";
 
-
     if(ejecutar($conexion,$query)):?>
         <script>
             $('#exampleModal').modal('show');
@@ -121,7 +120,6 @@
     desconectar($conexion);
 
 ?>
-
 
 <script>
 $(document).ready(function() {
