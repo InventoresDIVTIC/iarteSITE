@@ -8,10 +8,10 @@
 <body>
     <!-- multistep form -->
 <?php include('conexion.php'); ?>
-<form id="msform"  method="POST" action="procesa_registro.php" enctype="multipart/form-data">
+<form id="msform" method="POST" action="procesa_registro.php" enctype="multipart/form-data">
 
 <!-- Input para el número -->
-<input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;">
+<input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" oninput="adjustGradient(this.value)">
   
 <!-- progressbar -->
   <ul id="progressbar">
@@ -26,7 +26,7 @@
 
     <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" required>
     <input type="text" id="telefono" name="telefono" placeholder="*Telefono" required>
-    <input type="email" id="correo" name="correo" placeholder="E-Mail" required>
+    <input type="email" id="correo" name="correo" placeholder="E-Mail" onblur="validateInput()" required>
     <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" required>
     <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" value="Next" />
     
@@ -189,6 +189,68 @@ $fileInput.on('change', function() {
 </script>
 
 
+<script>
+function adjustGradient(value) {
+    console.log("Valor del input: " + value);
+    const fieldsets = document.querySelectorAll('#msform fieldset');
+    const min = 10; // El mínimo valor del input
+    const max = 100; // El máximo valor del input
+    const scale = (value - min) / (max - min); // Escala el valor entre 0 y 1
+    console.log("scale: " + scale);
+
+    // Aplica el cambio a todos los fieldsets en el formulario
+    fieldsets.forEach(function(fieldset) {
+        // Se configura un gradiente que varía en color de rojo a verde y en opacidad de más opaco a más transparente
+        fieldset.style.background = `linear-gradient(rgba(255, 0, 0, ${1 - scale}), rgba(0, 128, 0, ${scale}))`;
+    });
+}
+</script>
+
+
+<!-- Validaciones -->
+<script>
+function validateInput(input) {
+    let isValid = true;
+    let errorMessage = "";
+
+    if (input.value.trim() === "") {
+        isValid = false;
+        errorMessage = "Este campo es obligatorio.";
+    } else if (input.type === "email") {
+        // Expresión regular básica para un formato de correo electrónico
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(input.value)) {
+            isValid = false;
+            errorMessage = "Por favor, ingresa un correo electrónico válido.";
+        }
+    }
+
+    // Manejo del mensaje de error
+    const errorElement = document.getElementById(input.id + "-error");
+    if (errorElement) {
+        errorElement.textContent = errorMessage;
+    }
+
+    return isValid;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Agregar eventos blur a todos los campos requeridos
+    const inputs = document.querySelectorAll("#msform input[required]");
+    inputs.forEach(input => {
+        const span = document.createElement("span");
+        span.id = input.id + "-error";
+        span.style.color = "red";
+        input.parentNode.insertBefore(span, input.nextSibling);
+
+        input.addEventListener("blur", function() {
+            validateInput(input);
+        });
+    });
+});
+</script>
+
+
 </body>
 </html>
 
@@ -213,7 +275,7 @@ $fileInput.on('change', function() {
 .modal-content{
 	display: inherit;
 	height: auto;
-  background: linear-gradient(rgba(0, 128, 0, 0.2) , rgba(255, 0, 0, 0.2)); /* Gradiente rojo-verde */
+  background: linear-gradient(rgba(153, 153, 102, 0.8), rgba(102, 153, 153, 0.8)); /* Gradiente rojo-verde menos transparente */
 }
 
 /*form styles*/
@@ -225,7 +287,7 @@ $fileInput.on('change', function() {
 }
 
 #msform fieldset {
-  background: linear-gradient(to left, rgba(255, 0, 0, 0.2), rgba(0, 128, 0, 0.2)); /* Configuración inicial del gradiente */
+  background: linear-gradient(rgba(255, 0, 0, 0.5), rgba(0, 128, 0, 0.5)); Configuración inicial del gradiente
 	border: 0 none;
 	border-radius: 3px;
 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
