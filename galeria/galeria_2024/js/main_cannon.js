@@ -76,6 +76,12 @@ THREE.FirstPersonControls = function (camera, MouseMoveSensitivity = 0.002, spee
   var canJump = false;
   var run = false;
 
+  // Estado de bloqueos
+  var blockForward = false;
+  var blockBackward = false;
+  var blockLeft = false;
+  var blockRight = false;
+
   // Vectores de velocidad y dirección
   var velocity = new THREE.Vector3();
   var direction = new THREE.Vector3();
@@ -109,70 +115,60 @@ THREE.FirstPersonControls = function (camera, MouseMoveSensitivity = 0.002, spee
   };
 
   // Manejadores de eventos del teclado
-  var onKeyDown = (function (event) {
-      if (scope.enabled === false) return;
+  var onKeyDown = function (event) {
+    if (scope.enabled === false) return;
 
-      switch (event.keyCode) {
-          case 38: // arriba
-          case 87: // w
-              moveForward = true;
-              break;
+    switch (event.keyCode) {
+        case 38: // arriba
+        case 87: // w
+            if (!blockForward) moveForward = true;
+            break;
+        case 40: // abajo
+        case 83: // s
+            if (!blockBackward) moveBackward = true;
+            break;
+        case 37: // izquierda
+        case 65: // a
+            if (!blockLeft) moveLeft = true;
+            break;
+        case 39: // derecha
+        case 68: // d
+            if (!blockRight) moveRight = true;
+            break;
+        case 32: // espacio
+            if (canJump) {
+                velocity.y += scope.jumpHeight;
+                canJump = false;
+            }
+            break;
+        // case 16: // shift
+        //     run = true;
+        //     break;
+    }
+};
 
-          case 37: // izquierda
-          case 65: // a
-              moveLeft = true;
-              break;
+var onKeyUp = function (event) {
+    switch (event.keyCode) {
+        case 38: // arriba
+        case 87: // w
+        case 40: // abajo
+        case 83: // s
+        case 37: // izquierda
+        case 65: // a
+        case 39: // derecha
+        case 68: // d
+            // Detiene el movimiento en esa dirección específica
+            if (event.keyCode === 38 || event.keyCode === 87) moveForward = false;
+            if (event.keyCode === 40 || event.keyCode === 83) moveBackward = false;
+            if (event.keyCode === 37 || event.keyCode === 65) moveLeft = false;
+            if (event.keyCode === 39 || event.keyCode === 68) moveRight = false;
+            break;
+        // case 16: // shift
+        //     run = false;
+        //     break;
+    }
+};
 
-          case 40: // abajo
-          case 83: // s
-              moveBackward = true;
-              break;
-
-          case 39: // derecha
-          case 68: // d
-              moveRight = true;
-              break;
-
-          case 32: // espacio
-              if (canJump === true) velocity.y += run === false ? scope.jumpHeight : scope.jumpHeight + 50;
-              canJump = false;
-              break;
-
-          case 16: // shift
-              run = true;
-              break;
-      }
-  }).bind(this);
-
-  var onKeyUp = (function (event) {
-      if (scope.enabled === false) return;
-
-      switch (event.keyCode) {
-          case 38: // arriba
-          case 87: // w
-              moveForward = false;
-              break;
-
-          case 37: // izquierda
-          case 65: // a
-              moveLeft = false;
-              break;
-
-          case 40: // abajo
-          case 83: // s
-              moveBackward = false;
-              break;
-
-          case 39: // derecha
-          case 68: // d
-              moveRight = false;
-              break;
-
-          case 16: // shift
-              run = false;
-              break;
-      }
-  }).bind(this);
 
   // Manejadores de eventos de clic del ratón
   var onMouseDownClick = (function (event) {
@@ -211,88 +207,122 @@ THREE.FirstPersonControls = function (camera, MouseMoveSensitivity = 0.002, spee
 
   // Función para actualizar el estado del mundo y detectar colisiones
   scope.update = function () {
-      var time = performance.now();
-      var delta = (time - prevTime) / 1000;
+    var time = performance.now();
+    var delta = (time - prevTime) / 1000;
 
-      // Actualizar la velocidad basada en la gravedad y la fricción
-      velocity.y -= 9.8 * 100.0 * delta;
-      velocity.x -= velocity.x * 10.0 * delta;
-      velocity.z -= velocity.z * 10.0 * delta;
+    // Actualizar la velocidad basada en la gravedad y la fricción
+    velocity.y -= 9.8 * 100.0 * delta;
+    velocity.x -= velocity.x * 10.0 * delta;
+    velocity.z -= velocity.z * 10.0 * delta;
 
-      // Calcular la dirección de movimiento
-      direction.z = Number(moveForward) - Number(moveBackward);
-      direction.x = Number(moveRight) - Number(moveLeft);
-      direction.normalize();
+    // Calcular la dirección de movimiento
+    direction.z = Number(moveForward) - Number(moveBackward);
+    direction.x = Number(moveRight) - Number(moveLeft);
+    direction.normalize();
 
-      // Ajustar la velocidad en función de si se está corriendo
-      var currentSpeed = scope.speed;
-      if (run && (moveForward || moveBackward || moveLeft || moveRight)) currentSpeed = currentSpeed + (currentSpeed * 1.1);
+    // Ajustar la velocidad en función de si se está corriendo
+    var currentSpeed = scope.speed;
+    if (run && (moveForward || moveBackward || moveLeft || moveRight)) currentSpeed = currentSpeed + (currentSpeed * 1.1);
 
-      // Aplicar la velocidad a la dirección de movimiento
-      if (moveForward || moveBackward) velocity.z -= direction.z * currentSpeed * delta;
-      if (moveLeft || moveRight) velocity.x -= direction.x * currentSpeed * delta;
+    // Aplicar la velocidad a la dirección de movimiento
+    // if (moveForward || moveBackward) velocity.z -= direction.z * currentSpeed * delta;
+    // if (moveLeft || moveRight) velocity.x -= direction.x * currentSpeed * delta;
 
-      // Mover la cámara
-      scope.getObject().translateX(-velocity.x * delta);
-      scope.getObject().translateZ(velocity.z * delta);
-      scope.getObject().position.y += velocity.y * delta;
+    if (moveForward && !blockForward) {
+      velocity.z -= direction.z * currentSpeed * delta;
+    }
+    if (moveBackward && !blockBackward) {
+        velocity.z += -direction.z * currentSpeed * delta;
+    }
+    if (moveLeft && !blockLeft) {
+        velocity.x -= direction.x * currentSpeed * delta;
+    }
+    if (moveRight && !blockRight) {
+        velocity.x += -direction.x * currentSpeed * delta;
+    }
 
-      // Configuración de los rayos y detección de colisiones
-      setupRaycasters();
-      checkCollisions();
+    // Mover la cámara
+    scope.getObject().translateX(-velocity.x * delta);
+    scope.getObject().translateZ(velocity.z * delta);
+    scope.getObject().position.y += velocity.y * delta;
 
-      // Restablecer la posición si está por debajo de cierta altura
-      if (scope.getObject().position.y < scope.height) {
-          velocity.y = 0;
-          scope.getObject().position.y = scope.height;
-          canJump = true;
-      }
+    // Configuración de los rayos y detección de colisiones
+    setupRaycasters();
+    checkCollisions();
 
-      // Actualizar el tiempo previo
-      prevTime = time;
+    // Restablecer la posición si está por debajo de cierta altura
+    if (scope.getObject().position.y < scope.height) {
+        velocity.y = 0;
+        scope.getObject().position.y = scope.height;
+        canJump = true;
+    }
+
+    // Actualizar el tiempo previo
+    prevTime = time;
 };
-
-
 
 // Función para configurar los rayos para detectar colisiones
 function setupRaycasters() {
-      var scale = 0.2;
-      var rayLength = 1 * scale;
-      var characterPosition = scope.getObject().position.clone();
+  var rayLength = 10; // Longitud del rayo que determina qué tan lejos puede "ver" para detectar colisiones
+  var characterPosition = scope.getObject().position.clone();
 
-      var directions = {
-          right: new THREE.Vector3(rayLength, 0, 0),
-          left: new THREE.Vector3(-rayLength, 0, 0),
-          up: new THREE.Vector3(0, rayLength, 0),
-          down: new THREE.Vector3(0, -rayLength, 0),
-          front: new THREE.Vector3(0, 0, rayLength),
-          back: new THREE.Vector3(0, 0, -rayLength)
-      };
+  // Aplica la rotación actual de la cámara a los vectores de dirección
+  var rotationMatrix = new THREE.Matrix4();
+  rotationMatrix.extractRotation(scope.getObject().matrix);
 
-      scope.raycaster = {
-          right: new THREE.Raycaster(characterPosition, directions.right),
-          left: new THREE.Raycaster(characterPosition, directions.left),
-          up: new THREE.Raycaster(characterPosition, directions.up),
-          down: new THREE.Raycaster(characterPosition, directions.down),
-          front: new THREE.Raycaster(characterPosition, directions.front),
-          back: new THREE.Raycaster(characterPosition, directions.back)
-      };
-  }
+  var forward = new THREE.Vector3(0, 0, -1).applyMatrix4(rotationMatrix);
+  var backward = new THREE.Vector3(0, 0, 1).applyMatrix4(rotationMatrix);
+  var left = new THREE.Vector3(-1, 0, 0).applyMatrix4(rotationMatrix);
+  var right = new THREE.Vector3(1, 0, 0).applyMatrix4(rotationMatrix);
+
+  scope.raycaster = {
+      front: new THREE.Raycaster(characterPosition, forward, 0, rayLength),
+      back: new THREE.Raycaster(characterPosition, backward, 0, rayLength),
+      left: new THREE.Raycaster(characterPosition, left, 0, rayLength),
+      right: new THREE.Raycaster(characterPosition, right, 0, rayLength)
+  };
+}
+
   // Función para verificar colisiones en cada dirección
   function checkCollisions() {
-      var colliders = world.children;
-      for (var direction in scope.raycaster) {
-          var intersects = scope.raycaster[direction].intersectObjects(colliders);
-          if (intersects.length > 0) {
-              if(direction != "down"){
-                console.log(`Colisión detectada ${direction} con objeto ID:`, intersects[0].object.userData.text);
-              }
-          } else {
-              // Si se desea, descomentar para mensajes de no colisión:
-              // console.log(`No hay colisión ${direction}.`);
-          }
-      }
-  }
+    var colliders = world.children;
+    for (var direction in scope.raycaster) {
+        var intersects = scope.raycaster[direction].intersectObjects(colliders, true);
+        if (intersects.length > 0 && intersects[0].distance < 10) { // ajusta el 10 al umbral deseado
+            switch (direction) {
+                case 'front':
+                    blockForward = true;
+                    break;
+                case 'back':
+                    blockBackward = true;
+                    break;
+                case 'left':
+                    blockLeft = true;
+                    break;
+                case 'right':
+                    blockRight = true;
+                    break;
+            }
+        } else {
+            // Desbloquear dirección si no hay colisiones cercanas
+            switch (direction) {
+                case 'front':
+                    blockForward = false;
+                    break;
+                case 'back':
+                    blockBackward = false;
+                    break;
+                case 'left':
+                    blockLeft = false;
+                    break;
+                case 'right':
+                    blockRight = false;
+                    break;
+            }
+        }
+    }
+}
+
 };
 
 var Controlers = function() {
@@ -317,7 +347,7 @@ function animate() {
     arrow = new THREE.ArrowHelper(raycaster.ray.direction, raycaster.ray.origin, 5, 0x000000 );
     scene.add( arrow );
 
-    if (controls.click === true || controls.touch === true) {
+if (controls.click === true || controls.touch === true) {
 
       var intersects = raycaster.intersectObjects(world.children);
 
@@ -347,8 +377,7 @@ function animate() {
           // Actualizar una img del objeto clickeado
           document.getElementById('objectImage').src = textura;
       }
-}
-
+    }
 }
 
     if (particles.length > 0) {
@@ -401,7 +430,6 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
     raycaster = new THREE.Raycaster(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()));
     arrow = new THREE.ArrowHelper(camera.getWorldDirection(new THREE.Vector3()), camera.getWorldPosition(new THREE.Vector3()), 3, 0x000000 );
 
-
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xffffff );
     scene.fog = new THREE.Fog( 0xffffff, 0, 2000 );
@@ -453,33 +481,10 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
   
 
 // objects
-var boxGeometry = new THREE.BoxBufferGeometry( 1, 1, 1 );
-boxGeometry.translate( 0, 0.5, 0 );
-  
-for ( var i = 0; i < 50; i ++ ) {  
-      var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
-  
-      var mesh = new THREE.Mesh( boxGeometry, boxMaterial );
-      mesh.position.x = Math.random() * 1600 - 800;
-      mesh.position.y = 0;
-      mesh.position.z = Math.random() * 1600 - 800;
-      mesh.scale.x = 20;
-      mesh.scale.y = Math.random() * 80 + 10;
-      mesh.scale.z = 20;
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      mesh.updateMatrix();
-      mesh.matrixAutoUpdate = false;
+var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
+boxGeometry.translate( 0, 0.75, 0 );
 
-    // Agregar una propiedad userData con el texto deseado para cada objeto
-    mesh.userData = { text: 'Texto para el objeto ' + i };
-
-      world.add(mesh);
-}
-
-
-
-  // añadiremos un mesh con imagen    
+// añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
 const loader = new THREE.TextureLoader();
@@ -491,28 +496,49 @@ loader.load(
 
 	// onLoad callback
 	function ( texture ) {
-    for ( var j = 0; j < 50; j ++ ) {
+    for ( var i = 0; i < 50; i ++ ) {  
+      var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
   
-    // in this example we create the material when the texture is loaded
+      var mesh = new THREE.Mesh( boxGeometry, boxMaterial );
+      mesh.position.x = Math.random() * 1600 - 800;
+      mesh.position.y = 0;
+      mesh.position.z = Math.random() * 1600 - 800;
+      mesh.scale.x = 20;
+      mesh.scale.y = Math.random() * 80 + 20;
+      mesh.scale.z = 20;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.updateMatrix();
+      mesh.matrixAutoUpdate = false;
+
+    // Agregar una propiedad userData con el texto deseado para cada objeto
+    mesh.userData = { text: 'Texto para el objeto ' + i };
+
+    if(mesh.scale.y > 50){
+          // in this example we create the material when the texture is loaded
 		const material = new THREE.MeshBasicMaterial( {
 			map: texture
 		 } );
 
-          // Crear un cubo con el material aplicado
+      // Crear un cubo con el material aplicado
       var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5); // Tamaño del cubo
       var cube = new THREE.Mesh(cubeGeometry, material);
           
+      var temp_x = mesh.position.x;
+      var temp_y = mesh.position.y;
+      var temp_z = mesh.position.z;
       
-      var temp = mesh.position.z = Math.random()* j * 1600 - 800;
       // Posiciona el cubo en alguna parte de la escena
-      cube.position.set(Math.random() * 1600 - 800, 10, temp); // Cambia las coordenadas según lo necesites
+      cube.position.set(temp_x , temp_y + 35 ,temp_z + 5); // Cambia las coordenadas según lo necesites
           
-          // Agregar una propiedad userData con el texto deseado para cada objeto
-          cube.userData = { text: 'ID:' + j + ' ---> Después, en otro momento, morirán la calle donde estaba pintado el rótulo y el idioma en que fueron escritos los versos. Después morirá el planeta gigante donde pasó todo esto. En otros planetas de otros sistemas algo parecido a la gente continuará haciendo cosas parecidas a versos, parecidas a vivir bajo un rótulo de tienda ' };
+      // Agregar una propiedad userData con el texto deseado para cada objeto
+      cube.userData = { text: 'ID:' + i + ' ---> Después, en otro momento, morirán la calle donde estaba pintado el rótulo y el idioma en que fueron escritos los versos. Después morirá el planeta gigante donde pasó todo esto. En otros planetas de otros sistemas algo parecido a la gente continuará haciendo cosas parecidas a versos, parecidas a vivir bajo un rótulo de tienda ' };
           
       // Agregar el cubo a la escena
       world.add(cube);
-    
+    }
+    world.add(mesh);
+
     }
 	},
 
@@ -526,85 +552,8 @@ loader.load(
 );
 //un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
-// FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
-
-
-// Hilbert START -- Hilbert START -- Hilbert START 
-// Agregamos una libreria para crear el laberinto
-function hilbertCurve(depth, size) {
-  var points = [];
-  var steps = Math.pow(2, depth);
-  for (var i = 0; i < steps * steps; i++) {
-      points.push(hilbertIndexToPoint(i, depth, size));
-  }
-  return points;
-}
-
-function hilbertIndexToPoint(index, n, size) {
-  var points = [
-      [0, 0],
-      [0, 1],
-      [1, 1],
-      [1, 0]
-  ];
-
-  var tmp = index & 3;
-  var x = points[tmp][0];
-  var y = points[tmp][1];
-
-  for (var i = 2; i <= n; i++) {
-      index = index >>> 2;
-      tmp = index & 3;
-      var len = Math.pow(2, i);
-      var mask = len - 1;
-
-      switch (tmp) {
-          case 0:
-              [x, y] = [y, x];
-              break;
-          case 1:
-              y += len / 2;
-              break;
-          case 2:
-              x += len / 2;
-              y += len / 2;
-              break;
-          case 3:
-              [x, y] = [len - 1 - y, len / 2 - 1 - x];
-              x += len / 2;
-              break;
-      }
-  }
-
-  return new THREE.Vector2(x * size, y * size);
-}
-
-var depth = 4; // Profundidad de la curva de Hilbert
-var size = 50; // Espacio entre puntos
-var hilbertPoints = hilbertCurve(depth, size);
-
-// Renderizar el camino
-var material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-var geometry = new THREE.Geometry();
-hilbertPoints.forEach(p => {
-    geometry.vertices.push(new THREE.Vector3(p.x, 0, p.y));
-});
-var line = new THREE.Line(geometry, material);
-scene.add(line);
-
-// Posicionar objetos a lo largo del camino
-var artworkSpacing = 5; // Colocar un objeto cada 5 puntos
-var artworkGeometry = new THREE.BoxGeometry(10, 10, 10);
-var artworkMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-
-for (var i = 0; i < hilbertPoints.length; i += artworkSpacing) {
-    var artwork = new THREE.Mesh(artworkGeometry, artworkMaterial);
-    artwork.position.set(hilbertPoints[i].x, 5, hilbertPoints[i].y);
-    scene.add(artwork);
-}
-// Hilbert FIN - Hilbert FIN - Hilbert FIN Hilbert FIN - Hilbert FIN - Hilbert FIN
-
-
+// FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
+  
 
 // Agregar el Mundo/Nivel a la escena    
     scene.add( world );

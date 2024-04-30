@@ -287,7 +287,8 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 #msform fieldset {
-  background: linear-gradient(rgba(255, 0, 0, 0.5), rgba(0, 128, 0, 0.5)); Configuración inicial del gradiente
+  background: linear-gradient(rgba(255, 0, 0, 0.5), rgba(0, 128, 0, 0.5));
+  /*  Configuración inicial del gradiente */
 	border: 0 none;
 	border-radius: 3px;
 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
