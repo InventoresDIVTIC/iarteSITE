@@ -7,7 +7,6 @@
 </head>
 <body>
     <h1>Datos de los Concursantes</h1>
-    <table border="1">
         <tr>
             <th>Nombre</th>
             <th>Teléfono</th>
@@ -40,6 +39,5 @@
 
         mostrarDatos();
         ?>
-    </table>
 </body>
 </html>
