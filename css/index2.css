@@ -1,0 +1,214 @@
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&display=swap");
+
+/* Variables */
+:root {
+	/* Colors */
+	--background-color: #008081;
+	--text-color: #eefae9;
+	--accent-color: #d9d9d9;
+	/* Typography */
+	--font-title: "Bungee", cursive;
+	--font-timer: "Press Start 2P", cursive;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	background-image: url(https://drive.google.com/uc?export=view&id=1ib_CDUp4C-MvnRttV4UjG78GPFoiV_-I);
+	mix-blend-mode: hard-light;
+	margin: 0;
+	/* Position */
+	position: relative;
+	z-index: 0;
+}
+
+body::before {
+	content: "";
+	display: block;
+	opacity: 0.7;
+	width: 100%;
+	height: 100%;
+	background-color: var(--background-color);
+	/* Position */
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+}
+
+header {
+	width: 100%;
+	mix-blend-mode: normal;
+	position: relative;
+	z-index: 2;
+	/*flex*/
+	display: auto;
+	align-items: center;
+}
+
+.xa {
+	text-decoration: none;
+	color: var(--text-color);
+	font-family: var(--font-title);
+	font-size: 24px;
+	/*flex*/
+	display: flex;
+	justify-content: center;
+}
+
+.torch {
+	width: 50px;
+	aspect-ratio: 1;
+	background-image: url(https://drive.google.com/uc?export=view&id=1Ryvf-1QqjvZn88aG2KyCC3RiOxpVhQIv);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.phone {
+	margin: 50px 30px 110px 0px;
+	/*flex*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.phoneImg {
+	width: 70px;
+	aspect-ratio: 1;
+	margin-right: 10px;
+	background-image: url(https://drive.google.com/uc?export=view&id=1ZIWhDa2R_7w93u21dHqn5KwerljcdPj9);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+main {
+	width: 100%;
+	text-align: center;
+	position: relative;
+	left: 24px;
+	bottom: 0px;
+	z-index: 2;
+}
+
+h1,
+label {
+	font-family: var(--font-title);
+	text-transform: capitalize;
+	color: var(--text-color);
+}
+
+h1 {
+	font-size: 46px;
+	margin: 4px;
+}
+
+label {
+	font-size: 20px;
+	display: block;
+}
+
+.progressBar {
+	width: 720px;
+	height: 48px;
+	margin: 0px auto 16px;
+	background-color: #d9d9d9;
+	box-shadow: inset -4px -4px 4px #757070;
+	/*flex*/
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.progress {
+	width: 24px;
+	height: 40px;
+	margin: 0px 4px;
+	background-color: #08226b;
+}
+
+form input {
+	width: 440px;
+	height: 56px;
+	box-shadow: inset -4px -4px 4px #757070;
+	margin: 0px 24px 8px;
+	font-family: var(--font-title);
+	padding: 4px 8px;
+}
+
+span {
+	font-family: var(--font-timer);
+	color: var(--text-color);
+	font-size: 24px;
+}
+
+form div {
+	display: inline-flex;
+	height: 56px;
+	width: 240px;
+	background-color: var(--accent-color);
+	border: 1 px solid #081403;
+	justify-content: center;
+	align-items: center;
+	box-shadow: inset -4px -4px 4px #757070;
+}
+
+button {
+	width: 90%;
+	height: 75%;
+	font-size: 20px;
+	font-family: var(--font-title);
+	border: 2px dashed #081403;
+	background-color: var(--accent-color);
+	color: #081403;
+	cursor: pointer;
+	/*flex*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+span {
+	/*flex*/
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.timer {
+	text-align: right;
+	margin-top: 10px;
+	/*flex*/
+	display: flex;
+}
+
+.timIt {
+	margin-right: 24px;
+	text-align: center;
+}
+
+.timer h2 {
+	font-size: 36px;
+	margin-bottom: 0px;
+}
+
+.timer p {
+	font-size: 20px;
+	margin-top: 0px;
+}
+
+.flames {
+	height: 136px;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	background-image: url(https://drive.google.com/uc?export=view&id=1dxo3BxxVX-n3vpPFFl5EvsBMvecRojg3);
+	mix-blend-mode: normal;
+	position: relative;
+	z-index: 2;
+}
