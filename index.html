@@ -35,7 +35,7 @@
 	<!-- Flexslider  -->
 	<link rel="stylesheet" href="css/flexslider.css">
 	<!-- Theme style  -->
-	<link rel="stylesheet" href="css/style.css">
+	<!-- <link rel="stylesheet" href="css/style.css"> -->
 	<link rel="stylesheet" href="css/custom.css">
 
 	<link rel="shortcut icon" type="images/x-icon" href="">
@@ -63,14 +63,10 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
-	</head>
-	<body>
+</head>
+<body>
 
 <!-- MODAL -->
-
-<!-- END MODAL ERROR -->
-
-
 <!-- MODAL ERROR -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -92,6 +88,8 @@
 	</div>
   </div>
 <!-- END MODAL ERROR -->
+<!-- END MODAL ERROR -->
+
 
 <!-- Form Para el Registro -->
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,15 +107,9 @@
 	  </div>
 	</div>
   </div>
-
-
 <!-- Modal del formulario -->
-<!-- Modal -->
-
 <!-- END -->
 
-
-<!-- END -->
 
 <!-- Scripts de googleAnalytics -->
 <script>
@@ -256,8 +248,6 @@
 							siguientes bases:</p>
 						
 					</div>
-				</div>
-				<div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1">
 					<div class="descargas">
 						<div class="t-descargas">
 							<h4>Descargas</h4>
@@ -272,6 +262,9 @@
 						</ul>
 						
 					</div>
+				</div>
+				<div class="col-md-4 col-md-offset-2 col-sm-5 col-sm-offset-1">
+
 					<div class="row botones-inicio" style="margin-bottom:50px">
 						<div class="col-sm-12">
 							
@@ -598,7 +591,7 @@ updateCountdown();
 
 
 <style>
-	#countdown {
+#countdown {
   font-size: 24px;
   text-align: center;
   margin-top: 1px;
@@ -618,6 +611,13 @@ updateCountdown();
   border-radius: 5px; /* Bordes redondeados */
 }
 
-
+body {
+	max-width: 1060px;
+	margin: 0 auto;
+	margin-bottom: 1em;
+	@media screen and (max-width: 1060px ) {
+		width: 100%;
+	}
+}
 
 </style>

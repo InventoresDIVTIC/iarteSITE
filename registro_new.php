@@ -17,18 +17,19 @@
   <ul id="progressbar">
     <li class="active">Información Personal</li>
     <li>Documentos Oficiales</li>
-    <li><< Participa >></li>
+    <li>Participa!! </li>
   </ul>
   <!-- fieldsets -->
   <fieldset>
     <h2 class="fs-title">Datos Personales</h2>
     <h3 class="fs-subtitle">Los campos marcados con * son OBLIGATORIOS </h3>
 
-    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" required>
-    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" required>
-    <input type="email" id="correo" name="correo" placeholder="E-Mail" onblur="validateInput()" required>
-    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" required>
-    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" value="Next" />
+    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id)" required>
+    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id)" required>
+    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id)" required>
+    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id)" required>
+    
+    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="validateInput(this.id)" value="Next" />
     
   </fieldset>
 
@@ -92,9 +93,14 @@ $(".next").click(function(){
         //activate next step on progressbar using the index of next_fs
       $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
         
-        //show the next fieldset
-        next_fs.show(); 
-        //hide the current fieldset with style
+      // Activate next step on progressbar using the index of next_fs and add pulse effect
+      var $nextProgressBarItem = $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("pulse");
+
+      //show the next fieldset
+      next_fs.show(); 
+
+  
+
         current_fs.animate({opacity: 0}, {
             step: function(now, mx) {
                 //as the opacity of current_fs reduces to 0 - stored in "now"
@@ -114,6 +120,8 @@ $(".next").click(function(){
             complete: function(){
                 current_fs.hide();
                 animating = false;
+            // Remove pulse class after animation completes
+            $nextProgressBarItem.removeClass('pulse');
             }, 
             //this comes from the custom easing plugin
             easing: 'easeInOutBack'
@@ -128,9 +136,14 @@ $(".previous").click(function(){
         current_fs = $(this).parent();
         previous_fs = $(this).parent().prev();
         
-        //de-activate current step on progressbar
-        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-        
+    // Get current and previous progress bar items
+    var $currentProgressBarItem = $("#progressbar li").eq($("fieldset").index(current_fs));
+    var $previousProgressBarItem = $("#progressbar li").eq($("fieldset").index(previous_fs));
+
+    // Deactivate current and activate previous step on progressbar
+    $currentProgressBarItem.removeClass("active");
+    $previousProgressBarItem.addClass("active pulse"); // Add pulse effect to the previous progress bar item
+    
         //show the previous fieldset
         previous_fs.show(); 
         //hide the current fieldset with style
@@ -150,6 +163,7 @@ $(".previous").click(function(){
             complete: function(){
                 current_fs.hide();
                 animating = false;
+                $previousProgressBarItem.removeClass('pulse'); // Remove pulse class after animation
             }, 
             //this comes from the custom easing plugin
             easing: 'easeInOutBack'
@@ -157,7 +171,53 @@ $(".previous").click(function(){
     });
 </script>
 
+<!-- Validación -->
+<script> 
+function validateInput(elementId) {
+    var input = document.getElementById(elementId);
+    var value = input.value.trim();
+    var errorElement = document.getElementById(elementId + 'Error');
+    if (!errorElement) {
+        // Si no existe un elemento de error, creemos uno
+        errorElement = document.createElement('span');
+        errorElement.id = elementId + 'Error';
+        errorElement.style.color = 'red';
+        input.parentNode.insertBefore(errorElement, input.nextSibling);
+    }
 
+    errorElement.textContent = ''; // Limpiamos mensajes previos
+
+    switch (elementId) {
+        case 'nombre':
+            if (value === '') {
+                errorElement.textContent = 'El nombre es requerido.';
+            } else if (value.length() < 3) {
+                console.log("nombre menor a 3 char");
+                errorElement.textContent = 'El nombre debe tener al menos 3 caracteres.';
+            }
+            break;
+        case 'correo':
+            if (value === '') {
+                console.log("correo vacio");
+                errorElement.textContent = 'El correo electrónico es requerido.';
+            } else if (!/\S+@\S+\.\S+/.test(value)) {
+                errorElement.textContent = 'El correo electrónico no es válido.';
+            }
+            break;
+        case 'telefono':
+            if (value === '') {
+                errorElement.textContent = 'El teléfono es requerido.';
+            } else if (!/^\d{10}$/.test(value)) { // Ejemplo: valida que tenga 10 dígitos.
+                errorElement.textContent = 'El teléfono debe tener 10 dígitos.';
+            }
+            break;
+        default:
+            console.log('No se reconoce el ID del elemento.');
+    }
+}
+</script>
+
+<!-- Filedrop validate -->
 <script>
 var $fileInput = $('.file-input');
 var $droparea = $('.file-drop-area');
@@ -205,51 +265,6 @@ function adjustGradient(value) {
     });
 }
 </script>
-
-
-<!-- Validaciones -->
-<script>
-function validateInput(input) {
-    let isValid = true;
-    let errorMessage = "";
-
-    if (input.value.trim() === "") {
-        isValid = false;
-        errorMessage = "Este campo es obligatorio.";
-    } else if (input.type === "email") {
-        // Expresión regular básica para un formato de correo electrónico
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(input.value)) {
-            isValid = false;
-            errorMessage = "Por favor, ingresa un correo electrónico válido.";
-        }
-    }
-
-    // Manejo del mensaje de error
-    const errorElement = document.getElementById(input.id + "-error");
-    if (errorElement) {
-        errorElement.textContent = errorMessage;
-    }
-
-    return isValid;
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Agregar eventos blur a todos los campos requeridos
-    const inputs = document.querySelectorAll("#msform input[required]");
-    inputs.forEach(input => {
-        const span = document.createElement("span");
-        span.id = input.id + "-error";
-        span.style.color = "red";
-        input.parentNode.insertBefore(span, input.nextSibling);
-
-        input.addEventListener("blur", function() {
-            validateInput(input);
-        });
-    });
-});
-</script>
-
 
 </body>
 </html>
@@ -443,6 +458,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	width: 33.33%;
 	float: left;
 	position: relative;
+  transition: background-color 0.3s ease; /* Agrega una transición suave al cambiar el color de fondo */
 }
 #progressbar li:before {
 	content: counter(step);
@@ -455,6 +471,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	background: #ff1a1a;
 	border-radius: 3px;
 	margin: 0 auto 5px auto;
+  transition: background-color 0.3s ease; /* Transición suave para el cambio de color del indicador */
 }
 /*progressbar connectors*/
 #progressbar li:after {
@@ -466,6 +483,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	left: -50%;
 	top: 9px;
 	z-index: -1; /*put it behind the numbers*/
+  transition: background-color 0.3s ease; /* Transición suave para el conector */
 }
 #progressbar li:first-child:after {
 	/*connector not needed before the first step*/
@@ -480,4 +498,23 @@ document.addEventListener("DOMContentLoaded", function() {
 .modal-footer{
     height:fit-content;
 }
+/* Animación de pulso */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.pulse {
+    animation: pulse 1s infinite;
+}
+
 </style>
