@@ -3,7 +3,7 @@
     $server = $env["SERVER"];
     $db = $env["DB"];
     $usr = $env["USR"];
-    $pass = "";
+    $pass = $env["PASS"];
 
     function conectar(){
         global $server, $usr, $pass, $db;
