@@ -24,12 +24,12 @@
     <h2 class="fs-title">Datos Personales</h2>
     <h3 class="fs-subtitle">Los campos marcados con * son OBLIGATORIOS </h3>
 
-    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id)" required>
-    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id)" required>
-    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id)" required>
-    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id)" required>
+    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id,this.value,this.style)" />
+    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style)" />
+    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id,this.value,this.style)" />
+    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style)" /> 
     
-    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="validateInput(this.id)" value="Next" />
+    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="validateInput(this.id,this.value,this.style)" value="Next" />
     
   </fieldset>
 
@@ -171,49 +171,78 @@ $(".previous").click(function(){
     });
 </script>
 
+
 <!-- Validación -->
 <script> 
-function validateInput(elementId) {
+function validateInput(elementId,value,style) {
     var input = document.getElementById(elementId);
-    var value = input.value.trim();
-    var errorElement = document.getElementById(elementId + 'Error');
-    if (!errorElement) {
-        // Si no existe un elemento de error, creemos uno
-        errorElement = document.createElement('span');
-        errorElement.id = elementId + 'Error';
-        errorElement.style.color = 'red';
-        input.parentNode.insertBefore(errorElement, input.nextSibling);
-    }
-
-    errorElement.textContent = ''; // Limpiamos mensajes previos
-
+    // var value = document.querySelector("#"+elementId).value;
+    console.log(value);
+    // Flags
+    let isValid = true;
+    let errorMessage = '';
+    // Remove previously set styles and class
+    // input.classList.remove('invalid-input');
     switch (elementId) {
         case 'nombre':
             if (value === '') {
-                errorElement.textContent = 'El nombre es requerido.';
-            } else if (value.length() < 3) {
-                console.log("nombre menor a 3 char");
-                errorElement.textContent = 'El nombre debe tener al menos 3 caracteres.';
-            }
+                // console.log("nombre required");
+                errorMessage = 'El nombre es requerido.';
+                isValid = false;
+            } else if (value.length < 3) {
+                errorMessage = 'El nombre debe tener al menos 3 caracteres.';
+                isValid = false;
+            } else {isValid = true;}
             break;
         case 'correo':
             if (value === '') {
-                console.log("correo vacio");
-                errorElement.textContent = 'El correo electrónico es requerido.';
-            } else if (!/\S+@\S+\.\S+/.test(value)) {
-                errorElement.textContent = 'El correo electrónico no es válido.';
+                errorMessage = 'El correo electrónico es requerido.';
+                isValid = false;
+            } else if (!/[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm.test(value)) {
+                errorMessage = 'El correo electrónico no es válido.';
+                isValid = false;
             }
             break;
         case 'telefono':
             if (value === '') {
-                errorElement.textContent = 'El teléfono es requerido.';
-            } else if (!/^\d{10}$/.test(value)) { // Ejemplo: valida que tenga 10 dígitos.
-                errorElement.textContent = 'El teléfono debe tener 10 dígitos.';
+                errorMessage = 'El teléfono es requerido.';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(value)) {
+                errorMessage = 'El teléfono debe tener 10 dígitos.';
+                isValid = false;
+            }
+            break;
+        case 'edad':
+            if (value !== '18') {
+                errorMessage = 'Edad incorrecta. Solo para demostración.';
+                isValid = false;
             }
             break;
         default:
             console.log('No se reconoce el ID del elemento.');
+            isValid = false;
     }
+
+if (!isValid) {
+    // Reiniciar animación de 'shake'
+    style.animation = 'none';
+    input.offsetHeight;  // Provocar reflujo del DOM
+    style.backgroundColor = "#999";
+    style.border = "3px solid #ff0000";
+    style.animation = "shake 0.3s";
+    console.log(style.animation);
+} else {
+    // Reiniciar animación de 'pulse'
+    style.animation = 'none';
+    input.offsetHeight;  // Provocar reflujo del DOM
+    console.log("validao");
+    style.animation = "pulse 0.4s";
+    style.border = "3px solid #00ff00";
+    style.backgroundColor = "#ffffff";
+    console.log(style.animation);
+}
+
+  // console.log(errorMessage);
 }
 </script>
 
@@ -304,9 +333,9 @@ function adjustGradient(value) {
 #msform fieldset {
   background: linear-gradient(rgba(255, 0, 0, 0.5), rgba(0, 128, 0, 0.5));
   /*  Configuración inicial del gradiente */
-	border: 0 none;
+	/* border: 0 none; */
 	border-radius: 3px;
-	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+	/* box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4); */
 	padding: 20px 30px;
 	box-sizing: border-box;
 	width: 80%;
@@ -398,7 +427,6 @@ function adjustGradient(value) {
 /*Otros inputs con sus respectivos styles*/
 #msform input, #msform textarea {
 	padding: 15px;
-	border: 3px solid #ccc;
 	border-radius: 3px;
 	margin-bottom: 10px;
 	width: 100%;
@@ -422,9 +450,6 @@ function adjustGradient(value) {
   text-decoration: none;
   font-size: 14px;
 }
-#msform .action-button:hover, #msform .action-button:focus {
-	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
-}
 
 /*titulos y subtitulos imgs*/
 .fs-title {
@@ -439,6 +464,24 @@ function adjustGradient(value) {
 	color: black;
 	margin-bottom: 20px;
 }
+.valid-input {
+    border: 3px solid #0000ff;
+}
+
+.invalid-input {
+    border: 3px solid #ff0000;
+    animation: shake 0.3s;
+    animation-iteration-count: 1;
+}
+
+@keyframes shake {
+    0% { margin-left: 0px; }
+    25% { margin-left: 15px; }
+    75% { margin-left: -15px; }
+    100% { margin-left: 0px; }
+}
+
+
 /* ---------------------------------------------------------------- */
 /* ---------------------------------------------------------------- */
 /*END Input File--------------------------------------------------- */
