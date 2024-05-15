@@ -24,12 +24,16 @@
     <h2 class="fs-title">Datos Personales</h2>
     <h3 class="fs-subtitle">Los campos marcados con * son OBLIGATORIOS </h3>
 
-    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id,this.value,this.style)" />
-    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style)" />
-    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id,this.value,this.style)" />
-    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style)" /> 
-    
-    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="validateInput(this.id,this.value,this.style)" value="Next" />
+    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style,document.getElementById('nombre-error'))" />
+    <p id="nombre-error"></p>
+    <div id="validation-success" style="display: none; color: green;"> </div>
+    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" />
+    <div id="telefono-error"></div>
+    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" />
+    <div id="email-error"></div>
+    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" /> 
+    <div id="number-error"></div>
+    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" value="Next" />
     
   </fieldset>
 
@@ -174,8 +178,10 @@ $(".previous").click(function(){
 
 <!-- Validación -->
 <script> 
-function validateInput(elementId,value,style) {
+function validateInput(elementId,value,style,errorStyle,errorText) {
     var input = document.getElementById(elementId);
+    var errorDiv = input.nextElementSibling; 
+    var successDiv = document.getElementById("validation-success");
     // var value = document.querySelector("#"+elementId).value;
     console.log(value);
     // Flags
@@ -185,63 +191,83 @@ function validateInput(elementId,value,style) {
     // input.classList.remove('invalid-input');
     switch (elementId) {
         case 'nombre':
-            if (value === '') {
+            if (value === '' || value === null ) {
                 // console.log("nombre required");
-                errorMessage = 'El nombre es requerido.';
+                errorMessage = "El nombre es requerido";
                 isValid = false;
             } else if (value.length < 3) {
-                errorMessage = 'El nombre debe tener al menos 3 caracteres.';
+                errorMessage = "El nombre debe tener al menos 3 caracteres.";
                 isValid = false;
             } else {isValid = true;}
             break;
         case 'correo':
             if (value === '') {
-                errorMessage = 'El correo electrónico es requerido.';
+                errorMessage = "El correo electrónico es requerido.";
                 isValid = false;
             } else if (!/[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm.test(value)) {
-                errorMessage = 'El correo electrónico no es válido.';
+                errorMessage = "El correo electrónico no es válido.";
                 isValid = false;
             }
             break;
         case 'telefono':
             if (value === '') {
-                errorMessage = 'El teléfono es requerido.';
+                errorMessage = "El teléfono es requerido.";
                 isValid = false;
             } else if (!/^\d{10}$/.test(value)) {
-                errorMessage = 'El teléfono debe tener 10 dígitos.';
+                errorMessage = "El teléfono debe tener 10 dígitos.";
                 isValid = false;
             }
             break;
         case 'edad':
             if (value !== '18') {
-                errorMessage = 'Edad incorrecta. Solo para demostración.';
+                errorMessage = "Edad incorrecta. Solo para demostración.";
                 isValid = false;
             }
             break;
         default:
-            console.log('No se reconoce el ID del elemento.');
+            console.log("No se reconoce el ID del elemento.");
             isValid = false;
     }
 
 if (!isValid) {
+    console.log({"Input: ":input,"Error:":errorDiv, "innerError": errorText.innerText});
     // Reiniciar animación de 'shake'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
     style.backgroundColor = "#999";
     style.border = "3px solid #ff0000";
     style.animation = "shake 0.3s";
-    console.log(style.animation);
+
+    // Establecer el texto de error en el div de error
+    errorDiv.innerText = errorMessage;
+
+    errorDiv.offsetHeight;
+    // Establecer los estilos del mensaje de error
+    
+    errorStyle.width = "adjust-content";
+    errorStyle.heigth = "auto";
+    errorStyle.font = "20px Arial ";
+    errorStyle.border = "5px solid rgba(250, 255, 0, 0.8)";
+    errorStyle.display = "block"; // Asegúrate de que el div de error esté visible
+    errorStyle.color = "black";
+    errorStyle.padding = "10px";
+    errorStyle.background = "gray";
+    errorStyle.overflow ="auto";
+    
 } else {
     // Reiniciar animación de 'pulse'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
-    console.log("validao");
+  
     style.animation = "pulse 0.4s";
     style.border = "3px solid #00ff00";
     style.backgroundColor = "#ffffff";
-    console.log(style.animation);
-}
+    console.log("validao" + style.animation);
 
+    // Oculta el div de error y muestra el div de éxito
+    // errorStyle.display = "none"; 
+    successDiv.style.display = "block";
+}
   // console.log(errorMessage);
 }
 </script>
@@ -352,6 +378,17 @@ function adjustGradient(value) {
 	display: none;
 }
 
+.escondido{
+  display: none;
+}
+
+.visible{
+  font-size: 12px;
+  display: inherit;
+  color: black;
+  position: relative;
+  background: linear-gradient(rgba(153, 153, 102, 0.8), rgba(102, 153, 153, 0.8)); /* Gradiente rojo-verde menos transparente */
+}
 
 /* ---------------------------------------------------------------- */
 /* INPUT FILE DROPS */

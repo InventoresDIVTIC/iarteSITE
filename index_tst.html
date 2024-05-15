@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IArte Site 2024</title>
+    <link rel="stylesheet" href="css/index2.css">
+</head>
+<body>
+	<header>
+		<div class="phone">
+			<a class="xa" href="tel:+52 33 1378 5900">Call Us: &nbsp;33 1378 5900 Ext: 27734</a>
+		</div>
+		<div class="phone">
+			<a class="xa">cdcomp@cucei.udg.mx</a>
+		</div>
+	</header>
+	<main>
+		<h1>Our page is under construction</h1>
+		<div class="progressBar" id="progressBar">
+			<div class="progress"></div>
+		</div>
+		<form action="">
+			<label for="input">Enter your email. We'll notify you when it's ready</label>
+			<input type="email" name="email">
+			<div>
+				<button type="submit">Subscribe</button>
+			</div>
+		</form>
+		<span>El concurso comenzará en:
+			<div class="timer" id="countdown" style="font-size: 24px; text-align: center; margin-top: 20px;">
+				<span class="timIt" id="days" >0</span> días
+				<span class="timIt" id="hours" style="margin: 0 10px;">0</span> horas
+				<span class="timIt" id="minutes" style="margin: 0 10px;">0</span> minutos
+				<span class="timIt" id="seconds" style="margin: 0 10px;">0</span> segundos
+			</div>
+		</span>
+		<footer id="b-footer" style="background-color: #008081;" role="contentinfo">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						
+					</div>
+					<div class="row img-f text-center">
+						<div class="col-md-2 col-sm-12">
+							<img src="./images/Orange.png" width="150px" alt="" srcset="">
+							
+						</div>
+						
+						<div class="col-md-2 col-sm-12">
+							<img src="./images/lUDG.png" width="360px" alt="" srcset="">
+							
+						</div>
+						
+					</div>
+					<div class="row copyright">	
+						<div class="col-md-12">
+							<p> 
+								<small class="block">Equipo de desarrollo web: </small><br>
+								<small class="block"><a href="https://github.com/ajolote96" target="_blank">Jose Luis David Bonilla Carranza</a></small><br>
+								<small class="block"><a href="https://github.com/SnowTrash" target="_blank">Juan Carlos Vargas López</a></small> <br>
+								<small class="block"><a href="https://github.com/OscarRamos120" target="_blank">Oscar Ramos</a></small> <br>
+								<small class="block"><a href="https://github.com/NomarGonz" target="_blank">Héctor Nomar González Flores</a></small> <br>
+								<small class="block"><a href="https://github.com/ZeusCobian" target="_blank">Zeus Gutierrez Cobian</a></small><br><br>
+								<!-- <small class="block">Izmael Guzmán Murguía</small><br> -->
+								<small class="block">Fecha de actulizacion del sitio vie - 03/05/2024 </small> 
+								<small class="block">© 2024 CUCEI UDG. Derechos Reservados</small> 
+								<small class="block"><a href="http://transparencia.udg.mx/aviso-confidencialidad-integral" target="_blank">Aviso de privacidad</a></small>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</main>
+	<!-- <div class="flames"></div> -->
+
+	<!-- jQuery -->
+	<script src="js/index2.js"></script>
+	<!-- Counters -->
+	<script src="js/jquery.countTo.js"></script>
+
+<script>
+	const targetDate = new Date('2024-09-17 23:59:59').getTime();
+	
+	function updateCountdown() {
+	  const currentDate = new Date().getTime();
+	  const timeLeft = targetDate - currentDate;
+	
+	  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+	  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+	  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+	
+	  document.getElementById('days').textContent = days;
+	  document.getElementById('hours').textContent = hours;
+	  document.getElementById('minutes').textContent = minutes;
+	  document.getElementById('seconds').textContent = seconds;
+	}
+	
+	// Actualiza el contador cada segundo
+	setInterval(updateCountdown, 1000);
+	
+	// Llama a updateCountdown() inmediatamente para evitar un retraso en la visualización inicial
+	updateCountdown();
+	
+	</script>
+</body>
+</html>
