@@ -24,16 +24,16 @@
     <h2 class="fs-title">Datos Personales</h2>
     <h3 class="fs-subtitle">Los campos marcados con * son OBLIGATORIOS </h3>
 
-    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style,document.getElementById('nombre-error'))" />
+    <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('nombre-error').style,document.getElementById('nombre-error'))" />
     <p id="nombre-error"></p>
     <div id="validation-success" style="display: none; color: green;"> </div>
-    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" />
-    <div id="telefono-error"></div>
-    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" />
-    <div id="email-error"></div>
-    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" /> 
-    <div id="number-error"></div>
-    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="validateInput(this.id,this.value,this.style,this.nextElementSibling.style)" value="Next" />
+    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('telefono-error').style,document.getElementById('telefono-error'))" />
+    <p id="telefono-error"></p>
+    <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('email-error').style,document.getElementById('email-error'))" />
+    <p id="email-error"></p>
+    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('edad-error').style,document.getElementById('edad-error'))" /> 
+    <p id="edad-error"></p>
+    <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="" value="Next" />
     
   </fieldset>
 
@@ -178,9 +178,8 @@ $(".previous").click(function(){
 
 <!-- Validación -->
 <script> 
-function validateInput(elementId,value,style,errorStyle,errorText) {
+function validateInput(elementId,value,style,errorStyle,errorDiv) {
     var input = document.getElementById(elementId);
-    var errorDiv = input.nextElementSibling; 
     var successDiv = document.getElementById("validation-success");
     // var value = document.querySelector("#"+elementId).value;
     console.log(value);
@@ -230,29 +229,32 @@ function validateInput(elementId,value,style,errorStyle,errorText) {
     }
 
 if (!isValid) {
-    console.log({"Input: ":input,"Error:":errorDiv, "innerError": errorText.innerText});
+    console.log({"Input: ":input,"Error:":errorDiv, "innerError": errorDiv.innerText});
     // Reiniciar animación de 'shake'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
     style.backgroundColor = "#999";
     style.border = "3px solid #ff0000";
     style.animation = "shake 0.3s";
-
-    // Establecer el texto de error en el div de error
+    
     errorDiv.innerText = errorMessage;
+
+    console.log({"errorDiv.value:--":errorDiv.value,"errorDiv.innerText:--":errorDiv.innerText});
+    // Establecer el texto de error en el div de error
 
     errorDiv.offsetHeight;
     // Establecer los estilos del mensaje de error
-    
-    errorStyle.width = "adjust-content";
-    errorStyle.heigth = "auto";
-    errorStyle.font = "20px Arial ";
+
+    errorStyle.width = "auto";
+    errorStyle.height = "auto";
+    errorStyle.font = "20px Arial";
     errorStyle.border = "5px solid rgba(250, 255, 0, 0.8)";
     errorStyle.display = "block"; // Asegúrate de que el div de error esté visible
-    errorStyle.color = "black";
+    errorStyle.color = "red";
     errorStyle.padding = "10px";
-    errorStyle.background = "gray";
+    errorStyle.background = "green";
     errorStyle.overflow ="auto";
+
     
 } else {
     // Reiniciar animación de 'pulse'
