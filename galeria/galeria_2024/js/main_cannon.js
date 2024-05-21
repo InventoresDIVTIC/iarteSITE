@@ -486,22 +486,24 @@ boxGeometry.translate( 0, 0.75, 0 );
 
 
 // Fetcheamos a los participantes desde el php
-    // Solicitud AJAX para obtener los nombres de las imágenes desde PHP
-fetch('/get_images_2024.php')
-.then(response => response.json())
-.then(data => {
-    if (data.error) {
-        console.error('Error fetching the images:', data.error);
-    } else {
-        const imageUrls = data.images;
-        imageUrls.forEach(imageUrl => {
-            // Llama a la función para cargar la textura y crear los meshes
-            loadTextureAndCreateMeshes(imageUrl);
-        });
-        console.log(imageUrls); // Para verificar la lista de URLs
-    }
-})
-.catch(error => console.error('Error fetching the images:', error));
+// Solicitud AJAX para obtener los nombres de las imágenes desde PHP
+// fetch('get_images_2024.php')
+// .then(response => response.json())
+// .then(data => {
+//     if (data.error) {
+//         console.error('Error fetching the images:', data.error);
+//     } else {
+//         const imageUrls = data.images;
+//         imageUrls.forEach(imageUrl => {
+//             // Llama a la función para cargar la textura y crear los meshes
+//             // loadTextureAndCreateMeshes(imageUrl);
+//         });
+//         console.log(imageUrls['images']); // Para verificar la lista de URLs
+//     }
+// })
+// .catch(error => console.error('Error fetching the images:', error));
+
+
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
