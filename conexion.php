@@ -1,5 +1,4 @@
 <?php
-    $env = parse_ini_file('.env');
     $server = "localhost";
     $db = "qwsuvdzd_iarte";
     $usr = "qwsuvdzd_iarte";

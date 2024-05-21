@@ -19,10 +19,10 @@
         function mostrarDatos() {
             $conexion = conectar();
             $query = "SELECT nombre, telefono, correo, edad FROM registro";
-            $resultado = ejecutar($conexion, $query);
+            $resultado = mysqli_query($conexion,$query);
 
             if ($resultado) {
-                while ($fila = mysqli_fetch_assoc(mysqli_query($conexion,$query))) {
+                while ($fila = mysqli_fetch_assoc($resultado)) {
                     echo "<tr>";
                     echo "<td>" . htmlspecialchars($fila['nombre']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['telefono']) . "</td>";
