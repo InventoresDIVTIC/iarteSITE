@@ -488,7 +488,7 @@ boxGeometry.translate( 0, 0.75, 0 );
 // Fetcheamos a los participantes desde el php
     // Solicitud AJAX para obtener los nombres de las imágenes desde PHP
     fetch('get_images_2024.php')
-        .then(response => response.json())
+        .then(response => response.json(),console.log(response))
         .then(data => {
             if (data.error) {
                 console.error('Error fetching the images:', data.error);
