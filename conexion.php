@@ -1,9 +1,9 @@
 <?php
     $env = parse_ini_file('.env');
-    $server = $env["SERVER"];
-    $db = $env["DB"];
-    $usr = $env["USR"];
-    $pass = $env["PASS"];
+    $server = "localhost";
+    $db = "qwsuvdzd_iarte";
+    $usr = "qwsuvdzd_iarte";
+    $pass = "G4adalajara2020*";
 
     function conectar(){
         global $server, $usr, $pass, $db;
