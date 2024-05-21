@@ -484,6 +484,23 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
 var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
 boxGeometry.translate( 0, 0.75, 0 );
 
+
+// Fetcheamos a los participantes desde el php
+    // Solicitud AJAX para obtener los nombres de las imágenes desde PHP
+    fetch('get_images_2024.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error fetching the images:', data.error);
+            } else {
+                const imageUrls = data.images;
+                imageUrls.forEach(imageUrl => {
+                    console.log(imageUrl);
+                    // loadTextureAndCreateMeshes(imageUrl);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching the images:', error));
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
