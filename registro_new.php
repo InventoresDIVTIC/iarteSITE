@@ -267,7 +267,9 @@ if (!isValid) {
     console.log("validao" + style.animation);
 
     // Oculta el div de error y muestra el div de éxito
-    // errorStyle.display = "none"; 
+    errorStyle.display = "none"; 
+    errorStyle.width = "none";
+    errorStyle.height = "none";
     successDiv.style.display = "block";
 }
   // console.log(errorMessage);

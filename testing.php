@@ -14,11 +14,11 @@
             <th>Edad</th>
         </tr>
         <?php
-        include 'conexion.php'; // Asegúrate de que este path es correcto.
+        include('conexion.php'); // Asegúrate de que este path es correcto.
 
         function mostrarDatos() {
             $conexion = conectar();
-            $query = "SELECT nombre, telefono, correo, edad FROM concursantes";
+            $query = "SELECT nombre, telefono, correo, edad FROM registro";
             $resultado = mysqli_query($conexion, $query);
 
             if ($resultado) {
