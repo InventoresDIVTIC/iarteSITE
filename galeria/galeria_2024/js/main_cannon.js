@@ -498,7 +498,7 @@ fetch('https://iarte.inventores.org/get_images_2024.php')
             // Llama a la función para cargar la textura y crear los meshes
             // loadTextureAndCreateMeshes(imageUrl);
         });
-        console.log(imageUrls['images']); // Para verificar la lista de URLs
+        console.log(imageUrls); // Para verificar la lista de URLs
     }
 })
 .catch(error => console.error('Error fetching the images:', error));
