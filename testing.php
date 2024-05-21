@@ -44,16 +44,16 @@
 
             function mostrarDatos() {
                 $conexion = conectar();
-                $query = "SELECT nombre, telefono, correo, edad FROM registro";
+                $query = "SELECT nombre, imagen1,imagen2,imagen3 FROM registro";
                 $resultado = mysqli_query($conexion,$query);
 
                 if ($resultado) {
                     while ($fila = mysqli_fetch_assoc($resultado)) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($fila['nombre']) . "</td>";
-                        echo "<td>" . htmlspecialchars($fila['telefono']) . "</td>";
-                        echo "<td>" . htmlspecialchars($fila['correo']) . "</td>";
-                        echo "<td>" . htmlspecialchars($fila['edad']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen1']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen2']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen3']) . "</td>";
                         echo "</tr>";
                     }
                 } else {
