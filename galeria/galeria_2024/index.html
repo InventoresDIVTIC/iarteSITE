@@ -1,74 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="css/cannon.css">
-    <title>Galeria IArte - 2024</title>
-<!-- Three.js r109        --><script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.js"></script>
-<!-- TrackballControls.js --><script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r109/examples/js/controls/TrackballControls.js"></script>
-<!-- cannon.js v0.6.2     --><script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.js"></script>
-<!-- dat.gui v0.7.9 --> <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.js" integrity="sha512-Mcz+Mt8k23j06ycA5EJGfyXbtzB6xqEoJxjGftQQoed/zQzem9Lt21LRymjlcm+NUsbF0LOHgfdN8LO8GtKDOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-<!-- FBXLoader ?? --> <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r109/examples/js/loaders/FBXLoader.js"></script>
+    <meta charset="UTF-8">
+    <meta name="description" content="Seriously Hire Me!!!">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>PWA Example</title>
 </head>
+<body>
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
 
-<div id="UI">
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.module.min.js",
+        "OrbitControls": "https://cdn.jsdelivr.net/npm/three@0.154.0/examples/jsm/controls/OrbitControls.js",
+        "cannon": "https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.js"
+        "FBXLoader: "https://cdn.jsdelivr.net/npm/three@0.154.0/examples/jsm/loaders/FBXLoader.js",
+      }
+    }
+  </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('serviceWorker.js')
+				.then(reg => {console.log('Service worker registered!', reg)})
+				.catch(err => console.log('Service worker registration failed', err));
+			})
+		}
+    </script>
+    <script type="module" src="js/main.js"></script>
     
-    
-    <img id="objectImage" src="">
-    <div id="textOverlay" ></div>    
+    <!-- mapa -->
+    <script type="module" src="js/map/index.js"></script>
 
-</div>
-    <body style="margin: 0; width: 100%;">
-
-        <div id="instructions">
-
-        </div>
-
-        <script type="module" src="js/main_cannon.js"></script>
-        <script>
-            var translations = {
-                'en': {
-                    'title': 'Click to begin',
-                    'shoot': 'Shoot: LEFT MOUSE CLICK',
-                    'move': 'Move: W-A-S-D or ARROWS',
-                    'run': 'Run: SHIFT',
-                    'jump': 'Jump: SPACE',
-                    'look': 'Look: MOUSE'
-                },
-                'es': {
-                    'title': 'Haz clic para comenzar',
-                    'shoot': 'Disparar: CLIC IZQUIERDO DEL RATÓN',
-                    'move': 'Moverse: W-A-S-D o FLECHAS',
-                    'run': 'Correr: SHIFT',
-                    'jump': 'Saltar: ESPACIO',
-                    'look': 'Mirar: RATÓN'
-                }
-            };
-        </script>
-        <script>
-            // Obtiene el código del idioma (por ejemplo, 'en', 'es')
-            var userLang = navigator.language || navigator.userLanguage;
-            userLang = userLang.substr(0, 2); // Asegúrate de usar solo los primeros dos caracteres
-            console.log(userLang);
-            // Verifica si las traducciones existen para el idioma; si no, usa inglés por defecto
-            var langTexts = translations[userLang] || translations['en'];
-        
-            // Función para aplicar las traducciones
-            function applyTranslations() {
-                document.getElementById("instructions").innerHTML += `
-                    <div>
-                        <h1>${langTexts.title}</h1>
-                        ${langTexts.shoot}<br/>
-                        ${langTexts.move}<br/>
-                        ${langTexts.run}<br/>
-                        ${langTexts.jump}<br/>
-                        ${langTexts.look}
-                    </div>
-                `;
-            }
-            window.onload = applyTranslations();
-        </script>        
-    </body>
-
+</body>
 </html>
