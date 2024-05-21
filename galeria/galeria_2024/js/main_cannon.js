@@ -487,7 +487,7 @@ boxGeometry.translate( 0, 0.75, 0 );
 
 // Fetcheamos a los participantes desde el php
 // Solicitud AJAX para obtener los nombres de las imágenes desde PHP
-fetch('get_images_2024.php')
+fetch('https://iarte.inventores.org/get_images_2024.php')
 .then(response => response.json())
 .then(data => {
     if (data.error) {
