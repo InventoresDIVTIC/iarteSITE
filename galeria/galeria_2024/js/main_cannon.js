@@ -503,7 +503,6 @@ fetch('get_images_2024.php')
 })
 .catch(error => console.error('Error fetching the images:', error));
 
-
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
