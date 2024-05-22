@@ -565,7 +565,7 @@ var texflood = document.getElementById("flood");
 console.log(texflood);
 
 var previousText = ""; // Variable para almacenar el texto anterior
-var textLoadingInterval = setInterval(checkTextChange, 1000); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
+var textLoadingInterval = setInterval(checkTextChange, 1500); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
 
 function checkTextChange() {
     var currentText = texflood.innerText; // Obtener el texto actual del elemento "flood"
@@ -585,7 +585,7 @@ function checkTextChange() {
 var textArray = currentText.split(',');
 
 // Ahora textArray contiene los elementos individuales como texturas en un arreglo
-console.log(textArray);
+alert(textArray);
 
 // Aquí establece las coordenadas donde deseas posicionar el cubo en el cielo
 var skyCubePosition = new THREE.Vector3(0, 1000, 0);
