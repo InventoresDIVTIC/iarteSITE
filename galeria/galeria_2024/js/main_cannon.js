@@ -408,9 +408,6 @@ window.onload = function() {
     controls.height = value;
     camera.updateProjectionMatrix();
   });
-
-  var temp = document.getElementById("flood");
-  console.log(temp.innerHTML);
 };
 
 
@@ -559,22 +556,63 @@ loader.load(
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
 
-
-
-
-
-var ex = window.document.getElementById("flood");
-
-console.log(ex);
-
-
-
 // Agregar el Mundo/Nivel a la escena    
     scene.add( world );
 }
 // END Init() === END Init() === END Init() === END Init()
 // Fin de la función INIT - // Fin de la función INIT -// Fin de la función INIT
 
+  var texton = document.getElementById("instructions");
+  console.log(texton.innerText);  
+  
+  var texflood = document.getElementById("flood");
+  console.log(texflood);
+  
+  var previousText = ""; // Variable para almacenar el texto anterior
+  var textLoadingInterval = setInterval(checkTextChange, 1000); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
+  
+  function checkTextChange() {
+      var currentText = texflood.innerText; // Obtener el texto actual del elemento "flood"
+      
+      // Verificar si el texto actual es diferente al texto anterior
+      if (currentText !== previousText) {
+          // Si el texto ha cambiado, actualizar el texto anterior y reiniciar el temporizador
+          previousText = currentText;
+      } else {
+          // Si el texto no ha cambiado durante un período de tiempo, detener el intervalo y cargar el texto
+          clearInterval(textLoadingInterval);
+          console.log("El texto ha dejado de cambiar. Cargando el texto...");
+          // Aquí puedes realizar la carga del texto y cualquier otra acción necesaria
+          // console.log(texflood.innerText);
+         var currentText = texflood.innerText;
+// Dividir el texto en un arreglo usando la coma como separador
+var textArray = currentText.split(',');
+
+// Ahora textArray contiene los elementos individuales como texturas en un arreglo
+console.log(textArray);
+
+// Aquí establece las coordenadas donde deseas posicionar el cubo en el cielo
+var skyCubePosition = new THREE.Vector3(0, 1000, 0);
+
+// Tamaño del cubo
+var skyCubeSize = 50;
+
+// Material del cubo
+var skyCubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+// Geometría del cubo
+var skyCubeGeometry = new THREE.BoxGeometry(skyCubeSize, skyCubeSize, skyCubeSize);
+
+// Crea el cubo
+var skyCube = new THREE.Mesh(skyCubeGeometry, skyCubeMaterial);
+
+// Establece la posición del cubo en el cielo
+skyCube.position.copy(skyCubePosition);
+
+// Agrega el cubo a la escena
+scene.add(skyCube);
+      }
+  }
 
 // Particles funcitions
 var particles = new Array();
