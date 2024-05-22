@@ -74,18 +74,17 @@
         </script>        
         <!-- Script para cargar las imgs como texturas -->
         <script>
-            window.onload = function fe() { fetch('https://iarte.inventores.org/get_images_2024.php')
+            fetch('https://iarte.inventores.org/get_images_2024.php')
              .then(response => response.json())
              .then(data => {
                  if (data.error) {
                      console.error('Error fetching the images:', data.error);
                  } else {
                     const oldPrefix = './img/';
-                    const newPrefix = 'https://iarte.inventores.org/galeria/iart-gallery/img/Producto innovador/';
+                    const newPrefix = '/galeria/iart-gallery/img/Producto innovador/';
                     const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
                      
                      document.getElementById("flood").innerText += imageUrls;
-                     console.log(imageUrls[1]);
                      //imageUrls.forEach(imageUrl => {
                          // Llama a la función para cargar la textura y crear los meshes
                          // loadTextureAndCreateMeshes(imageUrl);
@@ -94,7 +93,6 @@
                  }
              })
              .catch(error => console.error('Error fetching the images:', error));
-            }
             </script>
     </body>
 
