@@ -489,8 +489,7 @@ boxGeometry.translate( 0, 0.75, 0 );
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
-const temp = document.getElementById("flood").innerText;
-
+const temp = document.getElementById("flood").innerHTML;
 
 console.log(temp);
 
@@ -500,7 +499,7 @@ const loader = new THREE.TextureLoader();
 // load a resource
 loader.load(
 	// resource URL
-	'img/resources/negx.jpg',
+	'galeria/iart-gallery/img/Producto innovador/im13314164858dispositivoCiegos (1).jpg',
 
 	// onLoad callback
 	function ( texture ) {
