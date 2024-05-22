@@ -499,7 +499,7 @@ const loader = new THREE.TextureLoader();
 // load a resource
 loader.load(
 	// resource URL
-	'galeria/iart-gallery/img/Producto innovador/im13314164858dispositivoCiegos (1).jpg',
+	'img/resources/negy.jpg',
 
 	// onLoad callback
 	function ( texture ) {
