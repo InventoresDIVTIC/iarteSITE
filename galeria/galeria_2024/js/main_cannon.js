@@ -563,7 +563,7 @@ loader.load(
 // load a resource
 loader.load(
 	// resource URL
-	'https://iarte.inventores.org/galeria/iart-gallery/img/Producto innovador/im13310060999producto innovador 1.jpg',
+	'https://iarte.inventores.org/galeria/iart-gallery/img/Producto%20innovador/im13310060999producto%20innovador%201.jpg',
 
 	// onLoad callback
 	function ( texture ) {
