@@ -18,16 +18,13 @@
 <div id="UI">
     <img id="objectImage" src="">
     <div id="textOverlay" ></div>    
-</div>
-
-<div id="flood" style="display: none;"></div>
-    
+</div>    
     <body style="margin: 0; width: 100%;">
 
         <div id="instructions">
 
         </div>
-
+        <div id="flood" style="display: none;"></div>
         <script type="module" src="js/main_cannon.js"></script>
         <script>
             var translations = {
@@ -70,30 +67,33 @@
                     </div>
                 `;
             }
-            window.onload = applyTranslations();
-        </script>        
-        <!-- Script para cargar las imgs como texturas -->
-        <script>
-            fetch('https://iarte.inventores.org/get_images_2024.php')
-             .then(response => response.json())
-             .then(data => {
-                 if (data.error) {
-                     console.error('Error fetching the images:', data.error);
-                 } else {
-                    const oldPrefix = './img/';
-                    const newPrefix = '/galeria/iart-gallery/img/Producto innovador/';
-                    const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
-                     
-                     document.getElementById("flood").innerText += imageUrls;
-                     //imageUrls.forEach(imageUrl => {
-                         // Llama a la función para cargar la textura y crear los meshes
-                         // loadTextureAndCreateMeshes(imageUrl);
-                     //});
-                     // console.log(imageUrls);// Para verificar la lista de URLs
-                 }
-             })
-             .catch(error => console.error('Error fetching the images:', error));
-            </script>
+
+            window.onload = function() {
+                applyTranslations();
+
+                // Script para cargar las imgs como texturas
+                fetch('https://iarte.inventores.org/get_images_2024.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error fetching the images:', data.error);
+                    } else {
+                       const oldPrefix = './img/';
+                       const newPrefix = '/galeria/iart-gallery/img/Producto innovador/';
+                       const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
+                        
+                        document.getElementById("flood").innerText += imageUrls;
+                        //imageUrls.forEach(imageUrl => {
+                            // Llama a la función para cargar la textura y crear los meshes
+                            // loadTextureAndCreateMeshes(imageUrl);
+                        //});
+                        // console.log(imageUrls);// Para verificar la lista de URLs
+                    }
+                })
+                .catch(error => console.error('Error fetching the images:', error));
+            }
+         
+        </script>
     </body>
 
 </html>

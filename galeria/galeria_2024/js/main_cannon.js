@@ -556,10 +556,9 @@ loader.load(
 
 
 
-// Ahora debemos añadirlo desde un div invisible o no se
-var temp = document.getElementById("flood").innerText;
-
-console.log(temp);
+    // Obtener el texto del elemento con id "flood"
+    var floodText = document.getElementById("flood").innerText;
+    console.log(floodText);
 // load a resource
 loader.load(
 	// resource URL
