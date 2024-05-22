@@ -409,7 +409,7 @@ window.onload = function() {
     camera.updateProjectionMatrix();
   });
 
-  const temp = document.getElementById("flood");
+  var temp = document.getElementById("flood");
   console.log(temp.innerHTML);
 };
 
@@ -492,7 +492,6 @@ boxGeometry.translate( 0, 0.75, 0 );
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
-
 const loader = new THREE.TextureLoader();
 
 // load a resource
@@ -559,6 +558,15 @@ loader.load(
 //un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
+
+
+
+
+
+var ex = window.document.getElementById("flood");
+
+console.log(ex);
+
 
 
 // Agregar el Mundo/Nivel a la escena    

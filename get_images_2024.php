@@ -1,4 +1,7 @@
 <?php
+// Habilitar CORS
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 include('conexion.php'); // Asegúrate de que este path es correcto.
 $conexion = conectar();
 
