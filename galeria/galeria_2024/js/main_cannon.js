@@ -408,6 +408,9 @@ window.onload = function() {
     controls.height = value;
     camera.updateProjectionMatrix();
   });
+
+  const temp = document.getElementById("flood");
+  console.log(temp.innerHTML);
 };
 
 
@@ -489,10 +492,6 @@ boxGeometry.translate( 0, 0.75, 0 );
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
-const temp = document.getElementById("flood").innerHTML;
-
-console.log(temp);
-
 
 const loader = new THREE.TextureLoader();
 
