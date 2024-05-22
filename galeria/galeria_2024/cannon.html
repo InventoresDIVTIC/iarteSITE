@@ -14,17 +14,15 @@
 <!-- fetch? -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.20/fetch.min.js" integrity="sha512-5vzl35V/cPSXliPbZtxHY0Q6cfYFd2Qld79+d7wLPbOxnKeCHH/LmlMD8aYl0ZN5VZPFM2FnKiAjoNJ2k3vrEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-
+<div id="flood" style="display: none;"></div>
 <div id="UI">
     <img id="objectImage" src="">
     <div id="textOverlay" ></div>    
 </div>    
     <body style="margin: 0; width: 100%;">
-
         <div id="instructions">
 
         </div>
-        <div id="flood" style="display: none;"></div>
         <script type="module" src="js/main_cannon.js"></script>
         <script>
             var translations = {
@@ -79,7 +77,7 @@
                         console.error('Error fetching the images:', data.error);
                     } else {
                        const oldPrefix = './img/';
-                       const newPrefix = '/galeria/iart-gallery/img/Producto innovador/';
+                       const newPrefix = 'https://iarte.inventores.org/galeria/iart-gallery/img/Producto innovador/';
                        const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
                         
                         document.getElementById("flood").innerText += imageUrls;

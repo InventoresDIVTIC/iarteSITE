@@ -559,10 +559,11 @@ loader.load(
     // Obtener el texto del elemento con id "flood"
     var floodText = document.getElementById("flood").innerText;
     console.log(floodText);
+
 // load a resource
 loader.load(
 	// resource URL
-	'/galeria/iart-gallery/img/Producto innovador/im13310060999producto innovador 1.jpg',
+	'https://iarte.inventores.org/galeria/iart-gallery/img/Producto innovador/im13310060999producto innovador 1.jpg',
 
 	// onLoad callback
 	function ( texture ) {
