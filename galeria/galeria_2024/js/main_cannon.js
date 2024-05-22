@@ -556,35 +556,31 @@ loader.load(
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
 
-// Agregar el Mundo/Nivel a la escena    
-    scene.add( world );
-}
-// END Init() === END Init() === END Init() === END Init()
-// Fin de la función INIT - // Fin de la función INIT -// Fin de la función INIT
 
-  var texton = document.getElementById("instructions");
-  console.log(texton.innerText);  
-  
-  var texflood = document.getElementById("flood");
-  console.log(texflood);
-  
-  var previousText = ""; // Variable para almacenar el texto anterior
-  var textLoadingInterval = setInterval(checkTextChange, 1000); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
-  
-  function checkTextChange() {
-      var currentText = texflood.innerText; // Obtener el texto actual del elemento "flood"
-      
-      // Verificar si el texto actual es diferente al texto anterior
-      if (currentText !== previousText) {
-          // Si el texto ha cambiado, actualizar el texto anterior y reiniciar el temporizador
-          previousText = currentText;
-      } else {
-          // Si el texto no ha cambiado durante un período de tiempo, detener el intervalo y cargar el texto
-          clearInterval(textLoadingInterval);
-          console.log("El texto ha dejado de cambiar. Cargando el texto...");
-          // Aquí puedes realizar la carga del texto y cualquier otra acción necesaria
-          // console.log(texflood.innerText);
-         var currentText = texflood.innerText;
+
+var texton = document.getElementById("instructions");
+console.log(texton.innerText);  
+
+var texflood = document.getElementById("flood");
+console.log(texflood);
+
+var previousText = ""; // Variable para almacenar el texto anterior
+var textLoadingInterval = setInterval(checkTextChange, 1000); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
+
+function checkTextChange() {
+    var currentText = texflood.innerText; // Obtener el texto actual del elemento "flood"
+    
+    // Verificar si el texto actual es diferente al texto anterior
+    if (currentText !== previousText) {
+        // Si el texto ha cambiado, actualizar el texto anterior y reiniciar el temporizador
+        previousText = currentText;
+    } else {
+        // Si el texto no ha cambiado durante un período de tiempo, detener el intervalo y cargar el texto
+        clearInterval(textLoadingInterval);
+        console.log("El texto ha dejado de cambiar. Cargando el texto...");
+        // Aquí puedes realizar la carga del texto y cualquier otra acción necesaria
+        // console.log(texflood.innerText);
+       var currentText = texflood.innerText;
 // Dividir el texto en un arreglo usando la coma como separador
 var textArray = currentText.split(',');
 
@@ -611,8 +607,16 @@ skyCube.position.copy(skyCubePosition);
 
 // Agrega el cubo a la escena
 scene.add(skyCube);
-      }
-  }
+    }
+}
+
+
+
+// Agregar el Mundo/Nivel a la escena    
+    scene.add( world );
+}
+// END Init() === END Init() === END Init() === END Init()
+// Fin de la función INIT - // Fin de la función INIT -// Fin de la función INIT
 
 // Particles funcitions
 var particles = new Array();
