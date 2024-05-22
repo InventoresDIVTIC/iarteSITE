@@ -12,6 +12,9 @@ if ($resultado) {
     while ($fila = mysqli_fetch_assoc($resultado)) {
         if ($fila['imagen1'] != ''){
             $images[] = $fila['imagen1']; // Añadir cada nombre de imagen al array
+            
+            $new_prefix = '/galeria/iart-gallery/img/Producto innovador';
+            $images[] = str_replace('./img/', $new_prefix, $fila['imagen1']);
         }
     }
     // Codificar el array en formato JSON y enviarlo como respuesta

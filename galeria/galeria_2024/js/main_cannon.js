@@ -484,30 +484,15 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
 var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
 boxGeometry.translate( 0, 0.75, 0 );
 
-
-// Fetcheamos a los participantes desde el php
-// Solicitud AJAX para obtener los nombres de las imágenes desde PHP
-
-// NO SIRVE EL FETCH AUN
-// fetch('https://iarte.inventores.org/get_images_2024.php')
-// .then(response => response.json())
-// .then(data => {
-//     if (data.error) {
-//         console.error('Error fetching the images:', data.error);
-//     } else {
-//         const imageUrls = data.images;
-//         imageUrls.forEach(imageUrl => {
-//             // Llama a la función para cargar la textura y crear los meshes
-//             // loadTextureAndCreateMeshes(imageUrl);
-//         });
-//         console.log(imageUrls); // Para verificar la lista de URLs
-//     }
-// })
-// .catch(error => console.error('Error fetching the images:', error));
+// Ahora debemos añadirlo desde un div invisible o no se
 
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
+const temp = document.getElementById("flood").innerText;
+console.log(temp);
+
+
 const loader = new THREE.TextureLoader();
 
 // load a resource

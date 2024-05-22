@@ -16,12 +16,12 @@
 </head>
 
 <div id="UI">
-    
-    
     <img id="objectImage" src="">
     <div id="textOverlay" ></div>    
-
 </div>
+
+<div id="flood" style="display: none;"></div>
+    
     <body style="margin: 0; width: 100%;">
 
         <div id="instructions">
@@ -80,11 +80,12 @@
                      console.error('Error fetching the images:', data.error);
                  } else {
                      const imageUrls = data.images;
-                     imageUrls.forEach(imageUrl => {
+                     document.getElementById("flood").innerText += imageUrls;
+                     //imageUrls.forEach(imageUrl => {
                          // Llama a la función para cargar la textura y crear los meshes
                          // loadTextureAndCreateMeshes(imageUrl);
-                     });
-                     console.log(imageUrls); // Para verificar la lista de URLs
+                     //});
+                     // console.log(imageUrls);// Para verificar la lista de URLs
                  }
              })
              .catch(error => console.error('Error fetching the images:', error));
