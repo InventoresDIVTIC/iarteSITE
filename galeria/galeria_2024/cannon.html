@@ -79,7 +79,10 @@
                  if (data.error) {
                      console.error('Error fetching the images:', data.error);
                  } else {
-                     const imageUrls = data.images;
+                    const oldPrefix = './img/';
+                    const newPrefix = 'galeria/iart-gallery/img/Producto innovador';
+                    const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
+                     
                      document.getElementById("flood").innerText += imageUrls;
                      //imageUrls.forEach(imageUrl => {
                          // Llama a la función para cargar la textura y crear los meshes

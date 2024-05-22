@@ -490,6 +490,8 @@ boxGeometry.translate( 0, 0.75, 0 );
 // Cargar la textura de la imagen
 // instantiate a loader
 const temp = document.getElementById("flood").innerText;
+
+
 console.log(temp);
 
 
