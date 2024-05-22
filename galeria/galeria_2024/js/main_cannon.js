@@ -487,21 +487,23 @@ boxGeometry.translate( 0, 0.75, 0 );
 
 // Fetcheamos a los participantes desde el php
 // Solicitud AJAX para obtener los nombres de las imágenes desde PHP
-fetch('https://iarte.inventores.org/get_images_2024.php')
-.then(response => response.json())
-.then(data => {
-    if (data.error) {
-        console.error('Error fetching the images:', data.error);
-    } else {
-        const imageUrls = data.images;
-        imageUrls.forEach(imageUrl => {
-            // Llama a la función para cargar la textura y crear los meshes
-            // loadTextureAndCreateMeshes(imageUrl);
-        });
-        console.log(imageUrls); // Para verificar la lista de URLs
-    }
-})
-.catch(error => console.error('Error fetching the images:', error));
+
+// NO SIRVE EL FETCH AUN
+// fetch('https://iarte.inventores.org/get_images_2024.php')
+// .then(response => response.json())
+// .then(data => {
+//     if (data.error) {
+//         console.error('Error fetching the images:', data.error);
+//     } else {
+//         const imageUrls = data.images;
+//         imageUrls.forEach(imageUrl => {
+//             // Llama a la función para cargar la textura y crear los meshes
+//             // loadTextureAndCreateMeshes(imageUrl);
+//         });
+//         console.log(imageUrls); // Para verificar la lista de URLs
+//     }
+// })
+// .catch(error => console.error('Error fetching the images:', error));
 
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
@@ -572,14 +574,14 @@ loader.load(
 //un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
-  
+
 
 // Agregar el Mundo/Nivel a la escena    
     scene.add( world );
 }
 // END Init() === END Init() === END Init() === END Init()
 // Fin de la función INIT - // Fin de la función INIT -// Fin de la función INIT
-  
+
 
 // Particles funcitions
 var particles = new Array();

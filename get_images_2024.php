@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 include('conexion.php'); // Asegúrate de que este path es correcto.
 $conexion = conectar();
 
