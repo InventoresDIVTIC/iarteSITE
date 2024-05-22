@@ -72,6 +72,7 @@
             }
             window.onload = applyTranslations();
         </script>        
+        <!-- Script para cargar las imgs como texturas -->
         <script>
             fetch('https://iarte.inventores.org/get_images_2024.php')
              .then(response => response.json())
@@ -80,7 +81,7 @@
                      console.error('Error fetching the images:', data.error);
                  } else {
                     const oldPrefix = './img/';
-                    const newPrefix = 'galeria/iart-gallery/img/Producto innovador';
+                    const newPrefix = '/galeria/iart-gallery/img/Producto innovador/';
                     const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
                      
                      document.getElementById("flood").innerText += imageUrls;
