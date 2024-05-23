@@ -529,7 +529,7 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
     var texflood = document.getElementById("flood").textContent.trim();
     var texturePaths = texflood.split(',');
 
-    console.log("un solo path:---",texturePaths[100]);
+    console.log("un solo path:---",texturePaths[0]);
     var boxGeometry = new THREE.BoxBufferGeometry(3.5, 1.5, 0.3);
     boxGeometry.translate(0, 0.75, 0);
 
