@@ -96,8 +96,8 @@
                      console.error('Error fetching the images:', data.error);
                  } else {
                     const oldPrefix = './img/';
-                    const newPrefix = 'https://iarte.inventores.org/galeria/iart-gallery/img/Producto%20innovador/';
-                    const imageUrls = data.images.map(imageUrl => "'"+ imageUrl.replace(oldPrefix, newPrefix).replace(' ', '%20').replace(' ', '%20')+"'");
+                    const newPrefix = '../../iart-gallery/img/Producto%20innovador/';
+                    const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix).replace(' ', '%20').replace(' ', '%20'));
                     
 
                      document.getElementById("flood").innerText += imageUrls;

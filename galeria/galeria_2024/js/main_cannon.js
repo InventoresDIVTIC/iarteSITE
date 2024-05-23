@@ -529,63 +529,79 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
     var texflood = document.getElementById("flood").textContent.trim();
     var texturePaths = texflood.split(',');
 
-    console.log("un solo path:---",texturePaths[0]);
-    var boxGeometry = new THREE.BoxBufferGeometry(3.5, 1.5, 0.3);
-    boxGeometry.translate(0, 0.75, 0);
+    console.log(texturePaths[0]);
+// objects
+var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
+boxGeometry.translate( 0, 0.75, 0 );
 
-    const loaderd = new THREE.TextureLoader();
+// Ahora debemos añadirlo desde un div invisible o no se
 
-    texturePaths.forEach((path) => {
-        loaderd.load(
-            path,
-            function (texture) {
-                for (var i = 0; i < 50; i++) {
-                    var boxMaterial = new THREE.MeshStandardMaterial({
-                        color: Math.random() * 0xffffff,
-                        flatShading: false,
-                        vertexColors: false
-                    });
+// añadiremos un mesh con imagen    
+// Cargar la textura de la imagen
+// instantiate a loader
+const loaderx = new THREE.TextureLoader();
 
-                    var mesh = new THREE.Mesh(boxGeometry, boxMaterial);
-                    mesh.position.x = Math.random() * 1600 - 800;
-                    mesh.position.y = 0;
-                    mesh.position.z = Math.random() * 1600 - 800;
-                    mesh.scale.x = 20;
-                    mesh.scale.y = Math.random() * 80 + 20;
-                    mesh.scale.z = 20;
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
-                    mesh.updateMatrix();
-                    mesh.matrixAutoUpdate = false;
+// load a resource
+loaderx.load(
+	// resource URL
+	texturePaths[0],
 
-                    mesh.userData = { text: 'Texto para el objeto ' + i };
+	// onLoad callback
+	function ( texture ) {
+    for ( var i = 0; i < 10; i ++ ) {  
+      var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
+  
+      var mesh = new THREE.Mesh( boxGeometry, boxMaterial );
+      mesh.position.x = Math.random() * 1600 - 800;
+      mesh.position.y = 0;
+      mesh.position.z = Math.random() * 1600 - 800;
+      mesh.scale.x = 20;
+      mesh.scale.y = Math.random() * 80 + 20;
+      mesh.scale.z = 20;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.updateMatrix();
+      mesh.matrixAutoUpdate = false;
 
-                    if (mesh.scale.y > 50) {
-                        const material = new THREE.MeshBasicMaterial({ map: texture });
+    // Agregar una propiedad userData con el texto deseado para cada objeto
+    mesh.userData = { text: 'Texto para el objeto ' + i };
 
-                        var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5);
-                        var cube = new THREE.Mesh(cubeGeometry, material);
+    if(mesh.scale.y > 50){
+          // in this example we create the material when the texture is loaded
+		const material = new THREE.MeshBasicMaterial( {
+			map: texture
+		 } );
 
-                        var temp_x = mesh.position.x;
-                        var temp_y = mesh.position.y;
-                        var temp_z = mesh.position.z;
+      // Crear un cubo con el material aplicado
+      var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5); // Tamaño del cubo
+      var cube = new THREE.Mesh(cubeGeometry, material);
+          
+      var temp_x = mesh.position.x;
+      var temp_y = mesh.position.y;
+      var temp_z = mesh.position.z;
+      
+      // Posiciona el cubo en alguna parte de la escena
+      cube.position.set(temp_x , temp_y + 35 ,temp_z + 5); // Cambia las coordenadas según lo necesites
+          
+      // Agregar una propiedad userData con el texto deseado para cada objeto
+      cube.userData = { text: 'ID:' + i + ' ---> Después, en otro momento, morirán la calle donde estaba pintado el rótulo y el idioma en que fueron escritos los versos. Después morirá el planeta gigante donde pasó todo esto. En otros planetas de otros sistemas algo parecido a la gente continuará haciendo cosas parecidas a versos, parecidas a vivir bajo un rótulo de tienda ' };
+          
+      // Agregar el cubo a la escena
+      world.add(cube);
+    }
+    world.add(mesh);
 
-                        cube.position.set(temp_x, temp_y + 35, temp_z + 5);
+    }
+	},
 
-                        cube.userData = { text: 'ID:' + i + ' ---> Después, en otro momento...' };
+	// onProgress callback currently not supported
+	undefined,
 
-                        scene.add(cube);
-                    }
-
-                    scene.add(mesh);
-                }
-            },
-            undefined,
-            function (err) {
-                console.error('An error happened.');
-            }
-        );
-    });
+	// onError callback
+	function ( err ) {
+		console.error( 'An error happened.' );
+	}
+);
     
 // objects
 var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
