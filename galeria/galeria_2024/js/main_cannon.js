@@ -445,11 +445,14 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
   // console.log(textArray);
   
   // Aquí establece las coordenadas donde deseas posicionar el cubo en el cielo
-    
-  init();
-  animate();
-      }
+  setTimeout(function() { 
+    init();
+    animate();
+  }, 1000);
+
+  
   }
+}
   
   function init() {
 
