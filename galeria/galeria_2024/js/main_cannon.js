@@ -434,7 +434,7 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
       } else {
           // Si el texto no ha cambiado durante un período de tiempo, detener el intervalo y cargar el texto
           clearInterval(textLoadingInterval);
-          console.log("El texto ha dejado de cambiar. Cargando el texto...");
+          window.console.log("El texto ha dejado de cambiar. Cargando el texto...");
           // Aquí puedes realizar la carga del texto y cualquier otra acción necesaria
           // console.log(texflood.innerText);
          var currentText = texflood.innerText;
@@ -515,15 +515,15 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
   
 
     var texton = document.getElementById("instructions");
-    console.log(texton.innerText);
+    window.console.log(texton.innerText);
 
     var texflood = document.getElementById("flood");
-    console.log("dentro del main.js:--",texflood);
+    window.console.log("dentro del main.js:--",texflood);
     
     var texflood = document.getElementById("flood").textContent.trim();
     var texturePaths = texflood.split(',');
 
-    console.log(texturePaths[0]);
+    window.console.log(texturePaths[0]);
 
 // objects
 var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
@@ -680,6 +680,7 @@ loader.load(
 }
 // END Init() === END Init() === END Init() === END Init()
 // Fin de la función INIT - // Fin de la función INIT -// Fin de la función INIT
+
 
 // Particles funcitions
 var particles = new Array();

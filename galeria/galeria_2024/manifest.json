@@ -1,8 +1,8 @@
 {
-    "name": "Portfolio - Rafael Barbosa",
-    "short_name": "RBarbosaPortfolio",
-    "start_url": "index.html",
-    "description": "Portfolio - Rafael Barbosa",
+    "name": "Galería virtual IArte",
+    "short_name": "IArte 2024",
+    "start_url": "cannon.html",
+    "description": "Portfolio - Snow Trash",
     "icons": [
       {
         "src": "img/android-chrome-192x192.png",

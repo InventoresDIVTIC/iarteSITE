@@ -33,6 +33,3 @@ with open(path,'w') as file:
 
 
 
-
-
-
