@@ -15,6 +15,9 @@ if ($resultado) {
         if ($fila['imagen1'] != ''){
             $images[] = $fila['imagen1']; // Añadir cada nombre de imagen al array
         }
+        if ($fila['imagen2'] != ''){
+            $images[] = $fila['imagen2']; // Añadir cada nombre de imagen al array
+        }
     }
     // Codificar el array en formato JSON y enviarlo como respuesta
     echo json_encode(array("images" => $images));

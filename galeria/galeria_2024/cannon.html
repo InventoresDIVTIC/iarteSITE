@@ -13,6 +13,22 @@
 
 <!-- fetch? -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.6.20/fetch.min.js" integrity="sha512-5vzl35V/cPSXliPbZtxHY0Q6cfYFd2Qld79+d7wLPbOxnKeCHH/LmlMD8aYl0ZN5VZPFM2FnKiAjoNJ2k3vrEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style>
+    #loadingScreen {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        z-index: 1000;
+    }
+</style>
+
 </head>
 
 <div id="UI">
@@ -23,6 +39,7 @@
 <div id="flood" style="width:0%; height:0%;"></div>
     
     <body style="margin: 0; width: 100%;">
+        <div id="loadingScreen">Loading...</div>
 
         <div id="instructions">
 
@@ -79,9 +96,10 @@
                      console.error('Error fetching the images:', data.error);
                  } else {
                     const oldPrefix = './img/';
-                    const newPrefix = 'https://iarte.inventores.org/galeria/iart-gallery/img/Producto innovador/';
-                    const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix));
-                     
+                    const newPrefix = 'https://iarte.inventores.org/galeria/iart-gallery/img/Producto%20innovador/';
+                    const imageUrls = data.images.map(imageUrl => "'"+ imageUrl.replace(oldPrefix, newPrefix).replace(' ', '%20').replace(' ', '%20')+"'");
+                    
+
                      document.getElementById("flood").innerText += imageUrls;
                      //imageUrls.forEach(imageUrl => {
                          // Llama a la función para cargar la textura y crear los meshes

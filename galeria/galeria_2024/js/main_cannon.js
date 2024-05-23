@@ -408,6 +408,15 @@ window.onload = function() {
     controls.height = value;
     camera.updateProjectionMatrix();
   });
+
+    // Mostrar la pantalla de carga al inicio
+    var loadingScreen = document.getElementById('loadingScreen');
+
+    // Ocultar la pantalla de carga después de 3 segundos
+    setTimeout(function() {
+        loadingScreen.style.display = 'none';
+    }, 3000);
+
 };
 
 
@@ -417,8 +426,39 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
   var arrowHelper; // Variables globales para el ArrowHelper y el objeto intersectado
   var intersectedObject = null; // Variable para guardar la referencia al ArrowHelper
 
+
+  var texflood = document.getElementById("flood");
+  // console.log(texflood);
+  
+  var previousText = ""; // Variable para almacenar el texto anterior
+  var textLoadingInterval = setInterval(checkTextChange, 1500); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
+  
+  function checkTextChange() {
+      var currentText = texflood.innerText; // Obtener el texto actual del elemento "flood"
+      
+      // Verificar si el texto actual es diferente al texto anterior
+      if (currentText !== previousText) {
+          // Si el texto ha cambiado, actualizar el texto anterior y reiniciar el temporizador
+          previousText = currentText;
+      } else {
+          // Si el texto no ha cambiado durante un período de tiempo, detener el intervalo y cargar el texto
+          clearInterval(textLoadingInterval);
+          console.log("El texto ha dejado de cambiar. Cargando el texto...");
+          // Aquí puedes realizar la carga del texto y cualquier otra acción necesaria
+          // console.log(texflood.innerText);
+         var currentText = texflood.innerText;
+  // Dividir el texto en un arreglo usando la coma como separador
+  var textArray = currentText.split(',');
+  
+  // Ahora textArray contiene los elementos individuales como texturas en un arreglo
+  // console.log(textArray);
+  
+  // Aquí establece las coordenadas donde deseas posicionar el cubo en el cielo
+    
   init();
   animate();
+      }
+  }
   
   function init() {
 
@@ -480,6 +520,73 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
     world.add(floor);
   
 
+    var texton = document.getElementById("instructions");
+    console.log(texton.innerText);
+
+    var texflood = document.getElementById("flood");
+    console.log("dentro del main.js:--",texflood);
+    
+    var texflood = document.getElementById("flood").textContent.trim();
+    var texturePaths = texflood.split(',');
+
+    console.log("un solo path:---",texturePaths[100]);
+    var boxGeometry = new THREE.BoxBufferGeometry(3.5, 1.5, 0.3);
+    boxGeometry.translate(0, 0.75, 0);
+
+    const loaderd = new THREE.TextureLoader();
+
+    texturePaths.forEach((path) => {
+        loaderd.load(
+            path,
+            function (texture) {
+                for (var i = 0; i < 50; i++) {
+                    var boxMaterial = new THREE.MeshStandardMaterial({
+                        color: Math.random() * 0xffffff,
+                        flatShading: false,
+                        vertexColors: false
+                    });
+
+                    var mesh = new THREE.Mesh(boxGeometry, boxMaterial);
+                    mesh.position.x = Math.random() * 1600 - 800;
+                    mesh.position.y = 0;
+                    mesh.position.z = Math.random() * 1600 - 800;
+                    mesh.scale.x = 20;
+                    mesh.scale.y = Math.random() * 80 + 20;
+                    mesh.scale.z = 20;
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+                    mesh.updateMatrix();
+                    mesh.matrixAutoUpdate = false;
+
+                    mesh.userData = { text: 'Texto para el objeto ' + i };
+
+                    if (mesh.scale.y > 50) {
+                        const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                        var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5);
+                        var cube = new THREE.Mesh(cubeGeometry, material);
+
+                        var temp_x = mesh.position.x;
+                        var temp_y = mesh.position.y;
+                        var temp_z = mesh.position.z;
+
+                        cube.position.set(temp_x, temp_y + 35, temp_z + 5);
+
+                        cube.userData = { text: 'ID:' + i + ' ---> Después, en otro momento...' };
+
+                        scene.add(cube);
+                    }
+
+                    scene.add(mesh);
+                }
+            },
+            undefined,
+            function (err) {
+                console.error('An error happened.');
+            }
+        );
+    });
+    
 // objects
 var boxGeometry = new THREE.BoxBufferGeometry( 3.5, 1.5, 0.3 );
 boxGeometry.translate( 0, 0.75, 0 );
@@ -555,60 +662,6 @@ loader.load(
 //un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
-
-
-
-var texton = document.getElementById("instructions");
-console.log(texton.innerText);  
-
-var texflood = document.getElementById("flood");
-console.log(texflood);
-
-var previousText = ""; // Variable para almacenar el texto anterior
-var textLoadingInterval = setInterval(checkTextChange, 1500); // Intervalo de comprobación de cambios de texto (cada 1 segundo)
-
-function checkTextChange() {
-    var currentText = texflood.innerText; // Obtener el texto actual del elemento "flood"
-    
-    // Verificar si el texto actual es diferente al texto anterior
-    if (currentText !== previousText) {
-        // Si el texto ha cambiado, actualizar el texto anterior y reiniciar el temporizador
-        previousText = currentText;
-    } else {
-        // Si el texto no ha cambiado durante un período de tiempo, detener el intervalo y cargar el texto
-        clearInterval(textLoadingInterval);
-        console.log("El texto ha dejado de cambiar. Cargando el texto...");
-        // Aquí puedes realizar la carga del texto y cualquier otra acción necesaria
-        // console.log(texflood.innerText);
-       var currentText = texflood.innerText;
-// Dividir el texto en un arreglo usando la coma como separador
-var textArray = currentText.split(',');
-
-// Ahora textArray contiene los elementos individuales como texturas en un arreglo
-alert(textArray);
-
-// Aquí establece las coordenadas donde deseas posicionar el cubo en el cielo
-var skyCubePosition = new THREE.Vector3(0, 1000, 0);
-
-// Tamaño del cubo
-var skyCubeSize = 50;
-
-// Material del cubo
-var skyCubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-// Geometría del cubo
-var skyCubeGeometry = new THREE.BoxGeometry(skyCubeSize, skyCubeSize, skyCubeSize);
-
-// Crea el cubo
-var skyCube = new THREE.Mesh(skyCubeGeometry, skyCubeMaterial);
-
-// Establece la posición del cubo en el cielo
-skyCube.position.copy(skyCubePosition);
-
-// Agrega el cubo a la escena
-scene.add(skyCube);
-    }
-}
 
 
 
