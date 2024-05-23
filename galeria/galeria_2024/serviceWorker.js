@@ -1,5 +1,7 @@
 const cacheversion = 'RBarbPortv1';
 filesToCache = [
+	'cannon.html',
+	'js/main_cannon.js',
 	'index.html',
 	'css/styles.css',
 	'img/android-chrome-192x192.png',
