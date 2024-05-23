@@ -99,7 +99,7 @@
                      console.error('Error fetching the images:', data.error);
                  } else {
                     const oldPrefix = './img/';
-                    const newPrefix = '../../iart-gallery/img/Producto%20innovador/';
+                    const newPrefix = 'img/resources/Producto%20innovador/';
                     const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix).replace(' ', '%20').replace(' ', '%20'));
                     
 
