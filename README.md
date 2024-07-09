@@ -17,11 +17,11 @@
 - [+-] [Input form with progress bar(pulse animation)](https://codepen.io/carlinscuderi/pen/XmeyvV)
 
 #### 3.- Validación de campos (onBlur)
-- [ ] [Blog UX validation best practices](https://www.smashingmagazine.com/2022/09/inline-validation-web-forms-ux/)
-- [] [onblur form validation example](https://codepen.io/merb/pen/qZavOG)
+- [x] [Blog UX validation best practices](https://www.smashingmagazine.com/2022/09/inline-validation-web-forms-ux/)
+- [x] [onblur form validation example](https://codepen.io/merb/pen/qZavOG)
+- [x] [OnBlur validation codepen](https://codepen.io/tranduy/pen/pNQKMQ)
 
-- [] [OnBlur validation codepen](https://codepen.io/tranduy/pen/pNQKMQ)
-
+- [] [Validacion de inputs image]()
 
 ## Recursos por utilizar(??)
 

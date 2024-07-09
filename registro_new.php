@@ -11,7 +11,7 @@
 <form id="msform" method="POST" action="procesa_registro.php" enctype="multipart/form-data">
 
 <!-- Input para el número -->
-<input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" oninput="adjustGradient(this.value)">
+<input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
   
 <!-- progressbar -->
   <ul id="progressbar">
@@ -45,8 +45,9 @@
     <!-- INE -->
     <div class="file-drop-area">
     <span class="fake-btn">* Comprobante de domicilio </span>
-    <span class="file-msg">[reciente (.PDF)]</span>
-    <input class="file-input" type="file" multiple>
+    <span class="file-msg">[reciente en formato (.PDF)]</span>
+    <span id="addrsInp-error"> </span>
+    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" multiple >
     </div>
 
     <!-- Comprobante de domicilio -->
@@ -177,12 +178,18 @@ $(".previous").click(function(){
 
 
 <!-- Validación -->
-<script> 
+<script>
 function validateInput(elementId,value,style,errorStyle,errorDiv) {
     var input = document.getElementById(elementId);
     var successDiv = document.getElementById("validation-success");
     // var value = document.querySelector("#"+elementId).value;
-    console.log(value);
+    
+    var progress = document.getElementById("numberInput").value;
+
+    var clninput = 0;
+    clninput = parseInt(progress);
+
+    console.log({"param":value , "numberinput":progress});
     // Flags
     let isValid = true;
     let errorMessage = '';
@@ -223,6 +230,21 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
                 isValid = false;
             }
             break;
+        
+        // Resolver validación para archivos
+        // Agregando validación para input img
+        case 'addrsInp':
+          console.log({"direccion":value});
+          errorMessage = "este archivo a subir no es validao";
+          if (value === '') {
+                errorMessage = "El Necesitas seleccionar un archivo al menos.";
+                isValid = false;
+            } else if (!/^[a-z0-9_()\-\[\]]+\.pdf$/.test(value)) {
+                errorMessage = "El archivo no es válido.";
+                isValid = false;
+            }
+          break;
+        case '':
         default:
             console.log("No se reconoce el ID del elemento.");
             isValid = false;
@@ -241,20 +263,27 @@ if (!isValid) {
 
     console.log({"errorDiv.value:--":errorDiv.value,"errorDiv.innerText:--":errorDiv.innerText});
     // Establecer el texto de error en el div de error
+    
+    window.navigator.vibrate([200, 100, 200]);
 
     errorDiv.offsetHeight;
     // Establecer los estilos del mensaje de error
 
     errorStyle.width = "auto";
     errorStyle.height = "auto";
-    errorStyle.font = "20px Arial";
-    errorStyle.border = "5px solid rgba(250, 255, 0, 0.8)";
-    errorStyle.display = "block"; // Asegúrate de que el div de error esté visible
+    errorStyle.font = "14px Arial";
+    // errorStyle.border = "5px solid rgba(250, 255, 0, 0.8)";
+    errorStyle.display = "flex"; // Asegúrate de que el div de error esté visible
     errorStyle.color = "red";
     errorStyle.padding = "10px";
-    errorStyle.background = "green";
+    // errorStyle.background = "green";
     errorStyle.overflow ="auto";
+    
+    if(clninput > 0) 
+      clninput -= 30;
 
+    document.getElementById("numberInput").value = clninput;
+    adjustGradient(clninput);
     
 } else {
     // Reiniciar animación de 'pulse'
@@ -271,10 +300,17 @@ if (!isValid) {
     errorStyle.width = "none";
     errorStyle.height = "none";
     successDiv.style.display = "block";
+
+    // sumarle al input del gradiente
+    clninput += 30;
+    document.getElementById("numberInput").value = clninput;
+    adjustGradient(clninput);
+
 }
   // console.log(errorMessage);
 }
 </script>
+
 
 <!-- Filedrop validate -->
 <script>
@@ -465,6 +501,11 @@ function adjustGradient(value) {
   color: red;
 }
 
+.addrsInp-error {
+  border-color: blue;
+  color: red;
+}
+
 /*Otros inputs con sus respectivos styles*/
 #msform input, #msform textarea {
 	padding: 15px;
@@ -561,7 +602,7 @@ function adjustGradient(value) {
 #progressbar li:after {
 	content: '';
 	width: 100%;
-	height: 2px;
+	height: 4px;
 	background: red;
 	position: absolute;
 	left: -50%;
@@ -571,13 +612,13 @@ function adjustGradient(value) {
 }
 #progressbar li:first-child:after {
 	/*connector not needed before the first step*/
-	content: none; 
+	content: none;
 }
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progressbar li.active:before,  #progressbar li.active:after{
 	background: #00b300;
-	color: white;
+	color: black;
 }
 .modal-footer{
     height:fit-content;
@@ -589,7 +630,7 @@ function adjustGradient(value) {
         opacity: 1;
     }
     50% {
-        transform: scale(1.5);
+        transform: scale(1.2);
         opacity: 0.7;
     }
     100% {
