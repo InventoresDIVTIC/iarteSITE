@@ -10,26 +10,33 @@ $edad = mysqli_real_escape_string($conexion, $_POST['edad']);
 
 // Procesar el archivo subido
 if (isset($_FILES['addrsInp']) && $_FILES['addrsInp']['error'] === UPLOAD_ERR_OK) {
-    $identificacion = $telefono . '_' . $_FILES['addrsInp']['name']; // Añadir un prefijo único para evitar colisiones
-    $tmpIdentificacion = $_FILES['addrsInp']['tmp_name'];
+    $fileTmpPath = $_FILES['addrsInp']['tmp_name'];
+    $fileName = $_FILES['addrsInp']['name'];
+    $fileSize = $_FILES['addrsInp']['size'];
+    $fileType = $_FILES['addrsInp']['type'];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
 
-    // Mover el archivo a la carpeta 'files'
-    $rutaIdentificacion = './files/' . $identificacion;
-    if (move_uploaded_file($tmpIdentificacion, $rutaIdentificacion)) {
-        // Insertar los datos en la base de datos
-        $query = "INSERT INTO registro (nombre, telefono, correo, edad, identificacion) VALUES ('$nombre', '$telefono', '$correo', '$edad', '$rutaIdentificacion')";
-        if (ejecutar($conexion, $query)) {
-            echo '<script>$(document).ready(function() { $("#exampleModal").modal("show"); });</script>';
-            exit;
-        } else {
-            echo '<script>$(document).ready(function() { $("#exampleModal").modal("show"); });</script>';
-        }
+    // Define el directorio de destino y verifica si existe
+    $uploadFileDir = './uploaded_files/';
+    if (!file_exists($uploadFileDir)) {
+        mkdir($uploadFileDir, 0777, true);
+    }
+
+    // Define el nuevo nombre del archivo
+    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+    $dest_path = $uploadFileDir . $newFileName;
+
+    if (move_uploaded_file($fileTmpPath, $dest_path)) {
+        $message = 'Archivo subido exitosamente.';
     } else {
-        echo 'Error al mover el archivo.';
+        $message = 'Hubo un error moviendo el archivo al directorio de destino. Asegúrate de que el servidor tiene permisos de escritura.';
     }
 } else {
-    echo 'Error al subir el archivo.';
+    $message = 'Hubo un error en la subida del archivo. Error:' . $_FILES['addrsInp']['error'];
 }
+
+echo $message;
 
 desconectar($conexion);
 ?>
