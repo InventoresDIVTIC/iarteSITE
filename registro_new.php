@@ -78,7 +78,7 @@
     <input type="button" name="previous" class="previous action-button" value="Previous" />
     
     <!-- <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a> -->
-    <button type="button" class="submit action-button" onclick="sendData();">Enviar</button>
+    <button type="submit" class="submit action-button" onclick="sendData();">Enviar</button>
   </fieldset>
 </form>
 
