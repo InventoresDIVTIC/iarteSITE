@@ -77,9 +77,16 @@
     <textarea name="address" placeholder="Address"></textarea>
     <input type="button" name="previous" class="previous action-button" value="Previous" />
     
-    <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a>
+    <!-- <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a> -->
+    <button type="button" class="submit action-button" onclick="sendData();">Enviar</button>
   </fieldset>
 </form>
+
+<script>
+    function sendData(){
+      document.getElementById("ms-form").submit();
+    }
+</script>
 
 
 <script>
