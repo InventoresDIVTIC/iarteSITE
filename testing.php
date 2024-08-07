@@ -44,7 +44,7 @@
 
             function mostrarDatos() {
                 $conexion = conectar();
-                $query = "SELECT nnombre, telefono, correo, edad, identificacion FROM registro";
+                $query = "SELECT nombre, telefono, correo, edad, identificacion FROM registro";
                 $resultado = mysqli_query($conexion,$query);
 
                 if ($resultado) {
