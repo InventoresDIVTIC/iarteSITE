@@ -8,7 +8,7 @@
 <body>
     <!-- multistep form -->
 <?php include('conexion.php'); ?>
-<form id="msform" method="POST" action="procesa_registro.php" enctype="multipart/form-data">
+<form id="msform" method="POST" action="procesa_new.php" enctype="multipart/form-data">
 
 <!-- Input para el número -->
 <input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
@@ -46,8 +46,8 @@
     <div class="file-drop-area">
     <span class="fake-btn">* Comprobante de domicilio </span>
     <span class="file-msg">[reciente en formato (.PDF)]</span>
-    <span id="addrsInp-error"> </span>
-    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" multiple >
+    <p id="addrsInp-error"> </p>
+    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
     </div>
 
     <!-- Comprobante de domicilio -->
@@ -234,17 +234,19 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
         // Resolver validación para archivos
         // Agregando validación para input img
         case 'addrsInp':
-          console.log({"direccion":value});
-          errorMessage = "este archivo a subir no es validao";
-          if (value === '') {
-                errorMessage = "El Necesitas seleccionar un archivo al menos.";
+            console.log({"direccion": value});
+            var fileInput = input.files[0];
+            if (!fileInput) {
+                errorMessage = "Necesitas seleccionar un archivo al menos.";
                 isValid = false;
-            } else if (!/^[a-z0-9_()\-\[\]]+\.pdf$/.test(value)) {
-                errorMessage = "El archivo no es válido.";
+            } else if (!/\.pdf$/i.test(fileInput.name)) {
+                errorMessage = "El archivo no es válido. Solo se permiten archivos PDF.";
                 isValid = false;
+                console.log("No es PDF: " + fileInput.name);
+            } else {
+                console.log("Archivo válido: " + fileInput.name);
             }
-          break;
-        case '':
+            break;
         default:
             console.log("No se reconoce el ID del elemento.");
             isValid = false;
@@ -305,7 +307,6 @@ if (!isValid) {
     clninput += 30;
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
-
 }
   // console.log(errorMessage);
 }
