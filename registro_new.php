@@ -11,7 +11,7 @@
 <form id="msform" method="POST" action="procesa_new.php" enctype="multipart/form-data">
 
 <!-- Input para el número -->
-<input type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
+<input class="escondido" type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
   
 <!-- progressbar -->
   <ul id="progressbar">
@@ -289,7 +289,7 @@ if (!isValid) {
     errorStyle.overflow ="auto";
     
     if(clninput > 0) 
-      clninput -= 30;
+      clninput -= 15;
 
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
@@ -311,7 +311,7 @@ if (!isValid) {
     successDiv.style.display = "block";
 
     // sumarle al input del gradiente
-    clninput += 30;
+    clninput += 15;
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
 }

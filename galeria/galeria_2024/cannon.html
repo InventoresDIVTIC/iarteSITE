@@ -101,7 +101,6 @@
                     const newPrefix = 'img/resources/Producto%20innovador/';
                     const imageUrls = data.images.map(imageUrl => imageUrl.replace(oldPrefix, newPrefix).replace(' ', '%20').replace(' ', '%20'));
                     
-
                      document.getElementById("flood").innerText += imageUrls;
                      //imageUrls.forEach(imageUrl => {
                          // Llama a la función para cargar la textura y crear los meshes
@@ -119,8 +118,9 @@
     // Ocultar la pantalla de carga después de 3 segundos
     setTimeout(function() {
         loadingScreen.style.display = 'none';
-    }, 4500);
+    }, 6500);
     </script>
+    
     </body>
 
 </html>

@@ -411,7 +411,7 @@ window.onload = function() {
 };
 
 
-var camera, scene, renderer, controls, raycaster, arrow, world;
+var camera, scene, renderer, controls, raycaster, arrow, world, textArray;
    
   // Collider helper  
   var arrowHelper; // Variables globales para el ArrowHelper y el objeto intersectado
@@ -439,7 +439,7 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
           // console.log(texflood.innerText);
          var currentText = texflood.innerText;
   // Dividir el texto en un arreglo usando la coma como separador
-  var textArray = currentText.split(',');
+  textArray = currentText.split(',');
   
   // Ahora textArray contiene los elementos individuales como texturas en un arreglo
   // console.log(textArray);
@@ -466,8 +466,8 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xffffff );
-    scene.fog = new THREE.Fog( 0xffffff, 0, 2000 );
-    //scene.fog = new THREE.FogExp2 (0xffffff, 0.007);
+    // scene.fog = new THREE.Fog( 0xffffff, 0, 2000 );
+    // scene.fog = new THREE.FogExp2 (0x000066, 0.004);
   
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -481,9 +481,11 @@ var camera, scene, renderer, controls, raycaster, arrow, world;
   
     window.addEventListener( 'resize', onWindowResize, false );
   
-    var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
-    light.position.set( 0, 100, 0.4 );
-    scene.add( light );
+    // LUCES ----- LUCES ------------ LUCES
+    // var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+    // light.position.set( 0, 100, 0.4 );
+    // scene.add( light );
+
   
     var dirLight = new THREE.SpotLight( 0xffffff, .5, 0.0, 180.0);
     dirLight.color.setHSL( 0.1, 1, 0.95 );
@@ -608,14 +610,16 @@ boxGeometry.translate( 0, 0.75, 0 );
 // instantiate a loader
 const loader = new THREE.TextureLoader();
 
+
+
+for ( var i = 0; i < 100; i ++ ) {  
 // load a resource
 loader.load(
 	// resource URL
-	'img/resources/negy.jpg',
-
+	textArray[i],
 	// onLoad callback
 	function ( texture ) {
-    for ( var i = 0; i < 50; i ++ ) {  
+    
       var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
   
       var mesh = new THREE.Mesh( boxGeometry, boxMaterial );
@@ -632,6 +636,7 @@ loader.load(
 
     // Agregar una propiedad userData con el texto deseado para cada objeto
     mesh.userData = { text: 'Texto para el objeto ' + i };
+    window.console.log(textArray[i]);
 
     if(mesh.scale.y > 50){
           // in this example we create the material when the texture is loaded
@@ -658,7 +663,6 @@ loader.load(
     }
     world.add(mesh);
 
-    }
 	},
 
 	// onProgress callback currently not supported
@@ -672,6 +676,7 @@ loader.load(
 //un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
 // FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
+}
 
 
 
