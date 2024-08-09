@@ -608,77 +608,47 @@ boxGeometry.translate( 0, 0.75, 0 );
 // añadiremos un mesh con imagen    
 // Cargar la textura de la imagen
 // instantiate a loader
+
 const loader = new THREE.TextureLoader();
+for (let x = 0; x < textArray.length; x++) {  
+    // Load a resource
+    loader.load(
+        textArray[x],
+        // onLoad callback
+        function (texture) {
+            let boxMaterial = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff, flatShading: false, vertexColors: false });
+            let mesh = new THREE.Mesh(boxGeometry, boxMaterial);
+            mesh.position.set(Math.random() * 1600 - 800, 0, Math.random() * 1600 - 800);
+            mesh.scale.set(20, Math.random() * 80 + 20, 20);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            mesh.updateMatrix();
+            mesh.matrixAutoUpdate = false;
 
+            // Add userData with text
+            mesh.userData = { text: 'Texto para el objeto ' + x };
 
+            if (mesh.scale.y > 50) {
+                // Create material when the texture is loaded
+                const material = new THREE.MeshBasicMaterial({ map: texture });
+                const cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5);
+                const cube = new THREE.Mesh(cubeGeometry, material);
 
-for ( var i = 0; i < 100; i ++ ) {  
-// load a resource
-loader.load(
-	// resource URL
-	textArray[i],
-	// onLoad callback
-	function ( texture ) {
-    
-      var boxMaterial = new THREE.MeshStandardMaterial( { color: Math.random() * 0xffffff, flatShading: false, vertexColors: false } );
-  
-      var mesh = new THREE.Mesh( boxGeometry, boxMaterial );
-      mesh.position.x = Math.random() * 1600 - 800;
-      mesh.position.y = 0;
-      mesh.position.z = Math.random() * 1600 - 800;
-      mesh.scale.x = 20;
-      mesh.scale.y = Math.random() * 80 + 20;
-      mesh.scale.z = 20;
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      mesh.updateMatrix();
-      mesh.matrixAutoUpdate = false;
-
-    // Agregar una propiedad userData con el texto deseado para cada objeto
-    mesh.userData = { text: 'Texto para el objeto ' + i };
-    window.console.log(textArray[i]);
-
-    if(mesh.scale.y > 50){
-          // in this example we create the material when the texture is loaded
-		const material = new THREE.MeshBasicMaterial( {
-			map: texture
-		 } );
-
-      // Crear un cubo con el material aplicado
-      var cubeGeometry = new THREE.BoxBufferGeometry(40, 40, 5); // Tamaño del cubo
-      var cube = new THREE.Mesh(cubeGeometry, material);
-          
-      var temp_x = mesh.position.x;
-      var temp_y = mesh.position.y;
-      var temp_z = mesh.position.z;
-      
-      // Posiciona el cubo en alguna parte de la escena
-      cube.position.set(temp_x , temp_y + 35 ,temp_z + 5); // Cambia las coordenadas según lo necesites
-          
-      // Agregar una propiedad userData con el texto deseado para cada objeto
-      cube.userData = { text: 'ID:' + i + ' ---> Después, en otro momento, morirán la calle donde estaba pintado el rótulo y el idioma en que fueron escritos los versos. Después morirá el planeta gigante donde pasó todo esto. En otros planetas de otros sistemas algo parecido a la gente continuará haciendo cosas parecidas a versos, parecidas a vivir bajo un rótulo de tienda ' };
-          
-      // Agregar el cubo a la escena
-      world.add(cube);
-    }
-    world.add(mesh);
-
-	},
-
-	// onProgress callback currently not supported
-	undefined,
-
-	// onError callback
-	function ( err ) {
-		console.error( 'An error happened.' );
-	}
-);
-//un mesh con imagen  
-// FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen  
-// FIN un mesh con imagen == FIN un mesh con imagen  == FIN un mesh con imagen
+                cube.position.set(mesh.position.x, mesh.position.y + 35, mesh.position.z + 5);
+                cube.userData = { text: 'ID:' + x + 'Después, en otro momento, morirán la calle donde estaba pintado el rótulo y el idioma en que fueron escritos los versos. Después morirá el planeta gigante donde pasó todo esto. En otros planetas de otros sistemas algo parecido a la gente continuará haciendo cosas parecidas a versos, parecidas a vivir bajo un rótulo de tienda ' };
+                
+                // Add the cube to the scene
+                world.add(cube);
+            }
+            // Add the mesh to the scene
+            world.add(mesh);
+        },
+        undefined,
+        function (err) {
+            console.error('An error happened.');
+        }
+    );
 }
-
-
 
 // Agregar el Mundo/Nivel a la escena    
     scene.add( world );
