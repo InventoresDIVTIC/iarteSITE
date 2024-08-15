@@ -9,7 +9,7 @@ var instructions = document.querySelector("#instructions");
         instructions.style.display = 'none';
       } else {
         controls.enabled = false;
-        instructions.style.display = '-webkit-box';
+        instructions.style.display = '';
       }
     };
     var pointerlockerror = function ( event ) {
@@ -19,9 +19,6 @@ var instructions = document.querySelector("#instructions");
     document.addEventListener( 'pointerlockchange', pointerlockchange, false );
     document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
     document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
-    document.addEventListener( 'pointerlockerror', pointerlockerror, false );
-    document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
-    document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
   
     instructions.addEventListener( 'click', function ( event ) {
       element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
@@ -369,24 +366,29 @@ if (controls.click === true || controls.touch === true) {
           // Actualizar el contenido del elemento HTML con el texto asociado al objeto
           document.getElementById('textOverlay').innerText = text;
 
-          textOverlay.classList.remove('fade-out');
-          objectImage.classList.remove('fade-out');
+          UI.classList.remove('fade-out');
+          // textOverlay.classList.remove('fade-out');
+          // objectImage.classList.remove('fade-out');
 
-          textOverlay.offsetWidth;
-          objectImage.offsetWidth;
+          // textOverlay.offsetWidth;
+          // objectImage.offsetWidth;
+          UI.offsetWidth;
 
           // clase
-          textOverlay.classList.add('show'); // Agregar la clase para mostrar el texto gradualmente
-          objectImage.classList.add('show');
+          UI.classList.add('show');
+          // textOverlay.classList.add('show'); // Agregar la clase para mostrar el texto gradualmente
+          // objectImage.classList.add('show');
 
           // Esperar 2 segundos (duración de la animación) antes de ocultar el elemento
           setTimeout(function() {
-              textOverlay.classList.add('fade-out');
-              objectImage.classList.add('fade-out');
-              buttonContainer.classList.add('fade-out');
-              textOverlay.classList.remove('show');
-              objectImage.classList.remove('show');
-              buttonContainer.classList.remove('show');
+              UI.classList.add('fade-out');
+              // textOverlay.classList.add('fade-out');
+              // objectImage.classList.add('fade-out');
+              // buttonContainer.classList.add('fade-out');
+              UI.classList.remove('show');
+              // textOverlay.classList.remove('show');
+              // objectImage.classList.remove('show');
+              // buttonContainer.classList.remove('show');
           }, 2000);
         
 
@@ -395,6 +397,7 @@ if (controls.click === true || controls.touch === true) {
       if (intersectedObject.material.map && intersectedObject.material.map.image && intersectedObject.material.map.image.src) {
           var textura = intersectedObject.material.map.image.src;
 
+          // UI.classList.remove('fade-out');
           textOverlay.classList.remove('fade-out');
           objectImage.classList.remove('fade-out');
 
@@ -423,9 +426,9 @@ if (controls.click === true || controls.touch === true) {
 var buttonContainer = document.createElement('div');
 buttonContainer.id = 'buttonContainer';
 buttonContainer.style.position = 'absolute'; // Para superponer sobre la escena
-buttonContainer.style.bottom = '50px'; // Ajustar según la posición deseada
-buttonContainer.style.left = '50%';
-buttonContainer.style.transform = 'translateX(-50%)'; // Centrar horizontalmente
+buttonContainer.style.bottom = '30%'; // Ajustar según la posición deseada
+buttonContainer.style.left = '45%';
+buttonContainer.style.transform = 'translateX(-40%)'; // Centrar horizontalmente
 buttonContainer.style.zIndex = '1000'; // Asegurar que esté por encima del canvas de Three.js
 document.body.appendChild(buttonContainer);
 
@@ -433,20 +436,22 @@ document.body.appendChild(buttonContainer);
 for (let i = 1; i <= 10; i++) {
     let button = document.createElement('button');
     button.innerText = `Voto ${i}`;
-    button.style.margin = '5px'; // Espacio entre botones
+    button.style.margin = '3px'; // Espacio entre botones
     buttonContainer.appendChild(button);
+
 
     // Agregar un evento al botón (ejemplo de acción al hacer clic)
     button.addEventListener('click', function() {
         console.log(`Botón ${i} presionado.`);
         // Aquí puedes agregar la lógica para registrar el voto, cambiar color, etc.
-    });
-}
 
+        
 
+      });
+    }
   }
 
-    if (particles.length > 0) {
+if (particles.length > 0) {
       var pLength = particles.length;
       while (pLength--) {
         particles[pLength].prototype.update(pLength);

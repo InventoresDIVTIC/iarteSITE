@@ -252,6 +252,9 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
                 console.log("No es PDF: " + fileInput.name);
             } else {
                 console.log("Archivo válido: " + fileInput.name);
+                var $msg = $('.file-msg');
+                $msg.text(fileInput.name);
+                $msg.removeClass();
             }
             break;
         default:
@@ -452,7 +455,7 @@ function adjustGradient(value) {
   padding: 20px;
   border-radius: 3px;
   transition: 0.2s;
-  border: 5px solid rgba(250, 255, 0, 0.8);
+  /* border: 5px solid rgba(250, 255, 0, 0.8); */
   color: black;
 }
 
