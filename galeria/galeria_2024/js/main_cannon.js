@@ -356,7 +356,6 @@ if (controls.click === true || controls.touch === true) {
       
         makeParticles(intersect.point);
 
-
       // Guardar una referencia al objeto intersectado
       intersectedObject = intersect.object;
 
@@ -369,16 +368,83 @@ if (controls.click === true || controls.touch === true) {
 
           // Actualizar el contenido del elemento HTML con el texto asociado al objeto
           document.getElementById('textOverlay').innerText = text;
+
+          textOverlay.classList.remove('fade-out');
+          objectImage.classList.remove('fade-out');
+
+          textOverlay.offsetWidth;
+          objectImage.offsetWidth;
+
+          // clase
+          textOverlay.classList.add('show'); // Agregar la clase para mostrar el texto gradualmente
+          objectImage.classList.add('show');
+
+          // Esperar 2 segundos (duración de la animación) antes de ocultar el elemento
+          setTimeout(function() {
+              textOverlay.classList.add('fade-out');
+              objectImage.classList.add('fade-out');
+              buttonContainer.classList.add('fade-out');
+              textOverlay.classList.remove('show');
+              objectImage.classList.remove('show');
+              buttonContainer.classList.remove('show');
+          }, 2000);
+        
+
       }
 
       if (intersectedObject.material.map && intersectedObject.material.map.image && intersectedObject.material.map.image.src) {
           var textura = intersectedObject.material.map.image.src;
 
+          textOverlay.classList.remove('fade-out');
+          objectImage.classList.remove('fade-out');
+
+          textOverlay.offsetWidth;
+          objectImage.offsetWidth;
+
+          //animacion
+          textOverlay.classList.add('show');
+          objectImage.classList.add('show'); // Agregar la clase para mostrar el texto gradualmente
+
           // Actualizar una img del objeto clickeado
           document.getElementById('objectImage').src = textura;
+
+          setTimeout(function() {
+            objectImage.classList.add('fade-out');
+            textOverlay.classList.add('fade-out');
+            buttonContainer.classList.add('fade-out');
+            textOverlay.classList.remove('show');
+            objectImage.classList.remove('show');
+            buttonContainer.classList.remove('show');
+        }, 2000);
       }
     }
+
+// Crear un contenedor para los botones
+var buttonContainer = document.createElement('div');
+buttonContainer.id = 'buttonContainer';
+buttonContainer.style.position = 'absolute'; // Para superponer sobre la escena
+buttonContainer.style.bottom = '50px'; // Ajustar según la posición deseada
+buttonContainer.style.left = '50%';
+buttonContainer.style.transform = 'translateX(-50%)'; // Centrar horizontalmente
+buttonContainer.style.zIndex = '1000'; // Asegurar que esté por encima del canvas de Three.js
+document.body.appendChild(buttonContainer);
+
+// Crear los 10 botones
+for (let i = 1; i <= 10; i++) {
+    let button = document.createElement('button');
+    button.innerText = `Voto ${i}`;
+    button.style.margin = '5px'; // Espacio entre botones
+    buttonContainer.appendChild(button);
+
+    // Agregar un evento al botón (ejemplo de acción al hacer clic)
+    button.addEventListener('click', function() {
+        console.log(`Botón ${i} presionado.`);
+        // Aquí puedes agregar la lógica para registrar el voto, cambiar color, etc.
+    });
 }
+
+
+  }
 
     if (particles.length > 0) {
       var pLength = particles.length;

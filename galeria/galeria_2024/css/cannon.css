@@ -84,3 +84,59 @@ html, body {
 
   cursor: pointer;
 }
+
+#textOverlay {
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
+}
+
+#textOverlay.show {
+  opacity: 1;
+}
+
+#objectImage {
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
+}
+
+#objectImage.show {
+  opacity: 1;
+}
+
+/* CSS para la animación de desvanecimiento */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-out {
+  animation: fadeOut 2s forwards; /* 2 segundos para desvanecerse */
+  display: none; /* Ocultar el elemento después de la animación */
+  animation-fill-mode: forwards;
+}
+
+
+
+#joystickContainer { /*Joystick */
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+  width: 100px;
+  height: 100px;
+  z-index: 10;
+}
+
+
+#buttonContainer button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #008CBA; /* Cambia según el estilo que prefieras */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#buttonContainer button:hover {
+  background-color: #005f73; /* Cambia a un tono más oscuro en hover */
+}
