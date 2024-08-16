@@ -88,7 +88,6 @@
     }
 </script>
 
-
 <script>
 //jQuery time
 var current_fs, next_fs, previous_fs; //fieldsets
@@ -110,8 +109,6 @@ $(".next").click(function(){
 
       //show the next fieldset
       next_fs.show(); 
-
-  
 
         current_fs.animate({opacity: 0}, {
             step: function(now, mx) {
@@ -286,7 +283,7 @@ if (!isValid) {
     errorStyle.font = "14px Arial";
     // errorStyle.border = "5px solid rgba(250, 255, 0, 0.8)";
     errorStyle.display = "flex"; // Asegúrate de que el div de error esté visible
-    errorStyle.color = "red";
+    errorStyle.color = "orange";
     errorStyle.padding = "10px";
     // errorStyle.background = "green";
     errorStyle.overflow ="auto";
@@ -371,6 +368,9 @@ function adjustGradient(value) {
     });
 }
 </script>
+
+
+<!-- Scripts para local storage -->
 
 </body>
 </html>
