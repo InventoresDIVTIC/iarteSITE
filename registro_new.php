@@ -37,7 +37,7 @@
     
   </fieldset>
 
-  <fieldset>
+  <fieldset id="compDom">
     <h2 class="fs-title">Documentos Necesarios</h2>
     <h3 class="fs-subtitle">(Comprueba tu identidad antes de concursar)</h3>
     <!-- Input File test -->

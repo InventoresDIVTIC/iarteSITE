@@ -8,6 +8,9 @@ $telefono = mysqli_real_escape_string($conexion, $_POST['telefono']);
 $correo = mysqli_real_escape_string($conexion, $_POST['correo']);
 $edad = mysqli_real_escape_string($conexion, $_POST['edad']);
 
+$personal_files = mysqli_real_escape_string($conexion, $_POST['compDom']);
+$comprobante_domicilio = $personal_files.$_FILES['addrsInp']['name'];
+
 // Procesar el archivo subido
 if (isset($_FILES['addrsInp']) && $_FILES['addrsInp']['error'] === UPLOAD_ERR_OK) {
     $fileTmpPath = $_FILES['addrsInp']['tmp_name'];
@@ -23,7 +26,7 @@ if (isset($_FILES['addrsInp']) && $_FILES['addrsInp']['error'] === UPLOAD_ERR_OK
         $message = 'El archivo es demasiado grande. El tamaño máximo permitido es 5MB.';
     }
     // Verificar la extensión del archivo (ejemplo: solo permitir imágenes)
-    elseif (!in_array($fileExtension, ['jpg', 'png', 'gif', 'jpeg'])) {
+    elseif (!in_array($fileExtension, ['jpg', 'png', 'gif', 'jpeg','pdf'])) {
         $message = 'Tipo de archivo no permitido. Solo se permiten imágenes (jpg, png, gif, jpeg).';
     }
     else {
@@ -38,7 +41,7 @@ if (isset($_FILES['addrsInp']) && $_FILES['addrsInp']['error'] === UPLOAD_ERR_OK
         $dest_path = $uploadFileDir . $newFileName;
 
         if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            $message = 'Archivo subido exitosamente.';
+            $message = 'Archivo subido exitosamente.'.$comprobante_domicilio;
         } else {
             $message = 'Hubo un error moviendo el archivo al directorio de destino. Asegúrate de que el servidor tiene permisos de escritura.';
         }
