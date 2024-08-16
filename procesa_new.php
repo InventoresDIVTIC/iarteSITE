@@ -28,7 +28,7 @@ if (isset($_FILES['addrsInp']) && $_FILES['addrsInp']['error'] === UPLOAD_ERR_OK
     // Verificar la extensión del archivo (ejemplo: solo permitir imágenes)
     elseif (!in_array($fileExtension, ['jpg', 'png', 'gif', 'jpeg','pdf'])) {
         $message = 'Tipo de archivo no permitido. Solo se permiten imágenes (jpg, png, gif, jpeg).';
-    }
+}
     else {
         // Define el directorio de destino y verifica si existe
         $uploadFileDir = './galeria/upload_files/';
