@@ -41,12 +41,15 @@ if (isset($_FILES['addrsInp']) && $_FILES['addrsInp']['error'] === UPLOAD_ERR_OK
         $dest_path = $uploadFileDir . $newFileName;
 
         if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            $message = 'Archivo subido exitosamente.'.$comprobante_domicilio;
+            $message = 'Archivo subido exitosamente.';
         } else {
             $message = 'Hubo un error moviendo el archivo al directorio de destino. Asegúrate de que el servidor tiene permisos de escritura.';
         }
     }
 } else {
+
+    // Display the specific error code
+    echo 'Error Code: ' . $_FILES['addrsInp']['error'] . '<br>';
     // Identificar error específico
     switch ($_FILES['addrsInp']['error']) {
         case UPLOAD_ERR_INI_SIZE:
