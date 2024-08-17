@@ -149,13 +149,14 @@ $(document).ready(function() {
 			type: 'POST',
 			url: 'login.php', // Ruta al script PHP de login
 			data: $(this).serialize(),
+			dataType: 'json',
 			success: function(response) {
-				// Muestra la respuesta dentro del modal (por ejemplo, "Login exitoso" o "Contraseña incorrecta")
-				alert(response);
-				if(response.trim() == "Login exitoso"){
-					$('#loginModal').modal('hide');
-					// Redirigir o cargar otra parte del contenido
+				if (response.status === 'success') {
+					// Login exitoso, redirigir a testing.php
 					window.location.href = 'testing.php';
+				} else {
+					// Mostrar mensaje de error
+					alert(response.message);
 				}
 			},
 			error: function() {
