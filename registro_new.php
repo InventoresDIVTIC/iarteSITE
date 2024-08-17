@@ -8,7 +8,7 @@
 <body>
     <!-- multistep form -->
 <?php include('conexion.php'); ?>
-<form id="msform" method="POST" action="procesa_new.php" enctype="multipart/form-data">
+<form id="msform" method="POST" action="procesa_fixed.php" enctype="multipart/form-data">
 
 <!-- Input para el número -->
 <input class="escondido" type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
@@ -47,7 +47,7 @@
     <span class="fake-btn">* Comprobante de domicilio </span>
     <span class="file-msg">[reciente en formato (.PDF)]</span>
     <p id="addrsInp-error"> </p>
-    <input class="file-input" id="file-input" name="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
+    <input class="file-input" id="fileInput" name="fileInput" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
     </div>
 
     <!-- Comprobante de domicilio -->
@@ -251,7 +251,7 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
                 console.log("Archivo válido: " + fileInput.name);
                 var $msg = $('.file-msg');
                 $msg.text(fileInput.name);
-                $msg.removeClass();
+                $msg.removeClass("");
             }
             break;
         default:
