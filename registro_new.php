@@ -54,16 +54,19 @@
     <div class="file-drop-area">
     <span class="fake-btn">Identificacion Oficial</span>
     <span class="file-msg">[vigente y por ambos lados]</span>
-    <input class="file-input" type="file" multiple>
+    <p id="idInp-error"> </p> 
+    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('idInp-error').style,document.getElementById('idInp-error'))" id="idInp" accept="application/pdf" required >
     </div>
     
     <!-- Manifiesto firmado -->
     <div class="file-drop-area">
     <span class="fake-btn">Identificacion Oficial</span>
     <span class="file-msg">[vigente y por ambos lados]</span>
-    <input class="file-input" type="file" multiple>
+    <p id="manifestInp-error"> </p>
+    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('manifestInp-error').style,document.getElementById('manifestInp-error'))" id="manifestInp" accept="application/pdf" required >
     </div>
 
+    <!-- Botones next y previious -->
     <input type="button" name="previous" class="previous action-button" value="Previous" />
     <input type="button" name="next" class="next action-button" value="Next" />
   </fieldset>
@@ -199,7 +202,7 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
     let errorMessage = '';
     // Remove previously set styles and class
     // input.classList.remove('invalid-input');
-    switch (elementId) {
+  switch (elementId) {
         case 'nombre':
             if (value === '' || value === null ) {
                 // console.log("nombre required");
@@ -254,10 +257,11 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
                 $msg.removeClass("");
             }
             break;
+        case '':
         default:
             console.log("No se reconoce el ID del elemento.");
             isValid = false;
-    }
+}
 
 if (!isValid) {
     console.log({"Input: ":input,"Error:":errorDiv, "innerError": errorDiv.innerText});

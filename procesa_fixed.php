@@ -3,7 +3,6 @@ include('header.html');
 include('conexion.php');
 $conexion = conectar();
 
-
 // Datos personales
 $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
 $telefono = mysqli_real_escape_string($conexion, $_POST['telefono']);
@@ -11,9 +10,7 @@ $correo = mysqli_real_escape_string($conexion, $_POST['correo']);
 $edad = mysqli_real_escape_string($conexion, $_POST['edad']);
 
 
-
 // Archivos y PDF ===== // Archivos y PDF =====
-
 $target_dir = "galeria/upload_files/";
 $target_file = $target_dir . basename($_FILES["addrsInp"]["name"]);
 $uploadOk = 1;
@@ -82,6 +79,9 @@ if ($uploadOk == 1) {
     }
 }
 
+
+
+// insertar en la base de datos
 $query = "INSERT INTO registro(nombre, telefono, correo, edad, identificacion ) VALUES('$nombre','$telefono','$correo',$edad,'$target_file')";
 
     if(ejecutar($conexion,$query)):?>
