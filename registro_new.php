@@ -42,7 +42,8 @@
     <h3 class="fs-subtitle">(Comprueba tu identidad antes de concursar)</h3>
     <!-- Input File test -->
 
-    <!-- INE -->
+
+    <!-- Comprobante de domicilio -->
     <div class="file-drop-area">
     <span class="fake-btn">* Comprobante de domicilio </span>
     <span class="file-msg">[reciente en formato (.PDF)]</span>
@@ -50,12 +51,12 @@
     <input class="file-input" id="addrsInp" name="addrsInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
     </div>
 
-    <!-- Comprobante de domicilio -->
+    <!-- INE -->
     <div class="file-drop-area">
     <span class="fake-btn">Identificacion Oficial</span>
     <span class="file-msg">[vigente y por ambos lados]</span>
     <p id="idInp-error"> </p> 
-    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('idInp-error').style,document.getElementById('idInp-error'))" id="idInp" accept="application/pdf" required >
+    <input class="file-input"  id="idInp" name="idInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('idInp-error').style,document.getElementById('idInp-error'))" accept="application/pdf" required >
     </div>
     
     <!-- Manifiesto firmado -->
@@ -63,7 +64,7 @@
     <span class="fake-btn">Identificacion Oficial</span>
     <span class="file-msg">[vigente y por ambos lados]</span>
     <p id="manifestInp-error"> </p>
-    <input class="file-input" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('manifestInp-error').style,document.getElementById('manifestInp-error'))" id="manifestInp" accept="application/pdf" required >
+    <input class="file-input" id="manifestInp" name="manifestInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('manifestInp-error').style,document.getElementById('manifestInp-error'))" accept="application/pdf" required >
     </div>
 
     <!-- Botones next y previious -->
