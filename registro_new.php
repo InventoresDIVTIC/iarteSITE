@@ -47,7 +47,7 @@
     <span class="fake-btn">* Comprobante de domicilio </span>
     <span class="file-msg">[reciente en formato (.PDF)]</span>
     <p id="addrsInp-error"> </p>
-    <input class="file-input" id="'addrsInp" name="'addrsInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
+    <input class="file-input" id="addrsInp" name="addrsInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
     </div>
 
     <!-- Comprobante de domicilio -->
