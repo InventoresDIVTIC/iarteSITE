@@ -111,6 +111,62 @@
 <!-- END -->
 
 
+<!-- Modal de Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <form>
+			<div class="form-group">
+			  <label for="username">Usuario</label>
+			  <input type="text" class="form-control" id="username" placeholder="Ingresa tu usuario">
+			</div>
+			<div class="form-group">
+			  <label for="password">Contraseña</label>
+			  <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña">
+			</div>
+			<button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+		  </form>
+		</div>
+	  </div>
+	</div>
+</div>
+<!-- Modal del Login-->
+<!-- END -->
+
+<script>
+$(document).ready(function() {
+	$('#loginForm').on('submit', function(e) {
+		e.preventDefault(); // Evitar que el formulario se envíe de manera tradicional
+
+		$.ajax({
+			type: 'POST',
+			url: 'login.php', // Ruta al script PHP de login
+			data: $(this).serialize(),
+			success: function(response) {
+				// Muestra la respuesta dentro del modal (por ejemplo, "Login exitoso" o "Contraseña incorrecta")
+				alert(response);
+				if(response.trim() == "Login exitoso"){
+					$('#loginModal').modal('hide');
+					// Redirigir o cargar otra parte del contenido
+					window.location.href = 'testing.php';
+				}
+			},
+			error: function() {
+				alert('Hubo un error al procesar tu solicitud. Por favor, intenta nuevamente.');
+			}
+		});
+	});
+});	
+</script>
+
+
 <!-- Scripts de googleAnalytics -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -165,18 +221,13 @@
 	                            <!-- <a href="./registro.php" on >Registro</a> -->
 								<!-- <a data-toggle="modal" data-target="#exampleModal" >Registro</a> -->
 								<a data-toggle="modal" data-target="#registroModal" id="form">Registro</a>
-
-								 
-								
-	                            <ul class="dropdown-menu">
-	                                <li><a href="./registro_new.php">Convocatoria 1er iArte 2023 </a></li>
-	                            </ul>
 	                        </li> 
 							<li style="display: inline-block;"><a href="./dudas.html">Preguntas frecuentes</a></li>
 
 							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
 							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
-
+							
+							<li style="display: inline-block;"><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
 						</ul>
 						
 

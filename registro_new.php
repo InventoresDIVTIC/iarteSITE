@@ -252,12 +252,12 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
                 console.log("No es PDF: " + fileInput.name);
             } else {
                 console.log("Archivo válido: " + fileInput.name);
-                var $msg = $('.file-msg');
-                $msg.text(fileInput.name);
-                $msg.removeClass("");
+                var msgContainer = input.parentElement.querySelector('.file-msg');
+                msgContainer.textContent = fileInput.name;
+                isValid = true;
             }
             break;
-        case '':
+        // case '':  ----------- Aqui deben ir los case para los otros pdf
         default:
             console.log("No se reconoce el ID del elemento.");
             isValid = false;

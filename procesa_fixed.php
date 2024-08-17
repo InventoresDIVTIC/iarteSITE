@@ -81,8 +81,23 @@ if ($uploadOk == 1) {
 
 
 
+
+// Contraseña de prueba
+$password = "pass123";
+
+// Insertar la contraseña en texto plano (solo para pruebas)
+// Este código debería estar comentado en producción
+// $sql = "UPDATE registro SET nacionalidad = '$password' WHERE id = $correo";
+
+// Descomenta las siguientes líneas para hashear la contraseña antes de almacenarla
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+// $sql = "UPDATE nombre_de_tu_tabla SET nacionalidad = '$hashed_password' WHERE id = $user_id";
+
+// La contraseña de prueba en texto plano se encuentra en el campo de nacionalidad y hasheada en el de ocupacion
+
 // insertar en la base de datos
-$query = "INSERT INTO registro(nombre, telefono, correo, edad, identificacion ) VALUES('$nombre','$telefono','$correo',$edad,'$target_file')";
+
+$query = "INSERT INTO registro(nombre, telefono, correo, edad, identificacion, nacionalidad, ocupacion ) VALUES('$nombre','$telefono','$correo',$edad,'$target_file','$password','$hashed_password')";
 
     if(ejecutar($conexion,$query)):?>
         <script>
