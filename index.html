@@ -112,64 +112,61 @@
 
 
 <!-- Modal de Login -->
+<!-- Modal de Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
-		<div class="modal-body">
-		  <form>
-			<div class="form-group">
-			  <label for="username">Usuario</label>
-			  <input type="text" class="form-control" id="username" placeholder="Ingresa tu usuario">
-			</div>
-			<div class="form-group">
-			  <label for="password">Contraseña</label>
-			  <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña">
-			</div>
-			<button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-		  </form>
-		</div>
-	  </div>
-	</div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm"> <!-- ID agregado aquí -->
+                    <div class="form-group">
+                        <label for="username">Usuario</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+                <div id="message" style="margin-top: 10px;"></div> <!-- Mensaje de éxito o error -->
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Modal del Login-->
 <!-- END -->
 
 <script>
-$(document).ready(function() {
-	$('#loginForm').on('submit', function(e) {
-		e.preventDefault(); // Evitar que el formulario se envíe de manera tradicional
+    // Script para manejar la respuesta del servidor
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-		$.ajax({
-			type: 'POST',
-			url: 'login.php', // Ruta al script PHP de login
-			data: $(this).serialize(),
-			dataType: 'json',
-			success: function(response) {
-				if (response.status === 'success') {
-					console.log(response.message);
-					// Login exitoso, redirigir a testing.php
-					window.location.href = './testing.php';
-				} else {
-					// Mostrar mensaje de error
-					console.log(response.message);
-					alert(response.message);
-				}
-			},
-			error: function() {
-				console.log("hubo un error con la solicitud");
-				alert('Hubo un error al procesar tu solicitud. Por favor, intenta nuevamente.');
-			}
-		});
-	});
-});	
+        const formData = new FormData(this);
+
+        fetch('login.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageDiv = document.getElementById('message');
+            if (data.status === 'success') {
+                messageDiv.style.color = 'green';
+                messageDiv.textContent = 'Inicio de sesión exitoso.';
+            } else {
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'Usuario o contraseña incorrectos.';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
 </script>
-
 
 <!-- Scripts de googleAnalytics -->
 <script>
