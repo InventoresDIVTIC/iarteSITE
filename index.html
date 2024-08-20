@@ -116,7 +116,7 @@
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <p>FInicia Sesion en tu cuenta</p>
+		  <p>Inicia Sesion en tu cuenta</p>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 		  </button>
@@ -190,7 +190,7 @@
 							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
 							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
 							
-							<li style="display: inline-block;"><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+							<li style="display: inline-block;"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
 						</ul>
 						
 
@@ -569,7 +569,7 @@
 </script>
 
 <script>
-	$('#form').on('click',function(){
+	$('#logform').on('click',function(){
 		$('.login-body').load('login.php',function(){
 			$('#loginModal').modal({show:true});
 		});
