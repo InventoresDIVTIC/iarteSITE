@@ -43,6 +43,6 @@ desconectar($conexion);
 
 // Enviar la respuesta en formato JSON si hay un error
 if (!empty($response)) {
-    echo json_encode($response);
+    echo json_encode($response)."falló????";
 }
 ?>
