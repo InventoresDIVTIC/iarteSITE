@@ -1,42 +1,19 @@
-<?php
-include('header.html');
-include('conexion.php');
-$conexion = conectar();
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="process_login.php" method="POST">
+        <label for="correo">Correo:</label><br>
+        <input type="email" id="correo" name="correo" required><br><br>
 
-// Obtener los datos del formulario
-$correo = mysqli_real_escape_string($conexion, $_POST['correo']);
-$password = mysqli_real_escape_string($conexion, $_POST['password']);
+        <label for="password">Contraseña:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
 
-// Consultar la base de datos para obtener el hash de la contraseña almacenado en el campo "nacionalidad"
-$query = "SELECT nacionalidad, ocupacion FROM registro WHERE correo = '$correo'";
-$result = mysqli_query($conexion, $query);
-
-// Crear un array para la respuesta
-$response = array();
-
-if (mysqli_num_rows($result) == 1) {
-    $row = mysqli_fetch_assoc($result);
-    $hashed_password = $row['ocupacion']; // Asegúrate de usar el campo correcto para el hash
-
-    // Verificar la contraseña ingresada con el hash almacenado
-    if (password_verify($password, $hashed_password)) {
-        // Login exitoso
-        $response['status'] = 'success';
-        $response['message'] = 'Login exitoso';
-    } else {
-        // Contraseña incorrecta
-        $response['status'] = 'error';
-        $response['message'] = 'Contraseña incorrecta';
-    }
-} else {
-    // Correo no encontrado
-    $response['status'] = 'error';
-    $response['message'] = 'Correo no encontrado';
-}
-
-// Cerrar la conexión
-desconectar($conexion);
-
-// Devolver la respuesta en formato JSON
-echo json_encode($response);
-?>
+        <input type="submit" value="Iniciar Sesión">
+    </form>
+</body>
+</html>
