@@ -1,6 +1,5 @@
 <?php
 session_start(); // Iniciar la sesión
-include('header.html');
 include('conexion.php');
 $conexion = conectar();
 
@@ -25,8 +24,8 @@ if ($result && mysqli_num_rows($result) == 1) {
         $_SESSION['correo'] = $correo; // Guardar el correo en la sesión
         $_SESSION['nacionalidad'] = $row['nacionalidad']; // Guardar más datos si es necesario
         
-        // Redirigir a la página principal o a la página de registro para el concurso
-        header("Location: index.html"); // Cambia 'pagina_principal.php' por la URL deseada
+        // Redirigir a la página index.html
+        header("Location: index.html");
         exit(); // Asegúrate de terminar el script después de redirigir
     } else {
         // Contraseña incorrecta
