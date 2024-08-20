@@ -24,6 +24,9 @@ if ($result && mysqli_num_rows($result) == 1) {
         $_SESSION['correo'] = $correo; // Guardar el correo en la sesión
         $_SESSION['nacionalidad'] = $row['nacionalidad']; // Guardar más datos si es necesario
         
+        // Cerrar la conexión
+        desconectar($conexion);
+
         // Redirigir a la página index.html
         header("Location: index.html");
         exit(); // Asegúrate de terminar el script después de redirigir
@@ -38,11 +41,11 @@ if ($result && mysqli_num_rows($result) == 1) {
     $response['message'] = 'Correo no encontrado o error en la consulta';
 }
 
-// Cerrar la conexión
+// Cerrar la conexión si hay un error
 desconectar($conexion);
 
 // Enviar la respuesta en formato JSON si hay un error
 if (!empty($response)) {
-    echo json_encode($response)."falló????";
+    echo json_encode($response);
 }
 ?>
