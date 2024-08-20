@@ -165,8 +165,15 @@
 					</div>
 					<div class="col-xs-4">
 						<div class="redes-s">
-
-							<div>
+						<?php
+							session_start();
+							if (isset($_SESSION['user_email'])) {
+								echo "<p>Bienvenido, " . $_SESSION['user_email'] . "</p>";
+							} else {
+								echo '<a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a>';
+							}
+						?>
+						<div>
 								
 							</div>
 						</div>
