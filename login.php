@@ -17,32 +17,33 @@
     </form>
 
 <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
+document.querySelector('form').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el comportamiento de envío por defecto
 
     let formData = new FormData(this);
 
     fetch('process_login.php', {
-    method: 'POST',
-    body: formData
-}).then(response => response.text()) // Cambia a text() para ver el contenido
-.then(data => {
-    console.log(data); // Imprime el contenido de la respuesta
-    try {
-        let jsonData = JSON.parse(data); // Intenta analizar el JSON
-        if (jsonData.status === 'success') {
-            window.location.href = 'index.html'; // Redirige a la página de inicio
-        } else {
-            alert(jsonData.message); // Muestra el mensaje de error
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) // Lee la respuesta como texto
+    .then(data => {
+        console.log(data); // Imprime el contenido de la respuesta para depuración
+        try {
+            let jsonData = JSON.parse(data); // Intenta analizar el JSON
+            if (jsonData.status === 'success') {
+                window.location.href = 'index.html'; // Redirige a la página de inicio
+            } else {
+                alert(jsonData.message); // Muestra el mensaje de error
+            }
+        } catch (e) {
+            console.error('Error parsing JSON:', e);
         }
-    } catch (e) {
-        console.error('Error parsing JSON:', e);
-    }
+    })
+    .catch(error => {
+        console.error('Error en la solicitud:', error);
+    });
 });
-
-});
-
 </script>
-
 </body>
 </html>

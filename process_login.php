@@ -23,13 +23,10 @@ if ($result && mysqli_num_rows($result) == 1) {
         // Login exitoso, guardar información en la sesión
         $_SESSION['correo'] = $correo; // Guardar el correo en la sesión
         $_SESSION['nacionalidad'] = $row['nacionalidad']; // Guardar más datos si es necesario
-        
-        // Cerrar la conexión
-        desconectar($conexion);
 
-        // Redirigir a la página index.html
-        header("Location: index.html");
-        exit(); // Asegúrate de terminar el script después de redirigir
+        // Preparar la respuesta en formato JSON
+        $response['status'] = 'success';
+        $response['message'] = 'Se inició la sesión correctamente';
     } else {
         // Contraseña incorrecta
         $response['status'] = 'error';
@@ -41,13 +38,10 @@ if ($result && mysqli_num_rows($result) == 1) {
     $response['message'] = 'Correo no encontrado o error en la consulta';
 }
 
-// Cerrar la conexión si hay un error
+// Cerrar la conexión
 desconectar($conexion);
 
-// Enviar la respuesta en formato JSON si hay un error
-if (!empty($response)) {
-    header('Content-Type: application/json'); // Asegúrate de que el tipo de contenido es JSON
-    echo json_encode($response);
-    exit(); // Termina el script después de enviar la respuesta
-}
+// Enviar la respuesta en formato JSON
+header('Content-Type: application/json');
+echo json_encode($response);
 ?>
