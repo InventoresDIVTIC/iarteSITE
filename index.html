@@ -112,21 +112,32 @@
 
 
 <!-- Modal de Login -->
+<!-- Modal de Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <p>Inicia Sesion en tu cuenta</p>
+		  <p>Inicia Sesión en tu cuenta</p>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
+			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
-		<div class="login-body">
-			
+		<div class="modal-body">
+		  <form id="loginForm" method="post" action="login.php">
+			<div class="form-group">
+			  <label for="username">Usuario</label>
+			  <input type="text" class="form-control" id="username" name="username" required>
+			</div>
+			<div class="form-group">
+			  <label for="password">Contraseña</label>
+			  <input type="password" class="form-control" id="password" name="password" required>
+			</div>
+			<button type="submit" class="btn btn-primary">Iniciar sesión</button>
+		  </form>
 		</div>
 	  </div>
 	</div>
-  </div>
+  </div>  
 <!-- Modal del Login-->
 <!-- END -->
 
@@ -575,6 +586,29 @@
 	});
 </script>
 
+
+<script>
+	function checkSession() {
+	  fetch('check_session.php')
+		.then(response => response.json())
+		.then(data => {
+		  if (data.logged_in) {
+			// El usuario está autenticado
+			document.getElementById('loginModal').style.display = 'none';
+			document.getElementById('logform').style.display = 'none';
+		  } else {
+			// El usuario no está autenticado
+			document.getElementById('loginModal').style.display = 'block';
+			document.getElementById('logform').style.display = 'inline';
+		  }
+		})
+		.catch(error => console.error('Error checking session:', error));
+	}
+  
+	// Ejecutar la verificación de sesión cuando la página se cargue
+	document.addEventListener('DOMContentLoaded', checkSession);
+  </script>
+  
 </body>
 </html>
 
