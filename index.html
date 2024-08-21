@@ -581,11 +581,11 @@
     fetch('check_session.php')
       .then(response => response.json())
       .then(data => {
-        if (data.logged_in) {
+        if (data.status === 'success') {
           // El usuario está autenticado
 //        document.getElementById('loginModal').style.display = 'none';
 //        document.getElementById('logform').style.display = 'none';
-console.log("loguiadito")
+			console.log("loguiadito")
         } else {
           // El usuario no está autenticado
 //         document.getElementById('loginModal').style.display = 'block';
