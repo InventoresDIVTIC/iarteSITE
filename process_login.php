@@ -46,6 +46,8 @@ desconectar($conexion);
 
 // Enviar la respuesta en formato JSON si hay un error
 if (!empty($response)) {
+    header('Content-Type: application/json'); // Asegúrate de que el tipo de contenido es JSON
     echo json_encode($response);
+    exit(); // Termina el script después de enviar la respuesta
 }
 ?>
