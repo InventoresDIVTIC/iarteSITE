@@ -15,5 +15,28 @@
 
         <input type="submit" value="Iniciar Sesión">
     </form>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el comportamiento de envío por defecto
+
+    let formData = new FormData(this);
+
+    fetch('process_login.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = 'index.html'; // Redirige a la página de inicio
+        } else {
+            alert(data.message); // Muestra el mensaje de error
+        }
+    });
+});
+
+</script>
+
 </body>
 </html>
