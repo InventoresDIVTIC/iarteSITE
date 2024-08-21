@@ -577,27 +577,29 @@
 
 
 <script>
-	function checkSession() {
-	  fetch('check_session.php')
-		.then(response => response.json())
-		.then(data => {
-		  if (data.logged_in) {
-			// El usuario está autenticado
-			document.getElementById('loginModal').style.display = 'none';
-			document.getElementById('logform').style.display = 'none';
-		  } else {
-			// El usuario no está autenticado
-			document.getElementById('loginModal').style.display = 'block';
-			document.getElementById('logform').style.display = 'inline';
-		  }
-		})
-		.catch(error => console.error('Error checking session:', error));
-	}
-  
-	// Ejecutar la verificación de sesión cuando la página se cargue
-	document.addEventListener('DOMContentLoaded', checkSession);
-  </script>
-  
+  function checkSession() {
+    fetch('check_session.php')
+      .then(response => response.json())
+      .then(data => {
+        if (data.logged_in) {
+          // El usuario está autenticado
+//        document.getElementById('loginModal').style.display = 'none';
+//        document.getElementById('logform').style.display = 'none';
+console.log("loguiadito")
+        } else {
+          // El usuario no está autenticado
+//         document.getElementById('loginModal').style.display = 'block';
+//         document.getElementById('logform').style.display = 'inline';
+console.log("vlv");
+        }
+      })
+      .catch(error => console.error('Error checking session:', error));
+  }
+
+  // Ejecutar la verificación de sesión cuando la página se cargue
+  document.addEventListener('DOMContentLoaded', checkSession);
+</script>
+
 </body>
 </html>
 
