@@ -178,17 +178,17 @@
 							
 
 							<li class="active" style="display: inline-block;"><a href="./"><i class="fas fa-home"></i></a></li>
-
-	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
-	                            <!-- <a href="./registro.php" on >Registro</a> -->
-								<!-- <a data-toggle="modal" data-target="#exampleModal" >Registro</a> -->
-								<a data-toggle="modal" data-target="#registroModal" id="form">Registro</a>
-	                        </li> 
-
+							
 							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
 							<div id="userOptions" style="display: none;">
 								<li style="display: inline-block;"><a href="./miCuenta.html">Mi Cuenta</a></li>
 							</div>
+
+	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
+	                            <!-- <a href="./registro.php" on >Registro</a> -->
+								<!-- <a data-toggle="modal" data-target="#exampleModal" >Registro</a> -->
+								<a data-toggle="modal" data-target="#registroModal" id="formRegis">Registro</a>
+	                        </li> 
 
 							<li style="display: inline-block;"><a href="./dudas.html">Preguntas frecuentes</a></li>
 
@@ -572,7 +572,7 @@
 	<!-- Scripst del Modal -->
 	<!-- Probar con _old.php y _new.php -->
 <script>
-		$('#form').on('click',function(){
+		$('#formRegis').on('click',function(){
 			$('.modal-body').load('registro_new.php',function(){
 				$('#formModal').modal({show:true});
 			});
@@ -600,7 +600,7 @@
  			// Si el usuario está logueado, muestra las opciones del usuario y oculta el login
  			document.getElementById("userOptions").style.display = "inline-block";
  			document.getElementById("loginOption").style.display = "none";
-			document.getElementById("form").style.display = "none";
+			document.getElementById("formRegis").style.display = "none";
 			console.log("loguiadito")
         } else {
           // El usuario no está autenticado
@@ -609,7 +609,7 @@
             // Si no está logueado, oculta las opciones del usuario y muestra el login
             document.getElementById("userOptions").style.display = "none";
             document.getElementById("loginOption").style.display = "inline-block";
-			document.getElementById("form").style.display = "inline-block";
+			document.getElementById("formRegis").style.display = "inline-block";
 			console.log("vlv");
         }
       })
