@@ -70,9 +70,11 @@
     <!-- Botones next y previious -->
     <input type="button" name="previous" class="previous action-button" value="Previous" />
     <input type="button" name="next" class="next action-button" value="Next" />
+    <!-- <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a> -->
+    <button type="submit" class="submit action-button" onclick="sendData();">Enviar</button>
   </fieldset>
 
-  <fieldset>
+  <!-- <fieldset>
     <h2 class="fs-title">Personal Details</h2>
     <h3 class="fs-subtitle">We will never sell it</h3>
     <input type="text" name="fname" placeholder="First Name" />
@@ -80,10 +82,8 @@
     <input type="text" name="phone" placeholder="Phone" />
     <textarea name="address" placeholder="Address"></textarea>
     <input type="button" name="previous" class="previous action-button" value="Previous" />
-    
-    <!-- <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a> -->
-    <button type="submit" class="submit action-button" onclick="sendData();">Enviar</button>
-  </fieldset>
+  </fieldset> -->
+  
 </form>
 
 <script>
