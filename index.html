@@ -184,6 +184,12 @@
 								<!-- <a data-toggle="modal" data-target="#exampleModal" >Registro</a> -->
 								<a data-toggle="modal" data-target="#registroModal" id="form">Registro</a>
 	                        </li> 
+
+							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
+							<div id="userOptions" style="display: none;">
+								<li style="display: inline-block;"><a href="./miCuenta.html">Mi Cuenta</a></li>
+							</div>
+
 							<li style="display: inline-block;"><a href="./dudas.html">Preguntas frecuentes</a></li>
 
 							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
@@ -193,8 +199,7 @@
 							
 							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
 							<div id="userOptions" style="display: none;">
-							    <li style="display: inline-block;"><a href="./miCuenta.html">Mi Cuenta</a></li>
-							    <li style="display: inline-block;"><a href="./logout.php">Cerrar Sesión</a></li>
+								<li style="display: inline-block;"><a href="./logout.php">Cerrar Sesión</a></li>
 							</div>
 
 						</ul>
@@ -595,6 +600,7 @@
  			// Si el usuario está logueado, muestra las opciones del usuario y oculta el login
  			document.getElementById("userOptions").style.display = "inline-block";
  			document.getElementById("loginOption").style.display = "none";
+			document.getElementById("form").style.display = "none";
 			console.log("loguiadito")
         } else {
           // El usuario no está autenticado
@@ -603,6 +609,7 @@
             // Si no está logueado, oculta las opciones del usuario y muestra el login
             document.getElementById("userOptions").style.display = "none";
             document.getElementById("loginOption").style.display = "inline-block";
+			document.getElementById("form").style.display = "inline-block";
 			console.log("vlv");
         }
       })

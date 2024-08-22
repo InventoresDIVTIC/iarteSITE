@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Obras de Arte Generadas por IA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #cccccc;
+        }
+        input[type="file"] {
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Obras de Arte Generadas por IA</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="title">Título de la Obra</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="image">Cargar Imagen</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <label for="prompt">Prompt Utilizado</label>
+            <textarea id="prompt" name="prompt" rows="4" required></textarea>
+
+            <button type="submit">Registrar Obra</button>
+        </form>
+    </div>
+
+<script>
+    function checkSession() {
+      fetch('check_session.php')
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+
+              console.log("loguiadito"+data.nombre)
+          } else {
+
+              console.log("vlv"+data.message);
+          }
+        })
+        .catch(error => console.error('Error checking session:', error));
+    }
+  
+    // Ejecutar la verificación de sesión cuando la página se cargue
+    document.addEventListener('DOMContentLoaded', checkSession);
+  </script>
+      
+</body>
+</html>

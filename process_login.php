@@ -11,7 +11,7 @@ $correo = mysqli_real_escape_string($conexion, $_POST['correo']);
 $password = mysqli_real_escape_string($conexion, $_POST['password']);
 
 // Consultar la base de datos para obtener el hash de la contraseña almacenado en el campo "ocupacion"
-$query = "SELECT nacionalidad, ocupacion FROM registro WHERE correo = '$correo'";
+$query = "SELECT nacionalidad, ocupacion, nombre FROM registro WHERE correo = '$correo'";
 $result = mysqli_query($conexion, $query);
 
 if ($result && mysqli_num_rows($result) == 1) {
@@ -23,6 +23,9 @@ if ($result && mysqli_num_rows($result) == 1) {
         // Login exitoso, guardar información en la sesión
         $_SESSION['correo'] = $correo; // Guardar el correo en la sesión
         $_SESSION['nacionalidad'] = $row['nacionalidad']; // Guardar más datos si es necesario
+
+        // Campos extras en la sesion
+        $_SESSION['nombre'] = $row['nombre'];
 
         // Preparar la respuesta en formato JSON
         $response['status'] = 'success';
