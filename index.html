@@ -195,7 +195,7 @@
 							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
 							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
 							
-							<li style="display: inline-block;"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+							<li style="display: inline-block;" id="logLink"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
 							
 							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
 							<div id="userOptions" style="display: none;">
@@ -601,7 +601,7 @@
  			document.getElementById("userOptions").style.display = "inline-block";
  			document.getElementById("loginOption").style.display = "none";
 			document.getElementById("formRegis").style.display = "none";
-			document.getElementById("logform").parentElement.style.display = "none";
+			document.getElementById("logLink").style.display = "none";
 			console.log("loguiadito");
         } else {
           // El usuario no está autenticado
@@ -611,7 +611,7 @@
             document.getElementById("userOptions").style.display = "none";
             document.getElementById("loginOption").style.display = "inline-block";
 			document.getElementById("formRegis").style.display = "inline-block";
-			document.getElementById("logform").parentElement.style.display = "inline-block";
+			document.getElementById("logLink").style.display = "inline-block";
 			console.log("vlv");
         }
       })
