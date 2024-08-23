@@ -9,7 +9,7 @@ if (isset($_SESSION['correo'])) {
     $response['status'] = 'success';
     $response['correo'] = $_SESSION['correo'];
     $response['nacionalidad'] = $_SESSION['nacionalidad'];
-    $response['nombre'] = $_SESSION['nombre'];
+    $response['nombre'] = $_SESSION['nombre'];  
 } else {
     // Usuario no está autenticado
     $response['status'] = 'error';

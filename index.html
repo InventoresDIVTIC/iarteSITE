@@ -92,6 +92,8 @@
 
 
 <!-- Form Para el Registro -->
+
+
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
@@ -107,11 +109,13 @@
 	  </div>
 	</div>
   </div>
+
 <!-- Modal del formulario -->
 <!-- END -->
 
 
 <!-- Modal de Login -->
+
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
@@ -127,6 +131,7 @@
 	  </div>
 	</div>
   </div>
+
 <!-- Modal del Login-->
 <!-- END -->
 
@@ -142,6 +147,13 @@
 </script>		
 
 
+<!-- <script>
+	$(function(){
+		$("#nav-placeholder").load("nav.html");
+	  });
+</script> -->
+
+
 <div id="page">
 		<!-- BANNER -->
 		<div class="preWrapper bg_header">
@@ -151,6 +163,11 @@
 			<div class="breadcrumbs">INICIO &gt; CONVOCATORIA</div>
 		</div>
 		<!-- END BANNER -->
+
+<!--Navigation bar-->
+<div id="nav-placeholder">
+
+</div>
 
 <nav class="b-nav" role="navigation">
 		<div class="container-wrap">
@@ -602,6 +619,7 @@
  			document.getElementById("loginOption").style.display = "none";
 			document.getElementById("formRegis").style.display = "none";
 			document.getElementById("logLink").style.display = "none";
+
 			console.log("loguiadito");
         } else {
           // El usuario no está autenticado
@@ -612,12 +630,12 @@
             document.getElementById("loginOption").style.display = "inline-block";
 			document.getElementById("formRegis").style.display = "inline-block";
 			document.getElementById("logLink").style.display = "inline-block";
+			
 			console.log("vlv");
         }
       })
       .catch(error => console.error('Error checking session:', error));
   }
-
   // Ejecutar la verificación de sesión cuando la página se cargue
   document.addEventListener('DOMContentLoaded', checkSession);
 </script>

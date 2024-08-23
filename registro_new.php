@@ -17,7 +17,6 @@
   <ul id="progressbar">
     <li class="active">Información Personal</li>
     <li>Documentos Oficiales</li>
-    <li>Participa!! </li>
   </ul>
   <!-- fieldsets -->
   <fieldset>
@@ -69,7 +68,7 @@
 
     <!-- Botones next y previious -->
     <input type="button" name="previous" class="previous action-button" value="Previous" />
-    <input type="button" name="next" class="next action-button" value="Next" />
+    <!-- <input type="button" name="next" class="next action-button" value="Next" /> -->
     <!-- <a href="https://twitter.com/GoktepeAtakan" class="submit action-button" target="_top">Submit</a> -->
     <button type="submit" class="submit action-button" onclick="sendData();">Enviar</button>
   </fieldset>
