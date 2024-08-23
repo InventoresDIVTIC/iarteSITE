@@ -232,16 +232,20 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
             }
             break;
         case 'edad':
-            if (value !== '18') {
-                errorMessage = "Edad incorrecta. Solo para demostración.";
+            if (value === '' || value === null) {
+                errorMessage = "La edad es requerida.";
                 isValid = false;
+            } else if (parseInt(value) < 18) {
+                errorMessage = "Debes ser mayor de 18 años.";
+                isValid = false;
+            } else {
+                isValid = true;
             }
             break;
-        
+
         // Resolver validación para archivos
         // Agregando validación para input img
         case 'addrsInp':
-            console.log({"direccion": value});
             var fileInput = input.files[0];
             if (!fileInput) {
                 errorMessage = "Necesitas seleccionar un archivo al menos.";
@@ -249,14 +253,16 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
             } else if (!/\.pdf$/i.test(fileInput.name)) {
                 errorMessage = "El archivo no es válido. Solo se permiten archivos PDF.";
                 isValid = false;
-                console.log("No es PDF: " + fileInput.name);
+                style.border = "3px solid #ff0000"; // Borde rojo si no es válido
             } else {
                 console.log("Archivo válido: " + fileInput.name);
                 var msgContainer = input.parentElement.querySelector('.file-msg');
                 msgContainer.textContent = fileInput.name;
                 isValid = true;
+                style.border = "3px solid #00ff00"; // Borde verde si es válido
             }
             break;
+
         // case '':  ----------- Aqui deben ir los case para los otros pdf
         default:
             console.log("No se reconoce el ID del elemento.");
@@ -297,8 +303,13 @@ if (!isValid) {
 
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
+
+    input.closest('.file-drop-area').classList.remove('valid');
     
 } else {
+
+    input.closest('.file-drop-area').classList.add('valid');
+
     // Reiniciar animación de 'pulse'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
@@ -318,6 +329,8 @@ if (!isValid) {
     clninput += 15;
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
+    
+
 }
   // console.log(errorMessage);
 }
@@ -380,6 +393,7 @@ function adjustGradient(value) {
 </html>
 
 <style >
+
     /*custom font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
@@ -448,6 +462,10 @@ function adjustGradient(value) {
 /* ---------------------------------------------------------------- */
 /* INPUT FILE DROPS */
 /* Estilos para el input file */
+
+#msform .file-drop-area.valid {
+    border: 3px solid #00ff00;
+}
 
 #msform .file-drop-area {
   position: relative;

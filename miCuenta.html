@@ -78,9 +78,8 @@
         .then(data => {
           if (data.status === 'success') {
               console.log("loguiadito"+data.nombre)
-              document.getElementById('data').textContent = data.nombre;
+              document.getElementById('data').textContent = "Continua tu registro: "+data.nombre;
           } else {
-
               console.log("vlv"+data.message);
               window.location.href = "./index.html";
           }
