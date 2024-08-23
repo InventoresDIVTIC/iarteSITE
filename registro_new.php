@@ -303,13 +303,8 @@ if (!isValid) {
 
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
-
-    input.closest('.file-drop-area').classList.remove('valid');
     
 } else {
-
-    input.closest('.file-drop-area').classList.add('valid');
-
     // Reiniciar animación de 'pulse'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
@@ -329,7 +324,6 @@ if (!isValid) {
     clninput += 15;
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
-    
 
 }
   // console.log(errorMessage);
