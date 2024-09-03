@@ -196,7 +196,7 @@
 							<li class="active" style="display: inline-block;"><a href="./"><i class="fas fa-home"></i></a></li>
 							
 							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
-							<div id="userOptions" style="display: none;">
+							<div id="userOption1" style="display: none;">
 								<li style="display: inline-block;"><a href="./miCuenta.html">Mi Cuenta</a></li>
 							</div>
 
@@ -214,7 +214,7 @@
 							<li style="display: inline-block;" id="logLink"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
 							
 							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
-							<div id="userOptions" style="display: none;">
+							<div id="userOption2" style="display: none;">
 								<li style="display: inline-block;"><a href="./logout.php">Cerrar Sesión</a></li>
 							</div>
 
@@ -614,7 +614,11 @@
 //        document.getElementById('loginModal').style.display = 'none';
 //        document.getElementById('logform').style.display = 'none';
  			// Si el usuario está logueado, muestra las opciones del usuario y oculta el login
- 			document.getElementById("userOptions").style.display = "inline-block";
+ 			document.getElementById("userOption1").style.display = "inline-block";
+			
+			document.getElementById("userOption2").style.display = "inline-block";
+
+
  			document.getElementById("loginOption").style.display = "none";
 			document.getElementById("formRegis").style.display = "none";
 			document.getElementById("logLink").style.display = "none";
@@ -625,7 +629,9 @@
 //         document.getElementById('loginModal').style.display = 'block';
 //         document.getElementById('logform').style.display = 'inline';
             // Si no está logueado, oculta las opciones del usuario y muestra el login
-            document.getElementById("userOptions").style.display = "none";
+            document.getElementById("userOption1").style.display = "none";
+			document.getElementById("userOption2").style.display = "none";
+
             document.getElementById("loginOption").style.display = "inline-block";
 			document.getElementById("formRegis").style.display = "inline-block";
 			document.getElementById("logLink").style.display = "inline-block";
