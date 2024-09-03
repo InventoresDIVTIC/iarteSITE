@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" >
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- multistep form -->
@@ -26,12 +27,23 @@
     <input type="text" id="nombre" name="nombre" placeholder="*Nombre Completo" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('nombre-error').style,document.getElementById('nombre-error'))" />
     <p id="nombre-error"></p>
     <div id="validation-success" style="display: none; color: green;"> </div>
-    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('telefono-error').style,document.getElementById('telefono-error'))" />
-    <p id="telefono-error"></p>
+    
+  <div style="display: flex; gap: 10px;">
+    <input type="text" id="telefono" name="telefono" placeholder="*Telefono" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('telefono-error').style,document.getElementById('telefono-error'))" class="telinpt"/>
+    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('edad-error').style,document.getElementById('edad-error'))" class="ageinpt" />  
+  </div>
+  <p id="telefono-error"></p>
+  <p id="edad-error"></p>
+
+  <div class="password-container">
+  <input type="password" id="password" name="password" placeholder="*Contraseña" 
+           onBlur="validateInput(this.id,this.value,this.style,document.getElementById('contrasena-error').style,document.getElementById('contrasena-error'))" />
+    <i class="eye-icon" id="togglePassword"></i>  
+  <p id="contrasena-error"></p>
+  </div>
+
     <input type="email" id="correo" name="correo" placeholder="E-Mail" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('email-error').style,document.getElementById('email-error'))" />
     <p id="email-error"></p>
-    <input type="number" id="edad" name="edad" min="18" max="80" placeholder="Edad*" onBlur="validateInput(this.id,this.value,this.style,document.getElementById('edad-error').style,document.getElementById('edad-error'))" /> 
-    <p id="edad-error"></p>
     <input type="button" style="display:flex; width:100%;text-align: center;" name="next" class="next action-button" onBlur="" value="Next" />
     
   </fieldset>
@@ -47,21 +59,21 @@
     <span class="fake-btn">* Comprobante de domicilio </span>
     <span class="file-msg">[reciente en formato (.PDF)]</span>
     <p id="addrsInp-error"> </p>
-    <input class="file-input" id="addrsInp" name="addrsInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" id="addrsInp" accept="application/pdf" required >
+    <input class="file-input" id="addrsInp" name="addrsInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('addrsInp-error').style,document.getElementById('addrsInp-error'))" accept="application/pdf" required >
     </div>
 
     <!-- INE -->
     <div class="file-drop-area">
-    <span class="fake-btn">Identificacion Oficial</span>
+    <span class="fake-btn">* Identificacion Oficial</span>
     <span class="file-msg">[vigente y por ambos lados]</span>
     <p id="idInp-error"> </p> 
-    <input class="file-input"  id="idInp" name="idInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('idInp-error').style,document.getElementById('idInp-error'))" accept="application/pdf" required >
+    <input class="file-input" id="idInp" name="idInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('idInp-error').style,document.getElementById('idInp-error'))" accept="application/pdf" required >
     </div>
     
     <!-- Manifiesto firmado -->
     <div class="file-drop-area">
-    <span class="fake-btn">Identificacion Oficial</span>
-    <span class="file-msg">[vigente y por ambos lados]</span>
+    <span class="fake-btn">* Manifiesto del concurso</span>
+    <span class="file-msg">[firmado]</span>
     <p id="manifestInp-error"> </p>
     <input class="file-input" id="manifestInp" name="manifestInp" type="file" onchange="validateInput(this.id,this.value,this.style,document.getElementById('manifestInp-error').style,document.getElementById('manifestInp-error'))" accept="application/pdf" required >
     </div>
@@ -86,6 +98,17 @@
 </form>
 
 <script>
+  const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password');
+
+  togglePassword.addEventListener('click', function () {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+
+    // Cambiar el icono
+    this.classList.toggle('show-password');
+});
+
     function sendData(){
       document.getElementById("ms-form").submit();
     }
@@ -247,22 +270,71 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
         // Agregando validación para input img
         case 'addrsInp':
             var fileInput = input.files[0];
+            style = document.getElementById(elementId).parentElement.style;
             if (!fileInput) {
                 errorMessage = "Necesitas seleccionar un archivo al menos.";
                 isValid = false;
             } else if (!/\.pdf$/i.test(fileInput.name)) {
                 errorMessage = "El archivo no es válido. Solo se permiten archivos PDF.";
                 isValid = false;
-                style.border = "3px solid #ff0000"; // Borde rojo si no es válido
             } else {
                 console.log("Archivo válido: " + fileInput.name);
                 var msgContainer = input.parentElement.querySelector('.file-msg');
                 msgContainer.textContent = fileInput.name;
                 isValid = true;
-                style.border = "3px solid #00ff00"; // Borde verde si es válido
+            }
+            break;
+        case 'idInp':
+            var fileInput = input.files[0];
+            style = document.getElementById(elementId).parentElement.style;
+            if (!fileInput) {
+                errorMessage = "Necesitas seleccionar un archivo al menos.";
+                isValid = false;
+            } else if (!/\.pdf$/i.test(fileInput.name)) {
+                errorMessage = "El archivo no es válido. Solo se permiten archivos PDF.";
+                isValid = false;
+            } else {
+                console.log("Archivo válido: " + fileInput.name);
+                var msgContainer = input.parentElement.querySelector('.file-msg');
+                msgContainer.textContent = fileInput.name;
+                isValid = true;
             }
             break;
 
+        case 'manifestInp':
+            var fileInput = input.files[0];
+            style = document.getElementById(elementId).parentElement.style;
+            if (!fileInput) {
+                errorMessage = "Necesitas seleccionar un archivo al menos.";
+                isValid = false;
+            } else if (!/\.pdf$/i.test(fileInput.name)) {
+                errorMessage = "El archivo no es válido. Solo se permiten archivos PDF.";
+                isValid = false;
+            } else {
+                console.log("Archivo válido: " + fileInput.name);
+                var msgContainer = input.parentElement.querySelector('.file-msg');
+                msgContainer.textContent = fileInput.name;
+                isValid = true;
+            }
+            break;
+
+        case 'password':
+          if (value === '') {
+        errorMessage = "La contraseña es requerida.";
+        isValid = false;
+        } else if (value.length < 8) {
+            errorMessage = "La contraseña debe tener al menos 8 caracteres.";
+            isValid = false;
+        } else if (!/[A-Z]/.test(value)) {
+            errorMessage = "La contraseña debe contener al menos una letra mayúscula.";
+            isValid = false;
+        } else if (!/[0-9]/.test(value)) {
+            errorMessage = "La contraseña debe contener al menos un número.";
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+          break;
         // case '':  ----------- Aqui deben ir los case para los otros pdf
         default:
             console.log("No se reconoce el ID del elemento.");
@@ -274,9 +346,9 @@ if (!isValid) {
     // Reiniciar animación de 'shake'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
-    style.backgroundColor = "#999";
-    style.border = "3px solid #ff0000";
-    style.animation = "shake 0.3s";
+    // style.backgroundColor = "#999";
+    style.border = "5px solid #ff0000";
+    style.animation = "shake 0.5s";
     
     errorDiv.innerText = errorMessage;
 
@@ -308,14 +380,18 @@ if (!isValid) {
     // Reiniciar animación de 'pulse'
     style.animation = 'none';
     input.offsetHeight;  // Provocar reflujo del DOM
-  
-    style.animation = "pulse 0.4s";
-    style.border = "3px solid #00ff00";
-    style.backgroundColor = "#ffffff";
+
+    style.animation = "pulse 0.6s";
+    
+    // style.opacity = 0.8;
+    style.zIndex = 10; 
+
+    style.border = "5px solid #00ff00";
+    // style.backgroundColor = "#ffffff";
     console.log("validao" + style.animation);
 
     // Oculta el div de error y muestra el div de éxito
-    errorStyle.display = "none"; 
+    errorStyle.display = "none";
     errorStyle.width = "none";
     errorStyle.height = "none";
     successDiv.style.display = "block";
@@ -435,6 +511,45 @@ function adjustGradient(value) {
 	/*stacking fieldsets above each other*/
 	position: relative;
 }
+
+#msform .telinpt{
+  width: 70%;
+  flex: 1;
+}
+
+#msform .ageinpt {
+  width: 20%;
+  flex: 1;
+}
+
+.password-container {
+  position: relative;
+  width: 90%;
+}
+
+#password {
+  padding-right: 30px; /* Espacio para el icono */
+}
+
+.eye-icon {
+  position: absolute;
+  top: 45%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px; /* Ajusta el tamaño según tu preferencia */
+}
+
+.eye-icon:before {
+  content: '\f06e'; /* Código de Font Awesome para el ícono de ojo */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.eye-icon.show-password:before {
+  content: '\f070'; /* Código de Font Awesome para el ícono de ojo tachado */
+}
+
 
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {

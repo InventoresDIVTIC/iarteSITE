@@ -51,27 +51,84 @@
         button:hover {
             background-color: #45a049;
         }
+        .add-image-btn {
+            margin-top: 10px;
+            background-color: #008CBA;
+        }
+        .remove-image-btn {
+            background-color: #f44336;
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     
     <div class="container">
-        <h1 id="data" >Registro de Obras de Arte Generadas por IA</h1>
+        <h1 id="data">Registro de Obras de Arte Generadas por IA</h1>
         <form action="/upload" method="post" enctype="multipart/form-data">
             <label for="title">Título de la Obra</label>
             <input type="text" id="title" name="title" required>
 
-            <label for="image">Cargar Imagen</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
+            <div id="image-prompt-container">
+                <div class="image-prompt-group">
+                    <label for="image">Cargar Imagen</label>
+                    <input type="file" id="image" name="image[]" accept="image/*" required>
 
-            <label for="prompt">Prompt Utilizado</label>
-            <textarea id="prompt" name="prompt" rows="4" required></textarea>
+                    <label for="prompt">Prompt Utilizado</label>
+                    <textarea id="prompt" name="prompt[]" rows="4" required></textarea>
+                </div>
+            </div>
+
+            <button type="button" class="add-image-btn" onclick="addImagePrompt()">Agregar otra imagen</button>
 
             <button type="submit">Registrar Obra</button>
         </form>
     </div>
 
 <script>
+    let imagePromptCount = 1;
+
+    function addImagePrompt() {
+        if (imagePromptCount < 4) {
+            imagePromptCount++;
+            const container = document.getElementById('image-prompt-container');
+
+            const newImagePromptGroup = document.createElement('div');
+            newImagePromptGroup.classList.add('image-prompt-group');
+
+            newImagePromptGroup.innerHTML = `
+                <label for="image">Cargar Imagen</label>
+                <input type="file" id="image" name="image[]" accept="image/*" required>
+
+                <label for="prompt">Prompt Utilizado</label>
+                <textarea id="prompt" name="prompt[]" rows="4" required></textarea>
+                
+                <button type="button" class="remove-image-btn" onclick="removeImagePrompt(this)">Eliminar</button>
+            `;
+
+            container.appendChild(newImagePromptGroup);
+        }
+
+        if (imagePromptCount >= 4) {
+            document.querySelector('.add-image-btn').disabled = true;
+        }
+    }
+
+    function removeImagePrompt(button) {
+        button.parentElement.remove();
+        imagePromptCount--;
+
+        if (imagePromptCount < 4) {
+            document.querySelector('.add-image-btn').disabled = false;
+        }
+
+        if (imagePromptCount < 1) {
+            addImagePrompt();
+        }
+    }
+
     function checkSession() {
       fetch('check_session.php')
         .then(response => response.json())
@@ -88,7 +145,7 @@
     }
     // Ejecutar la verificación de sesión cuando la página se cargue
     document.addEventListener('DOMContentLoaded', checkSession);
-  </script>
+</script>
 
 </body>
 </html>

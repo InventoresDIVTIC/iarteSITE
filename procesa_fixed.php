@@ -9,6 +9,7 @@ $telefono = mysqli_real_escape_string($conexion, $_POST['telefono']);
 $correo = mysqli_real_escape_string($conexion, $_POST['correo']);
 $edad = mysqli_real_escape_string($conexion, $_POST['edad']);
 
+$password = mysqli_real_escape_string($conexion, $_POST['password']);
 
 // Archivos y PDF ===== // Archivos y PDF =====
 $target_dir = "galeria/upload_files/";
@@ -81,9 +82,8 @@ if ($uploadOk == 1) {
 
 
 
-
 // Contraseña de prueba
-$password = "pass123";
+// $password = "pass123";
 
 // Insertar la contraseña en texto plano (solo para pruebas)
 // Este código debería estar comentado en producción
