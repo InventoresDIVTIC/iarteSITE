@@ -12,7 +12,7 @@
 <form id="msform" method="POST" action="procesa_fixed.php" enctype="multipart/form-data">
 
 <!-- Input para el número -->
-<input class="escondido" type="number" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
+<input class="escondido" type="number" name="numberInput" id="numberInput" min="10" max="100" placeholder="Ingrese un número entre 10 y 100" style="margin-top: 20px;" value="0" oninput="adjustGradient(this.value)">
   
 <!-- progressbar -->
   <ul id="progressbar">
@@ -109,8 +109,8 @@
     this.classList.toggle('show-password');
 });
 
-    function sendData(){
-      document.getElementById("ms-form").submit();
+  function sendData(){
+      document.getElementById("msform").submit();
     }
 </script>
 
