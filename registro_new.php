@@ -209,6 +209,7 @@ $(".previous").click(function(){
 
 <!-- Validación -->
 <script>
+var adjustedProgress = {}; // Objeto para rastrear si ya se ajustó el progreso
 function validateInput(elementId,value,style,errorStyle,errorDiv) {
     var input = document.getElementById(elementId);
     var successDiv = document.getElementById("validation-success");
@@ -218,6 +219,9 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
 
     var clninput = 0;
     clninput = parseInt(progress);
+    if (!adjustedProgress[elementId]) {
+        adjustedProgress[elementId] = false;
+    }
 
     console.log({"param":value , "numberinput":progress});
     // Flags
@@ -370,8 +374,10 @@ if (!isValid) {
     // errorStyle.background = "green";
     errorStyle.overflow ="auto";
     
-    if(clninput > 0) 
-      clninput -= 15;
+    if (clninput > 0 && !adjustedProgress[elementId]) {
+            clninput -= 15;
+            adjustedProgress[elementId] = true;
+    }
 
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
@@ -397,7 +403,11 @@ if (!isValid) {
     successDiv.style.display = "block";
 
     // sumarle al input del gradiente
-    clninput += 15;
+    if (clninput < 100 && !adjustedProgress[elementId]) {
+            clninput += 15;
+            adjustedProgress[elementId] = true;
+        }
+        
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
 
