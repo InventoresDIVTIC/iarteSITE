@@ -110,6 +110,9 @@
             const newImageId = 'preview-image-' + imagePromptCount;
 
             newImagePromptGroup.innerHTML = `
+                <label for="title">Título de la Obra</label>
+                <input type="text" id="title" name="title" required>
+
                 <label for="image">Cargar Imagen</label>
                 <input type="file" id="image" name="image[]" accept="image/*" onchange="previewImage(this, '${newImageId}')" required>
                 <img id="${newImageId}" class="image-preview" alt="Vista previa de la imagen">

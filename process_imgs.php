@@ -1,4 +1,13 @@
 <?php
+
+// 
+// REVISAR EL PHP Y LOGRAR QUE SE SUBAN LAS IMAGENES CON TITULO Y PROMPT
+// SUBIR LAS IMAGENES A LAS CARPETAS CORRECTAS
+// OBTENER LAS IMAGENES DESDE LA CARPETA PARA CARGARLAS A LA GALERIA
+// ARREGLAR LA VOTACION DENTRO DE LA GALERIA O ELIMINARLA
+// 
+// 
+
 session_start(); // Iniciar la sesión
 include('conexion.php');
 $conexion = conectar();
@@ -18,8 +27,6 @@ $response = array();
 // Verificar si se ha enviado el formulario y si se subieron imágenes
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     // Obtener el título de la obra
-    $comprobante = mysqli_real_escape_string($conexion, $_POST['title']); // Usado como comprobante
-    $manifiesto = ''; // Asignar el manifiesto si es necesario
 
     // Campos para almacenar los nombres de las imágenes, los prompts y las descripciones
     $imagenes = [];
@@ -69,19 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
     // Si no hubo errores, proceder a insertar los datos en la base de datos
     if (!isset($response['status'])) {
         // Insertar los datos en la base de datos, incluyendo el nombre y correo del usuario logueado
-        $query = "INSERT INTO registro_arte (
-            comprobante, imagen1, cadena1, descripcion1,
-            imagen2, cadena2, descripcion2,
-            imagen3, cadena3, descripcion3,
-            imagen4, cadena4, descripcion4, manifiesto, nombre_usuario, correo_usuario
-        ) VALUES (
-            '$comprobante',
-            '" . ($imagenes[0] ?? '') . "', '" . ($cadenas[0] ?? '') . "', '" . ($descripciones[0] ?? '') . "',
-            '" . ($imagenes[1] ?? '') . "', '" . ($cadenas[1] ?? '') . "', '" . ($descripciones[1] ?? '') . "',
-            '" . ($imagenes[2] ?? '') . "', '" . ($cadenas[2] ?? '') . "', '" . ($descripciones[2] ?? '') . "',
-            '" . ($imagenes[3] ?? '') . "', '" . ($cadenas[3] ?? '') . "', '" . ($descripciones[3] ?? '') . "',
-            '$manifiesto', '$nombreUsuario', '$correoUsuario'
-        )";
+        $query = "UPDATE registro SET imagen1 = '" . ($imagenes[0] ?? '') . "',  cadena1 = '" . ($cadenas[0] ?? '') . "', descripcion1 = '" . ($descripciones[0] ?? '') . "', imagen2 = '" . ($imagenes[1] ?? '') . "',  cadena2 = '" . ($cadenas[1] ?? '') . "', descripcion2 = '" . ($descripciones[1] ?? '') . "', imagen3 = '" . ($imagenes[2] ?? '') . "',  cadena3 = '" . ($cadenas[2] ?? '') . "', descripcion3 = '" . ($descripciones[2] ?? '') . "', imagen4 = '" . ($imagenes[3] ?? '') . "',  cadena4 = '" . ($cadenas[3] ?? '') . "', descripcion4 = '" . ($descripciones[3] ?? '') . "' WHERE correo = '$correoUsuario' ";
 
         // Ejecutar la consulta
         if (mysqli_query($conexion, $query)) {
