@@ -46,6 +46,10 @@
                 <th>Identificación</th>
                 <th>Ocupación</th>
                 <th>Nacionalidad</th>
+                <th>Imagen 1</th>
+                <th>Imagen 2</th>
+                <th>Imagen 3</th>
+                <th>Imagen 4</th>
             </tr>
         </thead>
         <tbody>
@@ -65,8 +69,8 @@
                 }
                 echo "</ul>";
 
-                // Obtener y mostrar los datos de la tabla
-                $query = "SELECT nombre, telefono, correo, edad, identificacion, ocupacion, nacionalidad FROM registro";
+                // Obtener y mostrar los datos de la tabla, incluyendo los campos de imagen 1 al 4
+                $query = "SELECT nombre, telefono, correo, edad, identificacion, ocupacion, nacionalidad, imagen1, imagen2, imagen3, imagen4 FROM registro";
                 $resultado = mysqli_query($conexion, $query);
 
                 if ($resultado) {
@@ -79,10 +83,14 @@
                         echo "<td>" . htmlspecialchars($fila['identificacion']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['ocupacion']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['nacionalidad']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen1']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen2']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen3']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['imagen4']) . "</td>";
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='7'>Error al obtener los datos: " . mysqli_error($conexion) . "</td></tr>";
+                    echo "<tr><td colspan='11'>Error al obtener los datos: " . mysqli_error($conexion) . "</td></tr>";
                 }
 
                 desconectar($conexion);
