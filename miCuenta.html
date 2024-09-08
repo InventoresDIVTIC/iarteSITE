@@ -10,57 +10,79 @@
             background-color: #f2f2f2;
             padding: 20px;
         }
+
         .container {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
         }
+
         h1 {
             text-align: center;
             color: #333333;
         }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .image-prompt-group {
+            position: relative;
+            opacity: 0.5;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-prompt-group.active {
+            opacity: 1;
+        }
+
+        .image-prompt-group button.activate-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .image-prompt-group.active button.activate-btn {
+            display: none;
+        }
+
         label {
             font-weight: bold;
             display: block;
             margin-top: 10px;
         }
+
         input[type="text"],
         textarea {
-            width: 85%;
+            width: 100%;
             padding: 10px;
             margin-top: 5px;
             border-radius: 4px;
             border: 1px solid #cccccc;
         }
+
         input[type="file"] {
             margin-top: 5px;
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .add-image-btn {
-            margin-top: 10px;
-            background-color: #008CBA;
-        }
-        .remove-image-btn {
-            background-color: #f44336;
-            margin-top: 10px;
-            padding: 5px 10px;
-            font-size: 14px;
-        }
+
         .image-preview {
             margin-top: 10px;
             max-width: 100%;
@@ -69,109 +91,107 @@
             padding: 5px;
             border-radius: 4px;
         }
+
+        button.submit-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    
     <div class="container">
         <h1 id="data">Registro de Obras de Arte Generadas por IA</h1>
         <form action="process_imgs.php" method="post" enctype="multipart/form-data">
-            <label for="title">Título de la Obra</label>
-            <input type="text" id="title" name="title" required>
+            <div class="grid-container" id="image-prompt-container">
+                <div class="image-prompt-group" id="group-1">
+                    <button type="button" class="activate-btn" onclick="activateGroup('group-1')">Activar</button>
 
-            <div id="image-prompt-container">
-                <div class="image-prompt-group">
-                    <label for="image">Cargar Imagen</label>
-                    <input type="file" id="image" name="image[]" accept="image/*" onchange="previewImage(this)" required>
-                    <img id="preview-image" class="image-preview" alt="Vista previa de la imagen">
+                    <label for="title-1">Título de la Obra 1</label>
+                    <input type="text" id="title-1" name="title[]" required disabled>
 
-                    <label for="prompt">Prompt Utilizado</label>
-                    <textarea id="prompt" name="prompt[]" rows="4" required></textarea>
+                    <label for="image-1">Cargar Imagen</label>
+                    <input type="file" id="image-1" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-1')" disabled>
+                    <img id="preview-image-1" class="image-preview" alt="Vista previa de la imagen">
+
+                    <label for="prompt-1">Prompt Utilizado</label>
+                    <textarea id="prompt-1" name="prompt[]" rows="4" disabled></textarea>
+                </div>
+
+                <div class="image-prompt-group" id="group-2">
+                    <button type="button" class="activate-btn" onclick="activateGroup('group-2')">Activar</button>
+
+                    <label for="title-2">Título de la Obra 2</label>
+                    <input type="text" id="title-2" name="title[]" required disabled>
+
+                    <label for="image-2">Cargar Imagen</label>
+                    <input type="file" id="image-2" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-2')" disabled>
+                    <img id="preview-image-2" class="image-preview" alt="Vista previa de la imagen">
+
+                    <label for="prompt-2">Prompt Utilizado</label>
+                    <textarea id="prompt-2" name="prompt[]" rows="4" disabled></textarea>
+                </div>
+
+                <div class="image-prompt-group" id="group-3">
+                    <button type="button" class="activate-btn" onclick="activateGroup('group-3')">Activar</button>
+
+                    <label for="title-3">Título de la Obra 3</label>
+                    <input type="text" id="title-3" name="title[]" required disabled>
+
+                    <label for="image-3">Cargar Imagen</label>
+                    <input type="file" id="image-3" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-3')" disabled>
+                    <img id="preview-image-3" class="image-preview" alt="Vista previa de la imagen">
+
+                    <label for="prompt-3">Prompt Utilizado</label>
+                    <textarea id="prompt-3" name="prompt[]" rows="4" disabled></textarea>
+                </div>
+
+                <div class="image-prompt-group" id="group-4">
+                    <button type="button" class="activate-btn" onclick="activateGroup('group-4')">Activar</button>
+
+                    <label for="title-4">Título de la Obra 4</label>
+                    <input type="text" id="title-4" name="title[]" required disabled>
+
+                    <label for="image-4">Cargar Imagen</label>
+                    <input type="file" id="image-4" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-4')" disabled>
+                    <img id="preview-image-4" class="image-preview" alt="Vista previa de la imagen">
+
+                    <label for="prompt-4">Prompt Utilizado</label>
+                    <textarea id="prompt-4" name="prompt[]" rows="4" disabled></textarea>
                 </div>
             </div>
 
-            <button type="button" class="add-image-btn" onclick="addImagePrompt()">Agregar otra imagen</button>
-
-            <button type="submit">Registrar Obra</button>
+            <button type="submit" class="submit-btn">Registrar Obra</button>
         </form>
     </div>
 
-<script>
-    let imagePromptCount = 1;
-
-    function addImagePrompt() {
-        if (imagePromptCount < 4) {
-            imagePromptCount++;
-            const container = document.getElementById('image-prompt-container');
-
-            const newImagePromptGroup = document.createElement('div');
-            newImagePromptGroup.classList.add('image-prompt-group');
-
-            const newImageId = 'preview-image-' + imagePromptCount;
-
-            newImagePromptGroup.innerHTML = `
-                <label for="title">Título de la Obra</label>
-                <input type="text" id="title" name="title" required>
-
-                <label for="image">Cargar Imagen</label>
-                <input type="file" id="image" name="image[]" accept="image/*" onchange="previewImage(this, '${newImageId}')" required>
-                <img id="${newImageId}" class="image-preview" alt="Vista previa de la imagen">
-
-                <label for="prompt">Prompt Utilizado</label>
-                <textarea id="prompt" name="prompt[]" rows="4" required></textarea>
-                
-                <button type="button" class="remove-image-btn" onclick="removeImagePrompt(this)">Eliminar</button>
-            `;
-
-            container.appendChild(newImagePromptGroup);
+    <script>
+        function activateGroup(groupId) {
+            const group = document.getElementById(groupId);
+            group.classList.add('active');
+            const inputs = group.querySelectorAll('input, textarea');
+            inputs.forEach(input => input.disabled = false);
         }
 
-        if (imagePromptCount >= 4) {
-            document.querySelector('.add-image-btn').disabled = true;
-        }
-    }
+        function previewImage(input, previewId) {
+            const file = input.files[0];
+            const preview = document.getElementById(previewId);
 
-    function removeImagePrompt(button) {
-        button.parentElement.remove();
-        imagePromptCount--;
-
-        if (imagePromptCount < 4) {
-            document.querySelector('.add-image-btn').disabled = false;
-        }
-    }
-
-    function previewImage(input, previewId = 'preview-image') {
-        const file = input.files[0];
-        const preview = document.getElementById(previewId);
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
             }
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = "";
         }
-    }
-
-    function checkSession() {
-      fetch('check_session.php')
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-              console.log("loguiadito"+data.nombre)
-              document.getElementById('data').textContent = "Continua tu registro: "+data.nombre;
-          } else {
-              console.log("vlv"+data.message);
-              window.location.href = "./index.html";
-          }
-        })
-        .catch(error => console.error('Error checking session:', error));
-    }
-    // Ejecutar la verificación de sesión cuando la página se cargue
-    document.addEventListener('DOMContentLoaded', checkSession);
-</script>
-
+    </script>
 </body>
 </html>

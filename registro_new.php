@@ -346,72 +346,75 @@ function validateInput(elementId,value,style,errorStyle,errorDiv) {
 }
 
 if (!isValid) {
-    console.log({"Input: ":input,"Error:":errorDiv, "innerError": errorDiv.innerText});
-    // Reiniciar animación de 'shake'
+    console.log({"Input: ": input, "Error:": errorDiv, "innerError": errorDiv.innerText});
+    
+    // Reset shake animation
     style.animation = 'none';
-    input.offsetHeight;  // Provocar reflujo del DOM
-    // style.backgroundColor = "#999";
+    input.offsetHeight;  // Trigger DOM reflow
     style.border = "5px solid #ff0000";
     style.animation = "shake 0.5s";
     
+    // Set error message text
     errorDiv.innerText = errorMessage;
 
-    console.log({"errorDiv.value:--":errorDiv.value,"errorDiv.innerText:--":errorDiv.innerText});
-    // Establecer el texto de error en el div de error
+    console.log({"errorDiv.value:--": errorDiv.value, "errorDiv.innerText:--": errorDiv.innerText});
     
     window.navigator.vibrate([200, 100, 200]);
 
     errorDiv.offsetHeight;
-    // Establecer los estilos del mensaje de error
 
+    // Style error message
     errorStyle.width = "auto";
     errorStyle.height = "auto";
-    errorStyle.font = "14px Arial";
-    // errorStyle.border = "5px solid rgba(250, 255, 0, 0.8)";
-    errorStyle.display = "flex"; // Asegúrate de que el div de error esté visible
+    errorStyle.font = "15px Arial";
+    errorStyle.display = "flex";
     errorStyle.color = "orange";
     errorStyle.padding = "10px";
-    // errorStyle.background = "green";
-    errorStyle.overflow ="auto";
+    errorStyle.position = "absolute";
     
+    errorStyle.transform = "translateY(-53px)";
+    errorStyle.background = "rgba(255, 0, 0, 0.7)";
+    errorStyle.zIndex = "1000";
+    errorStyle.pointerEvents = "none";  // Prevent blocking interaction with input
+
+    // Auto-hide error message after 3 seconds
+    setTimeout(() => {
+        errorDiv.innerText = "";
+        errorStyle.display = "none";
+    }, 1900);  // Adjust the time as needed
+
+    // Other logic for managing gradient or input progress...
     if (clninput > 0 && !adjustedProgress[elementId]) {
-            clninput -= 15;
-            adjustedProgress[elementId] = true;
+        clninput -= 15;
+        adjustedProgress[elementId] = true;
     }
 
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
-    
+
 } else {
-    // Reiniciar animación de 'pulse'
+    // Reset pulse animation
     style.animation = 'none';
-    input.offsetHeight;  // Provocar reflujo del DOM
+    input.offsetHeight;  // Trigger DOM reflow
 
     style.animation = "pulse 0.6s";
-    
-    // style.opacity = 0.8;
-    style.zIndex = 10; 
-
     style.border = "5px solid #00ff00";
-    // style.backgroundColor = "#ffffff";
-    console.log("validao" + style.animation);
+    style.zIndex = 10;
 
-    // Oculta el div de error y muestra el div de éxito
+    // Hide error and show success message
     errorStyle.display = "none";
-    errorStyle.width = "none";
-    errorStyle.height = "none";
     successDiv.style.display = "block";
 
-    // sumarle al input del gradiente
+    // Other logic for managing gradient or input progress...
     if (clninput < 100 && !adjustedProgress[elementId]) {
-            clninput += 15;
-            adjustedProgress[elementId] = true;
-        }
-        
+        clninput += 15;
+        adjustedProgress[elementId] = true;
+    }
+    
     document.getElementById("numberInput").value = clninput;
     adjustGradient(clninput);
-
 }
+
   // console.log(errorMessage);
 }
 </script>

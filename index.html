@@ -53,7 +53,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 <!-- endmilinks -->
 
 
@@ -96,12 +95,9 @@
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 	  <div class="modal-content">
-		<div class="modal-header">
-		  <p>Formulario de Registro IArte 2024</p>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 		  </button>
-		</div>
 		<div class="modal-body">
 			
 		</div>
@@ -142,7 +138,7 @@
   })(window,document,'script','js/analytics.js','ga');
 
   ga('create', 'UA-74191543-1', 'auto');
-  ga('send', 'pageview');
+  ga('send', 'pageview');  
 </script>		
 
 
@@ -151,7 +147,6 @@
 		$("#nav-placeholder").load("nav.html");
 	  });
 </script> -->
-
 
 <div id="page">
 		<!-- BANNER -->
@@ -162,72 +157,33 @@
 			<div class="breadcrumbs">INICIO &gt; CONVOCATORIA</div>
 		</div>
 		<!-- END BANNER -->
-
-<!--Navigation bar-->
-<div id="nav-placeholder">
-
-</div>
-
-<nav class="b-nav" role="navigation">
-		<div class="container-wrap">
-			
-			<div class="top-menu">
-				<div class="row">
-					<div class="col-xs-8 text-right">
-						<div class="logo" style="text-align: initial;">
-							<img src="./images/lUDG.png" width="360px" alt="" srcset="">
-							<img src="./images/icon.png" style="margin-left: 90px;" width="150px" alt="" srcset="">
-						</div>
-					</div>
-					<div class="col-xs-4">
-						<div class="redes-s">
-						<div>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="collapse navbar-collapse" id="navbar-menu">
-				<div class="row">
-					<!-- <div class="col-xs-12 menu-1 "> -->
-						<ul style="display: flex;">
-							
-
-							<li class="active" style="display: inline-block;"><a href="./"><i class="fas fa-home"></i></a></li>
-							
-							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
-							<div id="userOption1" style="display: none;">
-								<li style="display: inline-block;"><a href="./miCuenta.html">Mi Cuenta</a></li>
-							</div>
-
-	                        <li class="dropdown  active" style="display: inline-block; cursor:pointer">
-	                            <!-- <a href="./registro.php" on >Registro</a> -->
-								<!-- <a data-toggle="modal" data-target="#exampleModal" >Registro</a> -->
-								<a data-toggle="modal" data-target="#registroModal" id="formRegis">Registro</a>
-	                        </li> 
-
-							<li style="display: inline-block;"><a href="./dudas.html">Preguntas frecuentes</a></li>
-
-							<!-- <li style="display: inline-block;"><a href="prensa.php">PRENSA</a></li> -->
-							<li style="display: inline-block;"><a  href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
-							
-							<li style="display: inline-block;" id="logLink"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
-							
-							<!-- Opciones que solo deben ser visibles si el usuario está logueado -->
-							<div id="userOption2" style="display: none;">
-								<li style="display: inline-block;"><a href="./logout.php">Cerrar Sesión</a></li>
-							</div>
-
-						</ul>
-						
-
-					<!-- </div> -->
-				</div>
-				</div>
-								
+	
+		<!-- Burger Menu Icon -->
+		<div class="burger-menu">
+			<div></div>
+			<div></div>
+			<div></div>
 		</div>
-	</div>
-</nav>
+	
+		<!-- Navigation bar -->
+		<nav class="b-nav" role="navigation">
+			<div class="container-wrap">
+				<button class="close-btn">X</button> <!-- Mover el botón de cerrar aquí -->
+				<div class="navbar-menu" id="navbar-menu">
+					<ul>
+						<li class="active"><a href="./"><i class="fas fa-home"></i></a></li>
+						<li id="userOption1"><a href="./miCuenta.html">Mi Cuenta</a></li> <!-- Este será ocultado -->
+						<li class="dropdown active"><a data-toggle="modal" data-target="#registroModal" id="formRegis">Registro</a></li>
+						<li><a href="./dudas.html">Preguntas frecuentes</a></li>
+						<li><a href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
+						<li id="logLink"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+						<li id="userOption2"><a href="./logout.php">Cerrar Sesión</a></li> <!-- Este será ocultado -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+	</div>	
 	<!-- END NAVBAR -->
 
 	<div class="container-wrap">
@@ -578,12 +534,50 @@
 	<script src="js/magnific-popup-options.js"></script>
 
 
+	<script>
+		const burgerMenu = document.querySelector('.burger-menu');
+		const navbarMenu = document.getElementById('navbar-menu');
+		const closeBtn = document.querySelector('.close-btn');
+		
+		burgerMenu.addEventListener('click', function(e) {
+		  e.stopPropagation(); // Prevenir que el clic cierre el menú inmediatamente
+		  this.classList.toggle('active');
+		  navbarMenu.classList.toggle('active');
+		  
+		  // Mostrar o esconder el botón de cerrar
+		  if (navbarMenu.classList.contains('active')) {
+			closeBtn.style.display = 'block';
+		  } else {
+			closeBtn.style.display = 'none';
+		  }
+		});
+		
+		document.body.addEventListener('click', function() {
+		  if (burgerMenu.classList.contains('active')) {
+			burgerMenu.classList.remove('active');
+			navbarMenu.classList.remove('active');
+			closeBtn.style.display = 'none'; // Ocultar el botón al cerrar el menú
+		  }
+		});
+		
+		navbarMenu.addEventListener('click', function(e) {
+		  e.stopPropagation(); // Prevenir que el clic dentro del menú cierre el menú
+		});
+		
+		// Cerrar el menú cuando se presiona el botón de cerrar
+		closeBtn.addEventListener('click', function() {
+		  burgerMenu.classList.remove('active');
+		  navbarMenu.classList.remove('active');
+		  closeBtn.style.display = 'none'; // Ocultar el botón de cerrar
+		});
+		
+	</script>
+	  
+	  
 	<!-- Counters -->
 	<script src="js/jquery.countTo.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
-
-
 
 	<!-- Scripst del Modal -->
 	<!-- Probar con _old.php y _new.php -->
@@ -605,44 +599,29 @@
 
 
 <script>
-  function checkSession() {
-    fetch('check_session.php')
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          // El usuario está autenticado
-//        document.getElementById('loginModal').style.display = 'none';
-//        document.getElementById('logform').style.display = 'none';
- 			// Si el usuario está logueado, muestra las opciones del usuario y oculta el login
- 			document.getElementById("userOption1").style.display = "inline-block";
-			
-			document.getElementById("userOption2").style.display = "inline-block";
-
-
- 			document.getElementById("loginOption").style.display = "none";
-			document.getElementById("formRegis").style.display = "none";
-			document.getElementById("logLink").style.display = "none";
-
-			console.log("loguiadito");
-        } else {
-          // El usuario no está autenticado
-//         document.getElementById('loginModal').style.display = 'block';
-//         document.getElementById('logform').style.display = 'inline';
-            // Si no está logueado, oculta las opciones del usuario y muestra el login
-            document.getElementById("userOption1").style.display = "none";
-			document.getElementById("userOption2").style.display = "none";
-
-            document.getElementById("loginOption").style.display = "inline-block";
-			document.getElementById("formRegis").style.display = "inline-block";
-			document.getElementById("logLink").style.display = "inline-block";
-			
-			console.log("vlv");
-        }
-      })
-      .catch(error => console.error('Error checking session:', error));
-  }
-  // Ejecutar la verificación de sesión cuando la página se cargue
-  document.addEventListener('DOMContentLoaded', checkSession);
+	function checkSession() {
+		fetch('check_session.php')
+			.then(response => response.json())
+			.then(data => {
+				if (data.status === 'success') {
+					// Si el usuario está autenticado, muestra "Mi Cuenta" y "Cerrar Sesión", oculta "Registro" y "Login"
+					document.getElementById("userOption1").style.display = "inline-block";
+					document.getElementById("userOption2").style.display = "inline-block";
+					document.getElementById("formRegis").style.display = "none";
+					document.getElementById("logLink").style.display = "none";
+				} else {
+					// Si no está autenticado, oculta "Mi Cuenta" y "Cerrar Sesión", muestra "Registro" y "Login"
+					document.getElementById("userOption1").style.display = "none";
+					document.getElementById("userOption2").style.display = "none";
+					document.getElementById("formRegis").style.display = "inline-block";
+					document.getElementById("logLink").style.display = "inline-block";
+				}
+			})
+			.catch(error => console.error('Error checking session:', error));
+	}
+	
+	// Ejecutar la verificación de sesión cuando la página se cargue
+	document.addEventListener('DOMContentLoaded', checkSession);	
 </script>
 
 </body>
@@ -705,5 +684,98 @@ body {
 		width: 100%;
 	}
 }
+
+
+.close-btn {
+	display: none; /* Ocultar el botón de cerrar por defecto */
+	
+	border: none;
+	color: bisque;
+	font-size: 20px;
+	cursor: pointer;
+	position: absolute;
+	top: 55px;
+	right: 20px;
+	background-color: #333;
+
+	z-index: 1000; /* Asegurarse de que esté por encima del contenido */
+  }
+
+
+
+.navbar-menu {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-menu li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.burger-menu {
+  display: none; /* Hidden by default */
+  cursor: pointer;
+  padding: 10px;
+}
+
+.burger-menu div {
+  background: #000;
+  height: 3px;
+  width: 25px;
+  margin: 5px 0;
+}
+
+/* Styles for the mobile view */
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none; /* Hide the default navbar items */
+  }
+
+  .burger-menu {
+    display: block; /* Show the burger menu icon */
+  }
+
+  .burger-menu.active + .navbar-menu {
+    display: block; /* Show the navbar items when burger menu is active */
+  }
+
+  .navbar-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 60px; /* Adjust according to your layout */
+    right: 0;
+    background: #fff;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-menu ul {
+    display: block;
+  }
+
+  .navbar-menu li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .navbar-menu a {
+	cursor: pointer;
+  }
+
+}
+
+.burger-menu.active + .navbar-menu,
+.navbar-menu.active {
+  display: block; /* Mostrar el menú cuando está activo */
+}
+
 
 </style>
