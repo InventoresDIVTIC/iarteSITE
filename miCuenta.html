@@ -32,6 +32,13 @@
             margin-top: 20px;
         }
 
+        /* Apilar los bloques en pantallas pequeñas */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .image-prompt-group {
             position: relative;
             opacity: 0.5;
@@ -92,8 +99,10 @@
             border-radius: 4px;
         }
 
-        button.submit-btn {
-            margin-top: 20px;
+        /* Centrar el botón de registro */
+        .submit-btn {
+            display: block;
+            margin: 20px auto;
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
@@ -106,14 +115,16 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="data">Registro de Obras de Arte Generadas por IA</h1>
-        <form action="process_imgs.php" method="post" enctype="multipart/form-data">
+        <h1 >Registro de Obras de Arte Generadas por IA</h1>
+        <h2 id="data"></h2>
+        <form action="process_imgs.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="grid-container" id="image-prompt-container">
+                <!-- Bloques de registro de obras -->
                 <div class="image-prompt-group" id="group-1">
                     <button type="button" class="activate-btn" onclick="activateGroup('group-1')">Activar</button>
 
                     <label for="title-1">Título de la Obra 1</label>
-                    <input type="text" id="title-1" name="title[]" required disabled>
+                    <input type="text" id="title-1" name="title[]" disabled>
 
                     <label for="image-1">Cargar Imagen</label>
                     <input type="file" id="image-1" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-1')" disabled>
@@ -127,7 +138,7 @@
                     <button type="button" class="activate-btn" onclick="activateGroup('group-2')">Activar</button>
 
                     <label for="title-2">Título de la Obra 2</label>
-                    <input type="text" id="title-2" name="title[]" required disabled>
+                    <input type="text" id="title-2" name="title[]" disabled>
 
                     <label for="image-2">Cargar Imagen</label>
                     <input type="file" id="image-2" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-2')" disabled>
@@ -141,7 +152,7 @@
                     <button type="button" class="activate-btn" onclick="activateGroup('group-3')">Activar</button>
 
                     <label for="title-3">Título de la Obra 3</label>
-                    <input type="text" id="title-3" name="title[]" required disabled>
+                    <input type="text" id="title-3" name="title[]" disabled>
 
                     <label for="image-3">Cargar Imagen</label>
                     <input type="file" id="image-3" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-3')" disabled>
@@ -155,7 +166,7 @@
                     <button type="button" class="activate-btn" onclick="activateGroup('group-4')">Activar</button>
 
                     <label for="title-4">Título de la Obra 4</label>
-                    <input type="text" id="title-4" name="title[]" required disabled>
+                    <input type="text" id="title-4" name="title[]" disabled>
 
                     <label for="image-4">Cargar Imagen</label>
                     <input type="file" id="image-4" name="image[]" accept="image/*" onchange="previewImage(this, 'preview-image-4')" disabled>
@@ -192,6 +203,49 @@
                 preview.src = "";
             }
         }
+
+        function validateForm() {
+            const titles = document.querySelectorAll('input[type="text"]');
+            const images = document.querySelectorAll('input[type="file"]');
+            const prompts = document.querySelectorAll('textarea');
+
+            let valid = false;
+            for (let i = 0; i < titles.length; i++) {
+                if (titles[i].value && images[i].files.length > 0 && prompts[i].value) {
+                    valid = true;
+                    break;
+                }
+            }
+
+            if (!valid) {
+                alert('Debes registrar al menos una obra completa (título, imagen y prompt).');
+                return false;
+            }
+
+            return true;
+        }
     </script>
+
+<script>
+	function checkSession() {
+		fetch('check_session.php')
+			.then(response => response.json())
+			.then(data => {
+				if (data.status === 'success') {
+					// Si el usuario está autenticado, muestra "Mi Cuenta" y "Cerrar Sesión", oculta "Registro" y "Login"
+					document.getElementById("data").style.display = "inline-block";
+					document.getElementById("data").innerText = data.correo;
+				} else {
+					// Si no está autenticado, oculta "Mi Cuenta" y "Cerrar Sesión", muestra "Registro" y "Login"
+                    window.location.href = 'index.html'; // Redirige a la página de inicio
+				}
+			})
+			.catch(error => console.error('Error checking session:', error));
+	}
+	
+	// Ejecutar la verificación de sesión cuando la página se cargue
+	document.addEventListener('DOMContentLoaded', checkSession);	
+</script>
+
 </body>
 </html>

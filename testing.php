@@ -128,5 +128,26 @@
         mostrarEsquema();
         ?>
     </pre>
+
+<script>
+	function checkSession() {
+		fetch('check_session.php')
+			.then(response => response.json())
+			.then(data => {
+				if (data.status === 'success') {
+					// Si el usuario está autenticado, muestra "Mi Cuenta" y "Cerrar Sesión", oculta "Registro" y "Login"
+                    console.log("queases aqui fred");
+				} else {
+					// Si no está autenticado, oculta "Mi Cuenta" y "Cerrar Sesión", muestra "Registro" y "Login"
+                    window.location.href = 'index.html'; // Redirige a la página de inicio
+				}
+			})
+			.catch(error => console.error('Error checking session:', error));
+	}
+	
+	// Ejecutar la verificación de sesión cuando la página se cargue
+	document.addEventListener('DOMContentLoaded', checkSession);	
+</script>
+
 </body>
 </html>
