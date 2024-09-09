@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- mi links -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- endmilinks -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Obras de Arte Generadas por IA</title>
@@ -88,6 +95,7 @@
 
         input[type="file"] {
             margin-top: 5px;
+            width: 95%;
         }
 
         .image-preview {
@@ -114,9 +122,47 @@
     </style>
 </head>
 <body>
+    		<!-- BANNER -->
+		<div class="preWrapper bg_header">
+			<div class="wrapper clearfix">
+				<img class="img-responsive" src="./images/font.png" alt="Convocatoria bienal Jalisco">
+			</div>
+		</div>
+		<!-- END BANNER -->
+	
+		<!-- Burger Menu Icon -->
+		<div class="burger-menu">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	
+		<!-- Navigation bar -->
+		<nav class="b-nav" role="navigation">
+			<div class="container-wrap">
+				<button class="close-btn">X</button> <!-- Mover el botón de cerrar aquí -->
+				<div class="navbar-menu" id="navbar-menu">
+					<ul>
+						<li class="active"><a href="./"><i class="fas fa-home"></i></a></li>
+						<li id="userOption1"><a href="./miCuenta.html">Mi Cuenta</a></li> <!-- Este será ocultado -->
+						<li class="dropdown active"><a data-toggle="modal" data-target="#registroModal" id="formRegis">Registro</a></li>
+						<li><a href="./dudas.html">Preguntas frecuentes</a></li>
+						<li><a href="http://www.cucei.udg.mx/es/directorio/Departamento-de-Innovaci%C3%B3n-Basada-en-la-Informaci%C3%B3n-y-el-Conocimiento">Contacto</a></li>
+						<li id="logLink"><a id="logform" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+						<li id="userOption2"><a href="./logout.php">Cerrar Sesión</a></li> <!-- Este será ocultado -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+	</div>	
+	<!-- END NAVBAR -->
+
+
     <div class="container">
-        <h1 >Registro de Obras de Arte Generadas por IA</h1>
+        <h1 >¡Registra tus Obras YA!</h1>
         <h2 id="data"></h2>
+        <p>(Comparte una o hasta 4 obras para las 2 categorias disponibles)</p>
         <form action="process_imgs.php" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="grid-container" id="image-prompt-container">
                 <!-- Bloques de registro de obras -->
@@ -177,7 +223,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">Registrar Obra</button>
+            <button type="submit" class="submit-btn">Registrar Obras</button>
         </form>
     </div>
 
@@ -225,7 +271,44 @@
             return true;
         }
     </script>
-
+    <script>
+        const burgerMenu = document.querySelector('.burger-menu');
+        const navbarMenu = document.getElementById('navbar-menu');
+        const closeBtn = document.querySelector('.close-btn');
+        
+        burgerMenu.addEventListener('click', function(e) {
+          e.stopPropagation(); // Prevenir que el clic cierre el menú inmediatamente
+          this.classList.toggle('active');
+          navbarMenu.classList.toggle('active');
+          
+          // Mostrar o esconder el botón de cerrar
+          if (navbarMenu.classList.contains('active')) {
+            closeBtn.style.display = 'block';
+          } else {
+            closeBtn.style.display = 'none';
+          }
+        });
+        
+        document.body.addEventListener('click', function() {
+          if (burgerMenu.classList.contains('active')) {
+            burgerMenu.classList.remove('active');
+            navbarMenu.classList.remove('active');
+            closeBtn.style.display = 'none'; // Ocultar el botón al cerrar el menú
+          }
+        });
+        
+        navbarMenu.addEventListener('click', function(e) {
+          e.stopPropagation(); // Prevenir que el clic dentro del menú cierre el menú
+        });
+        
+        // Cerrar el menú cuando se presiona el botón de cerrar
+        closeBtn.addEventListener('click', function() {
+          burgerMenu.classList.remove('active');
+          navbarMenu.classList.remove('active');
+          closeBtn.style.display = 'none'; // Ocultar el botón de cerrar
+        });
+        
+    </script>
 <script>
 	function checkSession() {
 		fetch('check_session.php')
@@ -234,7 +317,7 @@
 				if (data.status === 'success') {
 					// Si el usuario está autenticado, muestra "Mi Cuenta" y "Cerrar Sesión", oculta "Registro" y "Login"
 					document.getElementById("data").style.display = "inline-block";
-					document.getElementById("data").innerText = data.correo;
+					document.getElementById("data").innerText = "Finaliza tu registro:  \n" +data.correo +"\n Registra una obra al concurso";
 				} else {
 					// Si no está autenticado, oculta "Mi Cuenta" y "Cerrar Sesión", muestra "Registro" y "Login"
                     window.location.href = 'index.html'; // Redirige a la página de inicio
@@ -249,3 +332,137 @@
 
 </body>
 </html>
+
+<style>
+#countdown {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 1px;
+  color: #333; /* Color del texto */
+  background-color: #f5f5f5; /* Color de fondo */
+  padding: 10px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+#countdown span {
+  margin: 0 10px;
+  font-size: 1.2em; /* Tamaño del texto para días, horas, minutos y segundos */
+  color: #fff; /* Color del texto para días, horas, minutos y segundos */
+  background-color: #333; /* Color de fondo para días, horas, minutos y segundos */
+  padding: 5px 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+body {
+	max-width: 1060px;
+	margin: 0 auto;
+	margin-bottom: 1em;
+	@media screen and (max-width: 1060px ) {
+		width: 100%;
+	}
+}
+
+
+.close-btn {
+	display: none; /* Ocultar el botón de cerrar por defecto */
+	
+	border: none;
+	color: bisque;
+	font-size: 20px;
+	cursor: pointer;
+	position: absolute;
+	top: 110px;
+	right: 70px;
+	background-color: #333;
+
+	z-index: 1000; /* Asegurarse de que esté por encima del contenido */
+  }
+
+
+
+.navbar-menu {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1%;
+}
+
+.navbar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-menu ul a{
+    color: #000;
+  }
+  
+
+.navbar-menu li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.burger-menu {
+  display: none; /* Hidden by default */
+  cursor: pointer;
+  padding: 10px;
+}
+
+.burger-menu div {
+  background: #000;
+  height: 3px;
+  width: 25px;
+  margin: 5px 0;
+}
+
+/* Styles for the mobile view */
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none; /* Hide the default navbar items */
+  }
+
+  .burger-menu {
+    display: block; /* Show the burger menu icon */
+  }
+
+  .burger-menu.active + .navbar-menu {
+    display: block; /* Show the navbar items when burger menu is active */
+  }
+
+  .navbar-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 60px; /* Adjust according to your layout */
+    right: 0;
+    background: #a06a6a;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-menu ul {
+    display: block;
+  }
+
+  .navbar-menu li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .navbar-menu a {
+	cursor: pointer;
+  }
+
+}
+
+.burger-menu.active + .navbar-menu,
+.navbar-menu.active {
+  display: block; /* Mostrar el menú cuando está activo */
+  border-radius: 50%;
+  background-color: #a06a6a;
+}
+
+
+</style>

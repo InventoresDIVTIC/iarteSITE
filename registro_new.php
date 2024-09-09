@@ -490,7 +490,7 @@ function adjustGradient(value) {
 }
 
 .modal-body {
-  height: 85%;
+  height: 80%;
 	font-family: montserrat, arial, verdana;
 }
 
@@ -503,6 +503,7 @@ function adjustGradient(value) {
 /*form styles*/
 #msform {
 	width: auto;
+  height: 70%;
 	/* margin: 50px auto; */
 	text-align: center;
 	position: relative;
@@ -516,7 +517,7 @@ function adjustGradient(value) {
 	/* box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4); */
 	padding: 20px 30px;
 	box-sizing: border-box;
-	width: 80%;
+	width: 75%;
   height: auto;
   
 	margin: 0 10%;
@@ -629,7 +630,7 @@ function adjustGradient(value) {
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
+  height: 80%;
   width: 100%;
   cursor: pointer;
   opacity: 0;
@@ -699,7 +700,7 @@ function adjustGradient(value) {
 	font-weight: normal;
 	font-size: 13px;
 	color: black;
-	margin-bottom: 20px;
+
 }
 .valid-input {
     border: 3px solid #0000ff;

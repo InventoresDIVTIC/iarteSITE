@@ -382,6 +382,7 @@ h1.t-blanco {
 .modal-obras .modal-body {
   background-color: #e8e8e8;
   padding: 0;
+  height: 80%;
 }
 
 .modal-obras .modal-header {
