@@ -30,13 +30,13 @@ if ($resultado) {
 
         // Verificar y procesar imagen3 e imagen4 (Interacción ciber-humana)
         if ($fila['imagen3'] != '') {
-            $ruta3 = str_replace('./img/', './img/interaccion ciber-humana/', $fila['imagen3']);
+            $ruta3 = str_replace('./img/', './galeria/iart-galery/img/interaccion ciber-humana/', $fila['imagen3']);
             if (file_exists($ruta3)) {
                 $images[] = array("ruta" => $ruta3, "prompt" => "Descripción del prompt para imagen3");
             }
         }
         if ($fila['imagen4'] != '') {
-            $ruta4 = str_replace('./img/', './img/interaccion ciber-humana/', $fila['imagen4']);
+            $ruta4 = str_replace('./img/', './galeria/iart-galery/img/interacción ciber-humana/', $fila['imagen4']);
             if (file_exists($ruta4)) {
                 $images[] = array("ruta" => $ruta4, "prompt" => "Descripción del prompt para imagen4");
             }
