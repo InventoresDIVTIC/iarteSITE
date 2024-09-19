@@ -101,6 +101,7 @@
                 if (data.images) {
                     let imageContainer = $('#image-container');
                     data.images.forEach((image, index) => {
+                        if(image.ruta != null){ // Start IF
                         let imageBlock = `
                             <div class="image-prompt-group">
                                 <img src="${image.ruta}" class="image-preview" alt="Obra ${index + 1}">
@@ -120,7 +121,9 @@
                             </div>
                         `;
                         imageContainer.append(imageBlock);
-                    });
+                    } // END IF
+                }
+                    );
                 } else {
                     alert("No se encontraron imágenes.");
                 }
