@@ -350,7 +350,6 @@ if (controls.click === true || controls.touch === true) {
 
       if ( intersects.length > 0 ) {
         var intersect = intersects[ 0 ];
-      
         makeParticles(intersect.point);
 
       // Guardar una referencia al objeto intersectado
@@ -369,7 +368,6 @@ if (controls.click === true || controls.touch === true) {
           UI.classList.remove('fade-out');
           // textOverlay.classList.remove('fade-out');
           // objectImage.classList.remove('fade-out');
-
           // textOverlay.offsetWidth;
           // objectImage.offsetWidth;
           UI.offsetWidth;
@@ -379,7 +377,7 @@ if (controls.click === true || controls.touch === true) {
           // textOverlay.classList.add('show'); // Agregar la clase para mostrar el texto gradualmente
           // objectImage.classList.add('show');
 
-          // Esperar 2 segundos (duración de la animación) antes de ocultar el elemento
+          // Esperar 7(5??) segundos (duración de la animación) antes de ocultar el elemento
           setTimeout(function() {
               UI.classList.add('fade-out');
               // textOverlay.classList.add('fade-out');
@@ -389,7 +387,7 @@ if (controls.click === true || controls.touch === true) {
               // textOverlay.classList.remove('show');
               // objectImage.classList.remove('show');
               // buttonContainer.classList.remove('show');
-          }, 2000);
+          }, 7000);
         
 
       }
@@ -418,37 +416,104 @@ if (controls.click === true || controls.touch === true) {
             textOverlay.classList.remove('show');
             objectImage.classList.remove('show');
             buttonContainer.classList.remove('show');
-        }, 2000);
+        }, 7000);
+      } else{
+        
       }
     }
+
+
+    // Actualmente en algun momento entre la 3ra o 4ta obra clickeada
+    // Vuelve a bugearse, no deja proseguir con la votacion de forma fluida
+    // falta guardar las votaciones y mostrarlas en algun lugar
+    // Manejar toda la votacion y el click PointerLock 
+
+// Salir del PointerLock cuando aparezcan los botones
+// var exitPointerLock = function() {
+//   if (document.exitPointerLock) {
+//       document.exitPointerLock();
+//   } else if (document.mozExitPointerLock) {
+//       document.mozExitPointerLock();
+//   } else if (document.webkitExitPointerLock) {
+//       document.webkitExitPointerLock();
+//   }
+// };
 
 // Crear un contenedor para los botones
 var buttonContainer = document.createElement('div');
 buttonContainer.id = 'buttonContainer';
-buttonContainer.style.position = 'absolute'; // Para superponer sobre la escena
-buttonContainer.style.bottom = '30%'; // Ajustar según la posición deseada
+buttonContainer.style.position = 'absolute';
+buttonContainer.style.bottom = '30%';
 buttonContainer.style.left = '45%';
-buttonContainer.style.transform = 'translateX(-40%)'; // Centrar horizontalmente
-buttonContainer.style.zIndex = '1000'; // Asegurar que esté por encima del canvas de Three.js
+buttonContainer.style.transform = 'translateX(-40%)';
+buttonContainer.style.zIndex = '1000';
+buttonContainer.style.display = 'none'; // Inicialmente oculto
+instructions.style.opacity = '0';
+
 document.body.appendChild(buttonContainer);
 
-// Crear los 10 botones
-for (let i = 1; i <= 10; i++) {
-    let button = document.createElement('button');
-    button.innerText = `Voto ${i}`;
-    button.style.margin = '3px'; // Espacio entre botones
-    buttonContainer.appendChild(button);
+// Mostrar los botones y salir del PointerLock
+function showVotingButtons() {
+  buttonContainer.style.display = 'block';
+  instructions.style.display = 'none';
+  // instructions.innerHTML = ''; // Oculta las instrucciones
+  
+  exitPointerLock(); // Salir del PointerLock
+}
+
+// Ocultar botones después de votar
+function hideVotingButtons() {
+  buttonContainer.style.display = 'none';
+}
+
+// Crear los 9 botones de votación
+// for (let i = 1; i <= 9; i++) {
+//   let button = document.createElement('button');
+//   button.innerText = `Voto ${i}`;
+//   button.style.margin = '3px';
+//   buttonContainer.appendChild(button);
+
+//   // Agregar evento al botón
+//   button.addEventListener('click', function() {
+//       console.log(`Botón ${i} presionado.`);
+//       alert(`Has votado con un valor de: ${i}`);
+
+//       // Aquí puedes agregar la lógica para registrar el voto (ejemplo con ID de la obra)
+//       if (intersectedObject && intersectedObject.userData && intersectedObject.userData.id) {
+//           console.log(`ID de la obra votada: ${intersectedObject.userData.id}`);
+
+//           objectImage.classList.add('fade-out');
+//           textOverlay.classList.add('fade-out');
+//           buttonContainer.classList.add('fade-out');
+//           textOverlay.classList.remove('show');
+//           objectImage.classList.remove('show');
+//           buttonContainer.classList.remove('show');
 
 
-    // Agregar un evento al botón (ejemplo de acción al hacer clic)
-    button.addEventListener('click', function() {
-        console.log(`Botón ${i} presionado.`);
-        // Aquí puedes agregar la lógica para registrar el voto, cambiar color, etc.
+//           exitPointerLock();
+//       }
 
-        
+//       // Volver a activar el PointerLock después de votar
+//       element.requestPointerLock();
 
-      });
-    }
+//       // Ocultar botones después de la votación
+//       hideVotingButtons();
+//   });
+// }
+
+// Mostrar los botones de votación al hacer clic en una obra
+// if (controls.click === true || controls.touch === true) {
+//   var intersects = raycaster.intersectObjects(world.children);
+
+//   if (intersects.length > 0) {
+//       var intersect = intersects[0];
+//       intersectedObject = intersect.object;
+
+//       // Mostrar botones de votación
+//       showVotingButtons();
+//   }
+// }
+
   }
 
 if (particles.length > 0) {

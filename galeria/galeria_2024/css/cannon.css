@@ -12,7 +12,8 @@ html, body {
 
   display: flex;
   position: absolute;
-  border: 3px solid rgb(255, 230, 1);
+
+  /* border: 3px solid rgb(255, 230, 1); */
 
   top: 75%;
   left: 28%;
@@ -31,15 +32,15 @@ html, body {
   color: white;
   font-size: large;
   /* Testing Border */
-  border: 3px solid rgba(255, 0, 0, 0.712);
+  /* border: 3px solid rgba(255, 0, 0, 0.712); */
 }
 
 #UI #objectImage {
-  border: 3px solid rgba(0, 17, 255, 0.712);
+  /* border: 3px solid rgba(0, 17, 255, 0.712); */
 
   display:flex;
   position: relative;
-  background-color: rgba(100, 82, 121, 0.541);
+  /* background-color: rgba(100, 82, 121, 0.541); */
   color: white;
   padding: 1em;
   border-radius: 5px;
