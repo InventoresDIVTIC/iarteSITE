@@ -73,7 +73,6 @@
         button.honorific {
             background-color: #007BFF;
         }
-
     </style>
 </head>
 <body>
@@ -83,43 +82,8 @@
     <p>Selecciona el puesto o mención honorífica para cada obra de arte generada por IA:</p>
 
     <form action="asignar_premios.php" method="post">
-        <div class="grid-container">
-            <!-- Ejemplo de bloque de obra -->
-            <div class="image-prompt-group">
-                <img src="ruta_imagen_1.jpg" class="image-preview" alt="Obra 1">
-                <h4>Obra 1</h4>
-                <p><strong>Prompt:</strong> Descripción del prompt utilizado...</p>
-
-                <label for="ranking-1">Asignar Lugar</label>
-                <select id="ranking-1" name="ranking[]">
-                    <option value="">Seleccionar...</option>
-                    <option value="1">Primer Lugar</option>
-                    <option value="2">Segundo Lugar</option>
-                    <option value="3">Tercer Lugar</option>
-                    <option value="mencion-honorifica">Mención Honorífica</option>
-                </select>
-
-                <button type="button" class="honorific" onclick="asignarMencion(1)">Asignar Mención Honorífica</button>
-            </div>
-
-            <div class="image-prompt-group">
-                <img src="ruta_imagen_2.jpg" class="image-preview" alt="Obra 2">
-                <h4>Obra 2</h4>
-                <p><strong>Prompt:</strong> Descripción del prompt utilizado...</p>
-
-                <label for="ranking-2">Asignar Lugar</label>
-                <select id="ranking-2" name="ranking[]">
-                    <option value="">Seleccionar...</option>
-                    <option value="1">Primer Lugar</option>
-                    <option value="2">Segundo Lugar</option>
-                    <option value="3">Tercer Lugar</option>
-                    <option value="mencion-honorifica">Mención Honorífica</option>
-                </select>
-
-                <button type="button" class="honorific" onclick="asignarMencion(2)">Asignar Mención Honorífica</button>
-            </div>
-
-            <!-- Agregar más bloques de obras según lo necesario -->
+        <div class="grid-container" id="image-container">
+            <!-- Aquí se insertarán dinámicamente las imágenes y sus formularios -->
         </div>
 
         <button type="submit">Guardar Asignaciones</button>
@@ -127,30 +91,49 @@
 </div>
 
 <script>
+    // Cargar imágenes desde el PHP y generar las tarjetas
+    $(document).ready(function() {
+        $.ajax({
+            url: 'votar.php', // Ruta del archivo PHP que genera las imágenes
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data.images) {
+                    let imageContainer = $('#image-container');
+                    data.images.forEach((image, index) => {
+                        let imageBlock = `
+                            <div class="image-prompt-group">
+                                <img src="${image.ruta}" class="image-preview" alt="Obra ${index + 1}">
+                                <h4>Obra ${index + 1}</h4>
+                                <p><strong>Prompt:</strong> ${image.prompt}</p>
+
+                                <label for="ranking-${index + 1}">Asignar Lugar</label>
+                                <select id="ranking-${index + 1}" name="ranking[]">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="1">Primer Lugar</option>
+                                    <option value="2">Segundo Lugar</option>
+                                    <option value="3">Tercer Lugar</option>
+                                    <option value="mencion-honorifica">Mención Honorífica</option>
+                                </select>
+
+                                <button type="button" class="honorific" onclick="asignarMencion(${index + 1})">Asignar Mención Honorífica</button>
+                            </div>
+                        `;
+                        imageContainer.append(imageBlock);
+                    });
+                } else {
+                    alert("No se encontraron imágenes.");
+                }
+            },
+            error: function(error) {
+                console.error("Error al cargar las imágenes:", error);
+            }
+        });
+    });
+
     function asignarMencion(id) {
-        // Lógica para asignar mención honorífica
         alert('Mención Honorífica asignada a la obra ' + id);
     }
-</script>
-
-<script>
-	function checkSession() {
-		fetch('check_session.php')
-			.then(response => response.json())
-			.then(data => {
-				if (data.status === 'success') {
-					// Si el usuario está autenticado, muestra "Mi Cuenta" y "Cerrar Sesión", oculta "Registro" y "Login"
-                    console.log("queases aqui fred");
-				} else {
-					// Si no está autenticado, oculta "Mi Cuenta" y "Cerrar Sesión", muestra "Registro" y "Login"
-                    window.location.href = 'index.html'; // Redirige a la página de inicio
-				}
-			})
-			.catch(error => console.error('Error checking session:', error));
-	}
-	
-	// Ejecutar la verificación de sesión cuando la página se cargue
-	document.addEventListener('DOMContentLoaded', checkSession);	
 </script>
 
 </body>
