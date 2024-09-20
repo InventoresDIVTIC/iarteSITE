@@ -73,6 +73,16 @@
         button.honorific {
             background-color: #007BFF;
         }
+
+        .prompt-container {
+            max-height: 100px; /* Ajusta este valor según lo necesites */
+            overflow-y: auto;
+            padding: 5px;
+            background-color: #f0f0f0; /* Color de fondo opcional */
+            border-radius: 4px; /* Opcional: para que combine con otros estilos */
+            border: 1px solid #ccc; /* Opcional: borde para darle mayor definición */
+        }
+        
     </style>
 </head>
 <body>
@@ -91,6 +101,12 @@
 </div>
 
 <script>
+    let primerLugar = null;
+    let segundoLugar = null;
+    let tercerLugar = null;
+    let mencionesHonorificas = 0;
+    const MAX_MENCIONES = 20;
+
     // Cargar imágenes desde el PHP y generar las tarjetas
     $(document).ready(function() {
         $.ajax({
@@ -102,12 +118,14 @@
                     let imageContainer = $('#image-container');
                     data.images.forEach((image, index) => {
                         if(image.ruta != null){ // Start IF
-                        let imageBlock = `
+                            let imageBlock = `
                             <div class="image-prompt-group">
                                 <img src="${image.ruta}" class="image-preview" alt="Obra ${index + 1}">
                                 <h4>Obra ${index + 1}</h4>
-                                <p><strong>Prompt:</strong> ${image.prompt}</p>
-
+                                <div class="prompt-container">
+                                    <p><strong>Prompt:</strong> ${image.prompt}</p>
+                                </div>
+                        
                                 <label for="ranking-${index + 1}">Asignar Lugar</label>
                                 <select id="ranking-${index + 1}" name="ranking[]">
                                     <option value="">Seleccionar...</option>
@@ -116,14 +134,13 @@
                                     <option value="3">Tercer Lugar</option>
                                     <option value="mencion-honorifica">Mención Honorífica</option>
                                 </select>
-
+                        
                                 <button type="button" class="honorific" onclick="asignarMencion(${index + 1})">Asignar Mención Honorífica</button>
                             </div>
-                        `;
+                        `;                        
                         imageContainer.append(imageBlock);
                     } // END IF
-                }
-                    );
+                    });
                 } else {
                     alert("No se encontraron imágenes.");
                 }
@@ -133,6 +150,49 @@
             }
         });
     });
+
+    function asignarLugar(selectElement, obraId) {
+        const valorSeleccionado = selectElement.value;
+
+        if (valorSeleccionado === "1") {
+            if (primerLugar !== null) {
+                alert("Ya has asignado un primer lugar.");
+                selectElement.value = "";
+            } else {
+                primerLugar = obraId;
+                updateBackground(selectElement, "#FFD700"); // Cambia el fondo a dorado para el primer lugar
+            }
+        } else if (valorSeleccionado === "2") {
+            if (segundoLugar !== null) {
+                alert("Ya has asignado un segundo lugar.");
+                selectElement.value = "";
+            } else {
+                segundoLugar = obraId;
+                updateBackground(selectElement, "#C0C0C0"); // Cambia el fondo a plateado para el segundo lugar
+            }
+        } else if (valorSeleccionado === "3") {
+            if (tercerLugar !== null) {
+                alert("Ya has asignado un tercer lugar.");
+                selectElement.value = "";
+            } else {
+                tercerLugar = obraId;
+                updateBackground(selectElement, "#CD7F32"); // Cambia el fondo a bronce para el tercer lugar
+            }
+        } else if (valorSeleccionado === "mencion-honorifica") {
+            if (mencionesHonorificas >= MAX_MENCIONES) {
+                alert("Ya has asignado el máximo de menciones honoríficas.");
+                selectElement.value = "";
+            } else {
+                mencionesHonorificas++;
+                updateBackground(selectElement, "#ADD8E6"); // Cambia el fondo a azul claro para menciones honoríficas
+            }
+        }
+    }
+
+    function updateBackground(selectElement, color) {
+        const parentGroup = selectElement.closest('.image-prompt-group');
+        parentGroup.style.backgroundColor = color;
+    }
 
     function asignarMencion(id) {
         alert('Mención Honorífica asignada a la obra ' + id);
