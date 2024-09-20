@@ -3,201 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asignar Premios a Obras Generadas por IA</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    <title>Asignación de Premios</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
-        }
-
-        .container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333333;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
         .image-prompt-group {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
             text-align: center;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            width: 200px;
         }
 
         .image-preview {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            border-radius: 4px;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 4px;
-            border: 1px solid #cccccc;
-        }
-
-        button {
             display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button.honorific {
-            background-color: #007BFF;
+            margin-bottom: 10px;
         }
 
         .prompt-container {
-            max-height: 100px; /* Ajusta este valor según lo necesites */
-            overflow-y: auto;
-            padding: 5px;
-            background-color: #f0f0f0; /* Color de fondo opcional */
-            border-radius: 4px; /* Opcional: para que combine con otros estilos */
-            border: 1px solid #ccc; /* Opcional: borde para darle mayor definición */
+            font-size: 14px;
+            margin-bottom: 10px;
         }
-        
+
+        select {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
+    <h1>Asignación de Premios</h1>
+    <div id="image-container"></div>
 
-<div class="container">
-    <h1>Asignar Premios</h1>
-    <p>Selecciona el puesto o mención honorífica para cada obra de arte generada por IA:</p>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let primerLugar = null;
+        let segundoLugar = null;
+        let tercerLugar = null;
+        let mencionesHonorificas = 0;
+        const MAX_MENCIONES = 20;
+        let seleccionados = {}; // Para almacenar las selecciones
 
-    <form action="asignar_premios.php" method="post">
-        <div class="grid-container" id="image-container">
-            <!-- Aquí se insertarán dinámicamente las imágenes y sus formularios -->
-        </div>
+        // Función para manejar la selección de lugar o mención
+        function asignarLugar(selectElement, obraId) {
+            const valorSeleccionado = selectElement.value;
+            const imagenGroup = selectElement.closest('.image-prompt-group');
 
-        <button type="submit">Guardar Asignaciones</button>
-    </form>
-</div>
+            // Remover la selección anterior, si existe
+            if (seleccionados[obraId]) {
+                deseleccionarLugar(obraId);
+            }
 
-<script>
-    let primerLugar = null;
-    let segundoLugar = null;
-    let tercerLugar = null;
-    let mencionesHonorificas = 0;
-    const MAX_MENCIONES = 20;
-
-    // Cargar imágenes desde el PHP y generar las tarjetas
-    $(document).ready(function() {
-        $.ajax({
-            url: 'votar.php', // Ruta del archivo PHP que genera las imágenes
-            method: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data.images) {
-                    let imageContainer = $('#image-container');
-                    data.images.forEach((image, index) => {
-                        if(image.ruta != null){ // Start IF
-                            let imageBlock = `
-                            <div class="image-prompt-group">
-                                <img src="${image.ruta}" class="image-preview" alt="Obra ${index + 1}">
-                                <h4>Obra ${index + 1}</h4>
-                                <div class="prompt-container">
-                                    <p><strong>Prompt:</strong> ${image.prompt}</p>
-                                </div>
-                        
-                                <label for="ranking-${index + 1}">Asignar Lugar</label>
-                                <select id="ranking-${index + 1}" name="ranking[]">
-                                    <option value="">Seleccionar...</option>
-                                    <option value="1">Primer Lugar</option>
-                                    <option value="2">Segundo Lugar</option>
-                                    <option value="3">Tercer Lugar</option>
-                                    <option value="mencion-honorifica">Mención Honorífica</option>
-                                </select>
-                        
-                                <button type="button" class="honorific" onclick="asignarMencion(${index + 1})">Asignar Mención Honorífica</button>
-                            </div>
-                        `;                        
-                        imageContainer.append(imageBlock);
-                    } // END IF
-                    });
+            if (valorSeleccionado === "1") {
+                if (primerLugar !== null) {
+                    alert("Ya has asignado un primer lugar.");
+                    selectElement.value = "";
                 } else {
-                    alert("No se encontraron imágenes.");
+                    primerLugar = obraId;
+                    seleccionados[obraId] = "1";
+                    updateBackground(imagenGroup, "#FFD700"); // Fondo dorado
                 }
-            },
-            error: function(error) {
-                console.error("Error al cargar las imágenes:", error);
-            }
-        });
-    });
-
-    function asignarLugar(selectElement, obraId) {
-        const valorSeleccionado = selectElement.value;
-
-        if (valorSeleccionado === "1") {
-            if (primerLugar !== null) {
-                alert("Ya has asignado un primer lugar.");
-                selectElement.value = "";
-            } else {
-                primerLugar = obraId;
-                updateBackground(selectElement, "#FFD700"); // Cambia el fondo a dorado para el primer lugar
-            }
-        } else if (valorSeleccionado === "2") {
-            if (segundoLugar !== null) {
-                alert("Ya has asignado un segundo lugar.");
-                selectElement.value = "";
-            } else {
-                segundoLugar = obraId;
-                updateBackground(selectElement, "#C0C0C0"); // Cambia el fondo a plateado para el segundo lugar
-            }
-        } else if (valorSeleccionado === "3") {
-            if (tercerLugar !== null) {
-                alert("Ya has asignado un tercer lugar.");
-                selectElement.value = "";
-            } else {
-                tercerLugar = obraId;
-                updateBackground(selectElement, "#CD7F32"); // Cambia el fondo a bronce para el tercer lugar
-            }
-        } else if (valorSeleccionado === "mencion-honorifica") {
-            if (mencionesHonorificas >= MAX_MENCIONES) {
-                alert("Ya has asignado el máximo de menciones honoríficas.");
-                selectElement.value = "";
-            } else {
-                mencionesHonorificas++;
-                updateBackground(selectElement, "#ADD8E6"); // Cambia el fondo a azul claro para menciones honoríficas
+            } else if (valorSeleccionado === "2") {
+                if (segundoLugar !== null) {
+                    alert("Ya has asignado un segundo lugar.");
+                    selectElement.value = "";
+                } else {
+                    segundoLugar = obraId;
+                    seleccionados[obraId] = "2";
+                    updateBackground(imagenGroup, "#C0C0C0"); // Fondo plateado
+                }
+            } else if (valorSeleccionado === "3") {
+                if (tercerLugar !== null) {
+                    alert("Ya has asignado un tercer lugar.");
+                    selectElement.value = "";
+                } else {
+                    tercerLugar = obraId;
+                    seleccionados[obraId] = "3";
+                    updateBackground(imagenGroup, "#CD7F32"); // Fondo bronce
+                }
+            } else if (valorSeleccionado === "mencion-honorifica") {
+                if (mencionesHonorificas >= MAX_MENCIONES) {
+                    alert("Ya has asignado el máximo de menciones honoríficas.");
+                    selectElement.value = "";
+                } else if (primerLugar === obraId || segundoLugar === obraId || tercerLugar === obraId) {
+                    alert("No puedes asignar una mención honorífica si la imagen tiene un lugar asignado.");
+                    selectElement.value = "";
+                } else {
+                    mencionesHonorificas++;
+                    seleccionados[obraId] = "mencion-honorifica";
+                    updateBackground(imagenGroup, "#ADD8E6"); // Fondo azul claro para mención honorífica
+                }
             }
         }
-    }
 
-    function updateBackground(selectElement, color) {
-        const parentGroup = selectElement.closest('.image-prompt-group');
-        parentGroup.style.backgroundColor = color;
-    }
+        // Función para remover la asignación anterior
+        function deseleccionarLugar(obraId) {
+            const valorAnterior = seleccionados[obraId];
 
-    function asignarMencion(id) {
-        alert('Mención Honorífica asignada a la obra ' + id);
-    }
-</script>
+            if (valorAnterior === "1") {
+                primerLugar = null;
+            } else if (valorAnterior === "2") {
+                segundoLugar = null;
+            } else if (valorAnterior === "3") {
+                tercerLugar = null;
+            } else if (valorAnterior === "mencion-honorifica") {
+                mencionesHonorificas--;
+            }
 
+            delete seleccionados[obraId];
+        }
+
+        // Actualizar el color de fondo según la selección
+        function updateBackground(element, color) {
+            element.style.backgroundColor = color;
+        }
+
+        // Cargar las imágenes y formularios dinámicamente
+        $(document).ready(function() {
+            $.ajax({
+                url: 'votar.php', // Ruta del archivo PHP que genera las imágenes
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.images) {
+                        let imageContainer = $('#image-container');
+                        data.images.forEach((image, index) => {
+                            if (image.ruta != null) {
+                                let imageBlock = `
+                                <div class="image-prompt-group">
+                                    <img src="${image.ruta}" class="image-preview" alt="Obra ${index + 1}">
+                                    <h4>Obra ${index + 1}</h4>
+                                    <div class="prompt-container">
+                                        <p><strong>Prompt:</strong> ${image.prompt}</p>
+                                    </div>
+                            
+                                    <label for="ranking-${index + 1}">Asignar Lugar</label>
+                                    <select id="ranking-${index + 1}" name="ranking[]" onchange="asignarLugar(this, ${index + 1})">
+                                        <option value="">Seleccionar...</option>
+                                        <option value="1">Primer Lugar</option>
+                                        <option value="2">Segundo Lugar</option>
+                                        <option value="3">Tercer Lugar</option>
+                                        <option value="mencion-honorifica">Mención Honorífica</option>
+                                    </select>
+                                </div>
+                            `;
+                                imageContainer.append(imageBlock);
+                            }
+                        });
+                    } else {
+                        alert("No se encontraron imágenes.");
+                    }
+                },
+                error: function(error) {
+                    console.error("Error al cargar las imágenes:", error);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
