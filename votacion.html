@@ -5,15 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asignación de Premios</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Contenedor de la cuadrícula */
+        #image-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 imágenes por fila */
+            gap: 20px;
+            margin: 20px;
+        }
+
+        /* Grupo de imagen y prompt */
         .image-prompt-group {
             border: 1px solid #ccc;
             padding: 10px;
-            margin: 10px;
-            display: inline-block;
             text-align: center;
-            width: 200px;
+            position: relative;
+            background-color: white;
         }
 
+        /* Imagen */
         .image-preview {
             width: 100%;
             height: auto;
@@ -21,14 +34,37 @@
             margin-bottom: 10px;
         }
 
+        /* Contenedor del prompt con scroll vertical si es muy largo */
         .prompt-container {
             font-size: 14px;
+            max-height: 100px; /* Limitar el alto */
+            overflow-y: auto; /* Activar el scroll */
             margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
         }
 
+        /* Select para asignar lugar */
         select {
             margin-bottom: 10px;
             padding: 5px;
+        }
+
+        /* Botón de deselección */
+        .deseleccionar-btn {
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .deseleccionar-btn:hover {
+            background-color: #d32f2f;
         }
     </style>
 </head>
@@ -92,7 +128,7 @@
                 } else {
                     mencionesHonorificas++;
                     seleccionados[obraId] = "mencion-honorifica";
-                    updateBackground(imagenGroup, "#ADD8E6"); // Fondo azul claro para mención honorífica
+                    updateBackground(imagenGroup, "#ADD8E6"); // Fondo azul claro
                 }
             }
         }
@@ -112,6 +148,8 @@
             }
 
             delete seleccionados[obraId];
+            const imagenGroup = $(`#ranking-${obraId}`).closest('.image-prompt-group');
+            updateBackground(imagenGroup[0], "white"); // Volver al fondo blanco
         }
 
         // Actualizar el color de fondo según la selección
@@ -146,6 +184,7 @@
                                         <option value="3">Tercer Lugar</option>
                                         <option value="mencion-honorifica">Mención Honorífica</option>
                                     </select>
+                                    <button class="deseleccionar-btn" onclick="deseleccionarLugar(${index + 1})">Deseleccionar</button>
                                 </div>
                             `;
                                 imageContainer.append(imageBlock);
