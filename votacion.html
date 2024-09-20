@@ -59,7 +59,7 @@
             border: none;
             cursor: pointer;
             position: absolute;
-            bottom: 10px;
+            bottom: 20px; /* Se movió más abajo */
             left: 10px;
         }
 
@@ -149,7 +149,12 @@
 
             delete seleccionados[obraId];
             const imagenGroup = $(`#ranking-${obraId}`).closest('.image-prompt-group');
-            updateBackground(imagenGroup[0], "white"); // Volver al fondo blanco
+            
+            // Resetear el select a la opción por defecto
+            $(`#ranking-${obraId}`).val("");
+
+            // Volver al fondo blanco
+            updateBackground(imagenGroup[0], "white");
         }
 
         // Actualizar el color de fondo según la selección
