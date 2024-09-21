@@ -85,18 +85,28 @@ function asignarLugar(selectElement, obraId) {
     const valorSeleccionado = selectElement.value;
     const imagenGroup = selectElement.closest('.image-prompt-group');
 
-    // Remover la selección anterior, si existe
+    // Verificar si ya tiene un lugar o mención asignado
     if (seleccionados[obraId]) {
+        if (valorSeleccionado === "mencion-honorifica" && seleccionados[obraId] !== "mencion-honorifica") {
+            alert("No puedes asignar una mención honorífica si ya tiene un lugar asignado.");
+            selectElement.value = seleccionados[obraId]; // Restaurar la selección previa
+            return;
+        } else if ((valorSeleccionado === "1" || valorSeleccionado === "2" || valorSeleccionado === "3") && seleccionados[obraId] === "mencion-honorifica") {
+            alert("No puedes asignar un lugar si ya tiene una mención honorífica.");
+            selectElement.value = seleccionados[obraId]; // Restaurar la selección previa
+            return;
+        }
+        // Si se llega aquí, es porque el valor seleccionado ya es el actual, no se requiere cambio
         deseleccionarLugar(obraId);
     }
 
+    // Asignar nuevo valor basado en la selección
     if (valorSeleccionado === "") {
-        // Si se selecciona "Seleccionar...", fondo blanco
-        updateBackground(imagenGroup, "white");
+        updateBackground(imagenGroup, "white"); // Fondo blanco para selección vacía
     } else if (valorSeleccionado === "1") {
         if (primerLugar !== null) {
             alert("Ya has asignado un primer lugar.");
-            selectElement.value = "";
+            selectElement.value = ""; // Restablecer el valor
         } else {
             primerLugar = obraId;
             seleccionados[obraId] = "1";
@@ -105,7 +115,7 @@ function asignarLugar(selectElement, obraId) {
     } else if (valorSeleccionado === "2") {
         if (segundoLugar !== null) {
             alert("Ya has asignado un segundo lugar.");
-            selectElement.value = "";
+            selectElement.value = ""; // Restablecer el valor
         } else {
             segundoLugar = obraId;
             seleccionados[obraId] = "2";
@@ -114,7 +124,7 @@ function asignarLugar(selectElement, obraId) {
     } else if (valorSeleccionado === "3") {
         if (tercerLugar !== null) {
             alert("Ya has asignado un tercer lugar.");
-            selectElement.value = "";
+            selectElement.value = ""; // Restablecer el valor
         } else {
             tercerLugar = obraId;
             seleccionados[obraId] = "3";
@@ -123,10 +133,7 @@ function asignarLugar(selectElement, obraId) {
     } else if (valorSeleccionado === "mencion-honorifica") {
         if (mencionesHonorificas >= MAX_MENCIONES) {
             alert("Ya has asignado el máximo de menciones honoríficas.");
-            selectElement.value = "";
-        } else if (primerLugar === obraId || segundoLugar === obraId || tercerLugar === obraId) {
-            alert("No puedes asignar una mención honorífica si la imagen tiene un lugar asignado.");
-            selectElement.value = "";
+            selectElement.value = ""; // Restablecer el valor
         } else {
             mencionesHonorificas++;
             seleccionados[obraId] = "mencion-honorifica";
